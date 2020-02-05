@@ -71,10 +71,10 @@ export const Trafique = {
 }
 
 const generateRoad = ({ road, player }) => {
-  const realY = (road.length - player.y - 1)
+  const realY = road.length - player.y - 1
   const realX = player.x
-  road[2][0] = 0
-  road[realX][realY] = 'first'
+  road = road.map(lane => lane.map(() => 0))
+  road[realY][realX] = 'first'
   return road
 }
 

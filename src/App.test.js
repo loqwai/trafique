@@ -41,7 +41,7 @@ describe('Trafique', () => {
             road: [
               [0, 0],
               [0, 0],
-              [0, 0],
+              [0, 'first'],
             ],
             players: { first: { x: 1, y: 0 } },
           })
@@ -52,6 +52,14 @@ describe('Trafique', () => {
             x: 1,
             y: 2,
           })
+        })
+
+        it('should remove the old player position', () => {
+          expect(state.road).toEqual([
+            [0, 'first'],
+            [0, 0],
+            [0, 0],
+          ])
         })
       })
 
