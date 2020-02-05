@@ -1,35 +1,51 @@
-import "./App.css";
-import { Client } from "boardgame.io/react";
-import Board from "./Board.jsx";
+import './App.css'
+import { Client, } from 'boardgame.io/react'
+import Board from './Board.jsx'
 
 export const Trafique = {
-  setup: ctx => ({
+  setup: (ctx) => ({
     road: [
-      [1, 0],
-      [0, 0],
-      [0, 0]
+      [1, 0,],
+      [0, 0,],
+      [0, 0,],
     ],
     players: {
       1: {
         x: 0,
-        y: 0
-      }
-    }
+        y: 0,
+      },
+    },
   }),
   moves: {
-    keepGoing: (G, ctx) => {
-      const { x, y } = G.players.first;
+    keepGoing: (G) => {
+      const { x, y } = G.players.first
 
+      const obstacle = getObjectAtIndex({ ...G, x, y: y + 2 })
+      if (obstacle) {
+        return {
+          players: {
+            first: { x, y: y + 1 },
+          },
+        }
+      }
       return {
         players: {
-          first: { x, y: y + 2 }
-        }
-      };
+          first: { x, y: y + 2 },
+        },
+      }
     },
-    switchLanes: (G, ctx) => null
-  }
-};
+    switchLanes: () => null,
+  },
+}
 
-const App = Client({ game: Trafique, board: Board, numPlayers: 1 });
+const getObjectAtIndex = ({ road, x, y }) => {
+  const realY = (road.length - y - 1)
+  const realX = x
+  const obstacle = road[realY][realX]
+  console.log({ realX, realY, road, obstacle, x, y })
+  return obstacle
+}
 
-export default App;
+const App = Client({ game: Trafique, board: Board, numPlayers: 1 })
+
+export default App
