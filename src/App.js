@@ -2,6 +2,31 @@ import './App.css'
 import { Client } from 'boardgame.io/react'
 import Board from './Board.jsx'
 
+const generateRoad = ({ road, player: { x, y } }) => {
+  road = road.map(lane => lane.map(() => 0))
+  road[y][x] = 'first'
+  return road
+}
+
+const getKeepGoingPlayer = ({ x, y }, road) => {
+  const obstacle1 = getObjectOnRoad({ road, x, y: y - 1 })
+  if (obstacle1) {
+    return { x, y }
+  }
+
+  const obstacle2 = getObjectOnRoad({ road, x, y: y - 2 })
+  if (obstacle2) {
+    return { x, y: y - 1 }
+  }
+
+  return { x, y: y - 2 }
+}
+
+const getObjectOnRoad = ({ road, x, y }) => {
+  if (!road[y]) return 1
+  return road[y][x]
+}
+
 export const Trafique = {
   setup: () => ({
     road: [
@@ -70,33 +95,6 @@ export const Trafique = {
   },
 }
 
-const generateRoad = ({ road, player: { x, y } }) => {
-  road = road.map(lane => lane.map(() => 0))
-  road[y][x] = 'first'
-  return road
-}
-
-const getKeepGoingPlayer = ({ x, y }, road) => {
-  const obstacle1 = getObjectOnRoad({ road, x, y: y - 1 })
-  if (obstacle1) {
-    return { x, y }
-  }
-
-  const obstacle2 = getObjectOnRoad({ road, x, y: y - 2 })
-  if (obstacle2) {
-    return { x, y: y - 1 }
-  }
-
-  return { x, y: y - 2 }
-}
-
-const getObjectOnRoad = ({ road, x, y }) => {
-  if (!road[y]) return 1
-  return road[y][x]
-}
-
-const App = Client({ game: Trafique, board: Board, numPlayers: 1 })
-
-export default App
+export default Client({ game: Trafique, board: Board, numPlayers: 1 })
 
 
