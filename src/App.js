@@ -25,9 +25,15 @@ export const Trafique = {
     }),
     switchLanes: (G) => {
       const { x, y } = G.players.first
-      const obstacle = getObjectAtIndex({ road: G.road, x: x + 1, y: y + 1 })
 
-      if (obstacle) {
+      const obstacle1 = getObjectAtIndex({ road: G.road, x: x + 1, y: y + 1 })
+      const obstacle2 = getObjectAtIndex({ road: G.road, x: x + 1, y })
+
+      if (obstacle1) {
+        if (obstacle2) {
+          return G
+        }
+
         return {
           ...G,
           players: {
