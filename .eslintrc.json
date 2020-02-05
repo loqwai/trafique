@@ -43,6 +43,16 @@
     "comma-dangle": [
       "error",
       "always-multiline"
+    ],
+    "comma-spacing": [
+      "error",
+      {
+        "after": true
+      }
+    ],
+    "object-curly-spacing": [
+      "error",
+      "always"
     ]
   }
 }

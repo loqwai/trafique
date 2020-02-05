@@ -13,14 +13,14 @@ describe('Trafique', () => {
               [0, 0],
               ['first', 0],
             ],
-            players: { first: { x: 0, y: 0 } },
+            players: { first: { x: 0, y: 2 } },
           })
         })
 
         it('should let them go forward', () => {
           expect(state.players.first).toMatchObject({
             x: 0,
-            y: 2,
+            y: 0,
           })
         })
 
@@ -43,14 +43,14 @@ describe('Trafique', () => {
               [0, 0],
               [0, 'first'],
             ],
-            players: { first: { x: 1, y: 0 } },
+            players: { first: { x: 1, y: 2 } },
           })
         })
 
         it('should let them go forward', () => {
           expect(state.players.first).toMatchObject({
             x: 1,
-            y: 2,
+            y: 0,
           })
         })
 
@@ -71,9 +71,9 @@ describe('Trafique', () => {
             road: [
               [1, 0],
               [0, 0],
-              [0, 0],
+              ['first', 0],
             ],
-            players: { first: { x: 0, y: 0 } },
+            players: { first: { x: 0, y: 2 } },
           })
         })
 
@@ -93,16 +93,16 @@ describe('Trafique', () => {
             road: [
               [0, 0],
               [1, 0],
-              [0, 0],
+              ['first', 0],
             ],
-            players: { first: { x: 0, y: 0 } },
+            players: { first: { x: 0, y: 2 } },
           })
         })
 
         it('should only let them go forward until the space before the obstacle', () => {
           expect(state.players.first).toMatchObject({
             x: 0,
-            y: 0,
+            y: 2,
           })
         })
       })
@@ -114,17 +114,17 @@ describe('Trafique', () => {
           state = Trafique.moves.keepGoing({
             road: [
               [0, 0],
-              [0, 0],
+              [0, 'first'],
               [0, 0],
             ],
             players: { first: { x: 0, y: 1 } },
           })
         })
 
-        it('should let them go forward', () => {
+        it('should let have them stop at 0', () => {
           expect(state.players.first).toMatchObject({
             x: 0,
-            y: 3,
+            y: 0,
           })
         })
       })
@@ -139,9 +139,9 @@ describe('Trafique', () => {
             road: [
               [0, 0],
               [0, 0],
-              [0, 0],
+              ['first', 0],
             ],
-            players: { first: { x: 0, y: 0 } },
+            players: { first: { x: 0, y: 2 } },
           })
         })
 
@@ -161,9 +161,9 @@ describe('Trafique', () => {
             road: [
               [0, 0],
               [0, 0],
-              [0, 0],
+              [0, 'first'],
             ],
-            players: { first: { x: 1, y: 0 } },
+            players: { first: { x: 1, y: 2 } },
           })
         })
 
@@ -182,7 +182,7 @@ describe('Trafique', () => {
           state = Trafique.moves.switchLanes({
             road: [
               [0, 0],
-              [0, 0],
+              [0, 'first'],
               [0, 0],
             ],
             players: { first: { x: 0, y: 1 } },
@@ -192,7 +192,7 @@ describe('Trafique', () => {
         it('should move up 1, and left 1', () => {
           expect(state.players.first).toMatchObject({
             x: 1,
-            y: 2,
+            y: 0,
           })
         })
       })
@@ -205,16 +205,16 @@ describe('Trafique', () => {
             road: [
               [0, 0],
               [0, 1],
-              [0, 0],
+              ['first', 0],
             ],
-            players: { first: { x: 0, y: 0 } },
+            players: { first: { x: 0, y: 2 } },
           })
         })
 
         it('should move up 0, and right 1', () => {
           expect(state.players.first).toMatchObject({
             x: 1,
-            y: 0,
+            y: 2,
           })
         })
       })
@@ -229,14 +229,14 @@ describe('Trafique', () => {
               [0, 1],
               [0, 1],
             ],
-            players: { first: { x: 0, y: 0 } },
+            players: { first: { x: 0, y: 2 } },
           })
         })
 
         it('should keep the player where they be', () => {
           expect(state.players.first).toMatchObject({
             x: 0,
-            y: 0,
+            y: 2,
           })
         })
       })
