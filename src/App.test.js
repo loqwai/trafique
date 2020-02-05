@@ -11,7 +11,7 @@ describe('Trafique', () => {
             road: [
               [0, 0],
               [0, 0],
-              [0, 0],
+              ['first', 0],
             ],
             players: { first: { x: 0, y: 0 } },
           })
@@ -24,9 +24,9 @@ describe('Trafique', () => {
           })
         })
 
-        it('should pass the road through unaltered', () => {
+        it('should move the car forward on the road', () => {
           expect(state.road).toEqual([
-            [0, 0],
+            ['first', 0],
             [0, 0],
             [0, 0],
           ])
