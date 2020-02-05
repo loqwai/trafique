@@ -23,7 +23,15 @@ export const Trafique = {
         first: getKeepGoingPlayer(G.players.first, G.road),
       },
     }),
-    switchLanes: () => null,
+    switchLanes: (G) => ({
+      ...G,
+      players: {
+        first: {
+          x: ((G.players.first.x + 1) % 2),
+          y: G.players.first.y + 1,
+        },
+      },
+    }),
   },
 }
 

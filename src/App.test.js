@@ -99,5 +99,72 @@ describe('Trafique', () => {
         })
       })
     })
+    describe('switchLanes', () => {
+      describe('when the player is in the left lane', () => {
+        let state
+
+        beforeEach(() => {
+          state = Trafique.moves.switchLanes({
+            road: [
+              [0, 0],
+              [0, 0],
+              [0, 0],
+            ],
+            players: { first: { x: 0, y: 0 } },
+          })
+        })
+
+        it('should move up 1, and right 1', () => {
+          expect(state.players.first).toMatchObject({
+            x: 1,
+            y: 1,
+          })
+        })
+      })
+
+      describe('when the player is in the right lane', () => {
+        let state
+
+        beforeEach(() => {
+          state = Trafique.moves.switchLanes({
+            road: [
+              [0, 0],
+              [0, 0],
+              [0, 0],
+            ],
+            players: { first: { x: 1, y: 0 } },
+          })
+        })
+
+        it('should move up 1, and left 1', () => {
+          expect(state.players.first).toMatchObject({
+            x: 0,
+            y: 1,
+          })
+        })
+      })
+
+      describe('when the player is in the right lane and farther along the road', () => {
+        let state
+
+        beforeEach(() => {
+          state = Trafique.moves.switchLanes({
+            road: [
+              [0, 0],
+              [0, 0],
+              [0, 0],
+            ],
+            players: { first: { x: 0, y: 1 } },
+          })
+        })
+
+        it('should move up 1, and left 1', () => {
+          expect(state.players.first).toMatchObject({
+            x: 1,
+            y: 2,
+          })
+        })
+      })
+    })
   })
 })
