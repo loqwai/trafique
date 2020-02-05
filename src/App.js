@@ -17,7 +17,15 @@ export const Trafique = {
     }
   }),
   moves: {
-    keepGoing: (G, ctx) => {players: {"1": {x: 0, y: 2}}},
+    keepGoing: (G, ctx) => {
+      const { x, y } = G.players.first;
+
+      return {
+        players: {
+          first: { x, y: y + 2 }
+        }
+      };
+    },
     switchLanes: (G, ctx) => null
   }
 };
