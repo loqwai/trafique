@@ -10,7 +10,7 @@ export const Trafique = {
       [0, 0],
     ],
     players: {
-      1: {
+      first: {
         x: 0,
         y: 0,
       },
@@ -56,6 +56,11 @@ export const Trafique = {
       }
     },
   },
+  endIf: ({ players, road }) => {
+    if (players.first.y >= road.length) {
+      return { winner: true }
+    }
+  },
 }
 
 const getKeepGoingPlayer = ({ x, y }, road) => {
@@ -76,7 +81,9 @@ const getKeepGoingPlayer = ({ x, y }, road) => {
 const getObjectAtIndex = ({ road, x, y }) => {
   const realY = (road.length - y - 1)
   const realX = x
-  const obstacle = road[realY][realX]
+  const lane = road[realY]
+  if (!lane) return
+  const obstacle = lane[realX]
   return obstacle
 }
 

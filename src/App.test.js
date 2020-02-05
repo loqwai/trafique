@@ -98,7 +98,30 @@ describe('Trafique', () => {
           })
         })
       })
+
+      describe('when the finish is within reach', () => {
+        let state
+
+        beforeEach(() => {
+          state = Trafique.moves.keepGoing({
+            road: [
+              [0, 0],
+              [0, 0],
+              [0, 0],
+            ],
+            players: { first: { x: 0, y: 1 } },
+          })
+        })
+
+        it('should let them go forward', () => {
+          expect(state.players.first).toMatchObject({
+            x: 0,
+            y: 3,
+          })
+        })
+      })
     })
+
     describe('switchLanes', () => {
       describe('when the player is in the left lane', () => {
         let state
