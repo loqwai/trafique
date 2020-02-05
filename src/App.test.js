@@ -165,6 +165,28 @@ describe('Trafique', () => {
           })
         })
       })
+
+      describe('when the player is in the left lane and an obstacle is in the other lane', () => {
+        let state
+
+        beforeEach(() => {
+          state = Trafique.moves.switchLanes({
+            road: [
+              [0, 0],
+              [0, 1],
+              [0, 0],
+            ],
+            players: { first: { x: 0, y: 0 } },
+          })
+        })
+
+        it('should move up 0, and right 1', () => {
+          expect(state.players.first).toMatchObject({
+            x: 1,
+            y: 0,
+          })
+        })
+      })
     })
   })
 })

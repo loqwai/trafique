@@ -3,7 +3,7 @@ import { Client } from 'boardgame.io/react'
 import Board from './Board.jsx'
 
 export const Trafique = {
-  setup: (ctx) => ({
+  setup: () => ({
     road: [
       [1, 0],
       [0, 0],
@@ -23,15 +23,32 @@ export const Trafique = {
         first: getKeepGoingPlayer(G.players.first, G.road),
       },
     }),
-    switchLanes: (G) => ({
-      ...G,
-      players: {
-        first: {
-          x: ((G.players.first.x + 1) % 2),
-          y: G.players.first.y + 1,
+    switchLanes: (G) => {
+      const { x, y } = G.players.first
+      const obstacle = getObjectAtIndex({ road: G.road, x: x + 1, y: y + 1 })
+
+      if (obstacle) {
+        return {
+          ...G,
+          players: {
+            first: {
+              x: ((G.players.first.x + 1) % 2),
+              y: G.players.first.y,
+            },
+          },
+        }
+      }
+
+      return {
+        ...G,
+        players: {
+          first: {
+            x: ((G.players.first.x + 1) % 2),
+            y: G.players.first.y + 1,
+          },
         },
-      },
-    }),
+      }
+    },
   },
 }
 
@@ -60,3 +77,5 @@ const getObjectAtIndex = ({ road, x, y }) => {
 const App = Client({ game: Trafique, board: Board, numPlayers: 1 })
 
 export default App
+
+
