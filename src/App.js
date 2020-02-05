@@ -1,13 +1,13 @@
 import './App.css'
-import { Client, } from 'boardgame.io/react'
+import { Client } from 'boardgame.io/react'
 import Board from './Board.jsx'
 
 export const Trafique = {
   setup: (ctx) => ({
     road: [
-      [1, 0,],
-      [0, 0,],
-      [0, 0,],
+      [1, 0],
+      [0, 0],
+      [0, 0],
     ],
     players: {
       1: {
@@ -17,32 +17,35 @@ export const Trafique = {
     },
   }),
   moves: {
-    keepGoing: (G) => {
-      const { x, y } = G.players.first
-
-      const obstacle = getObjectAtIndex({ ...G, x, y: y + 2 })
-      if (obstacle) {
-        return {
-          players: {
-            first: { x, y: y + 1 },
-          },
-        }
-      }
-      return {
-        players: {
-          first: { x, y: y + 2 },
-        },
-      }
-    },
+    keepGoing: (G) => ({
+      ...G,
+      players: {
+        first: getKeepGoingPlayer(G.players.first, G.road),
+      },
+    }),
     switchLanes: () => null,
   },
+}
+
+const getKeepGoingPlayer = ({ x, y }, road) => {
+
+  const obstacle1 = getObjectAtIndex({ road, x, y: y + 1 })
+  if (obstacle1) {
+    return { x, y }
+  }
+
+  const obstacle2 = getObjectAtIndex({ road, x, y: y + 2 })
+  if (obstacle2) {
+    return { x, y: y + 1 }
+  }
+
+  return { x, y: y + 2 }
 }
 
 const getObjectAtIndex = ({ road, x, y }) => {
   const realY = (road.length - y - 1)
   const realX = x
   const obstacle = road[realY][realX]
-  console.log({ realX, realY, road, obstacle, x, y })
   return obstacle
 }
 
