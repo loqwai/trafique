@@ -2,7 +2,7 @@ import './App.css'
 import { Client } from 'boardgame.io/react'
 import Board from './Board.jsx'
 
-const generateRoad = ({ road, player: { x, y } }) => {
+const renderRoad = ({ road, player: { x, y } }) => {
   road = road.map(row => row.map(cell => cell === 'first' ? 0 : cell))
   road[y][x] = 'first'
   return road
@@ -51,21 +51,34 @@ const getSwitchLanesPlayer = (player, road) => {
   }
 }
 
+const generateRoad = (ctx) => {
+  let road = []
+
+  for (let i = 0; i < 30; i++) {
+    let potentialTree = ctx.random.Die(2) - 1
+    let lane = ctx.random.Die(2) - 1
+    let row = [0, 0]
+    row[lane] = potentialTree
+    road.push(row)
+  }
+
+  road[road.length-1][0] = 'first'
+
+  return road
+}
+
 
 export const Trafique = {
-  setup: () => ({
-    road: [
-      [1, 0],
-      [0, 0],
-      ['first', 0],
-    ],
-    players: {
-      first: {
-        x: 0,
-        y: 2,
-      },
-    },
-  }),
+  setup: (ctx) => {
+    const road = generateRoad(ctx)
+
+    const first = {
+      x: 0,
+      y: road.length - 1,
+    }
+
+    return ({ road, players: { first } })
+  },
   moves: {
     keepGoing: (G) => {
 
@@ -74,7 +87,7 @@ export const Trafique = {
 
       return ({
         ...G,
-        road: generateRoad({ road, player }),
+        road: renderRoad({ road, player }),
         players: {
           first: player,
         },
@@ -85,7 +98,7 @@ export const Trafique = {
 
       return {
         ...G,
-        road: generateRoad({ road: G.road, player }),
+        road: renderRoad({ road: G.road, player }),
         players: {
           first: player,
         },
