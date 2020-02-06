@@ -99,6 +99,14 @@ export const Trafique = {
   },
 }
 
-export default Client({ game: Trafique, board: Board, numPlayers: 1 })
+export default Client({ game: Trafique, board: Board, numPlayers: 1, ai: {
+  enumerate: () => {
+    return [{
+      move: 'keepGoing',
+    }, {
+      move: 'switchLanes',
+    }]
+  },
+} })
 
 
