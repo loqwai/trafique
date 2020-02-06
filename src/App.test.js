@@ -3,13 +3,13 @@ import { Trafique } from './App'
 describe('Trafique', () => {
   describe('moves', () => {
     describe('keepGoing', () => {
-      describe('when the road is clear', () => {
+      describe('when the road ahead is clear', () => {
         let state
 
         beforeEach(() => {
           state = Trafique.moves.keepGoing({
             road: [
-              [0, 0],
+              [0, 1],
               [0, 0],
               ['first', 0],
             ],
@@ -26,7 +26,7 @@ describe('Trafique', () => {
 
         it('should move the car forward on the road', () => {
           expect(state.road).toEqual([
-            ['first', 0],
+            ['first', 1],
             [0, 0],
             [0, 0],
           ])
@@ -150,6 +150,14 @@ describe('Trafique', () => {
             x: 1,
             y: 1,
           })
+        })
+
+        it('should update the road', () => {
+          expect(state.road).toEqual([
+            [0, 0],
+            [0, 'first'],
+            [0, 0],
+          ])
         })
       })
 

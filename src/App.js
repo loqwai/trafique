@@ -3,9 +3,14 @@ import { Client } from 'boardgame.io/react'
 import Board from './Board.jsx'
 
 const generateRoad = ({ road, player: { x, y } }) => {
-  road = road.map(lane => lane.map(() => 0))
+  road = road.map(row => row.map(cell => cell === 'first' ? 0 : cell))
   road[y][x] = 'first'
   return road
+}
+
+const getObjectOnRoad = ({ road, x, y }) => {
+  if (!road[y]) return 1
+  return road[y][x]
 }
 
 const getKeepGoingPlayer = ({ x, y }, road) => {
@@ -22,22 +27,42 @@ const getKeepGoingPlayer = ({ x, y }, road) => {
   return { x, y: y - 2 }
 }
 
-const getObjectOnRoad = ({ road, x, y }) => {
-  if (!road[y]) return 1
-  return road[y][x]
+const getSwitchLanesPlayer = (player, road) => {
+  const { x, y } = player
+  const obstacle1 = getObjectOnRoad({ road: road, x: x + 1, y: y - 1 })
+  const obstacle2 = getObjectOnRoad({ road: road, x: x + 1, y })
+
+  if (obstacle1) {
+    if (obstacle2) {
+      return { ...player, x, y }
+    }
+
+    return {
+      ...player,
+      x: ((x + 1) % 2),
+      y,
+    }
+  }
+
+  return {
+    ...player,
+    x: (x + 1) % 2,
+    y: y - 1,
+  }
 }
+
 
 export const Trafique = {
   setup: () => ({
     road: [
       [1, 0],
       [0, 0],
-      [0, 0],
+      ['first', 0],
     ],
     players: {
       first: {
         x: 0,
-        y: 0,
+        y: 2,
       },
     },
   }),
@@ -56,34 +81,13 @@ export const Trafique = {
       })
     },
     switchLanes: (G) => {
-      const { x, y } = G.players.first
-
-      const obstacle1 = getObjectOnRoad({ road: G.road, x: x + 1, y: y - 1 })
-      const obstacle2 = getObjectOnRoad({ road: G.road, x: x + 1, y })
-
-      if (obstacle1) {
-        if (obstacle2) {
-          return G
-        }
-
-        return {
-          ...G,
-          players: {
-            first: {
-              x: ((G.players.first.x + 1) % 2),
-              y: G.players.first.y,
-            },
-          },
-        }
-      }
+      const player = getSwitchLanesPlayer(G.players.first, G.road)
 
       return {
         ...G,
+        road: generateRoad({ road: G.road, player }),
         players: {
-          first: {
-            x: ((G.players.first.x + 1) % 2),
-            y: G.players.first.y - 1,
-          },
+          first: player,
         },
       }
     },
