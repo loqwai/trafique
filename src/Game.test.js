@@ -130,12 +130,110 @@ describe('Game', () => {
       })
     })
 
-    describe('switchLanes', () => {
+    describe('switchLanesLeft', () => {
+      describe('when the player is in the right lane', () => {
+        let state
+
+        beforeEach(() => {
+          state = Game.moves.switchLanesLeft({
+            road: [
+              [0, 0],
+              [0, 0],
+              [0, 'first'],
+            ],
+            players: { first: { x: 1, y: 2 } },
+          })
+        })
+
+        it('should move up 1, and left 1', () => {
+          expect(state.players.first).toMatchObject({
+            x: 0,
+            y: 1,
+          })
+        })
+
+        it('should update the road', () => {
+          expect(state.road).toEqual([
+            [0, 0],
+            ['first', 0],
+            [0, 0],
+          ])
+        })
+      })
+
       describe('when the player is in the left lane', () => {
         let state
 
         beforeEach(() => {
-          state = Game.moves.switchLanes({
+          state = Game.moves.switchLanesLeft({
+            road: [
+              [0, 0],
+              [0, 0],
+              ['first', 0],
+            ],
+            players: { first: { x: 0, y: 2 } },
+          })
+        })
+
+        it('should keep the player where they be', () => {
+          expect(state.players.first).toMatchObject({
+            x: 0,
+            y: 2,
+          })
+        })
+      })
+
+      describe('when the player is in the right lane and an obstacle is in the other lane', () => {
+        let state
+
+        beforeEach(() => {
+          state = Game.moves.switchLanesLeft({
+            road: [
+              [0, 0],
+              [1, 0],
+              [0, 'first'],
+            ],
+            players: { first: { x: 1, y: 2 } },
+          })
+        })
+
+        it('should move up 0, and left 1', () => {
+          expect(state.players.first).toMatchObject({
+            x: 0,
+            y: 2,
+          })
+        })
+      })
+
+      describe('when the player is in the right lane and the left lane is full', () => {
+        let state
+
+        beforeEach(() => {
+          state = Game.moves.switchLanesLeft({
+            road: [
+              [0, 0],
+              [1, 0],
+              [1, 0],
+            ],
+            players: { first: { x: 1, y: 2 } },
+          })
+        })
+
+        it('should keep the player where they be', () => {
+          expect(state.players.first).toMatchObject({
+            x: 1,
+            y: 2,
+          })
+        })
+      })
+    })
+
+    describe('switchLanesRight', () => {
+      describe('when the player is in the left lane', () => {
+        let state
+
+        beforeEach(() => {
+          state = Game.moves.switchLanesRight({
             road: [
               [0, 0],
               [0, 0],
@@ -165,7 +263,7 @@ describe('Game', () => {
         let state
 
         beforeEach(() => {
-          state = Game.moves.switchLanes({
+          state = Game.moves.switchLanesRight({
             road: [
               [0, 0],
               [0, 0],
@@ -175,32 +273,10 @@ describe('Game', () => {
           })
         })
 
-        it('should move up 1, and left 1', () => {
-          expect(state.players.first).toMatchObject({
-            x: 0,
-            y: 1,
-          })
-        })
-      })
-
-      describe('when the player is in the right lane and farther along the road', () => {
-        let state
-
-        beforeEach(() => {
-          state = Game.moves.switchLanes({
-            road: [
-              [0, 0],
-              [0, 'first'],
-              [0, 0],
-            ],
-            players: { first: { x: 0, y: 1 } },
-          })
-        })
-
-        it('should move up 1, and left 1', () => {
+        it('should keep the player where they be', () => {
           expect(state.players.first).toMatchObject({
             x: 1,
-            y: 0,
+            y: 2,
           })
         })
       })
@@ -209,7 +285,7 @@ describe('Game', () => {
         let state
 
         beforeEach(() => {
-          state = Game.moves.switchLanes({
+          state = Game.moves.switchLanesRight({
             road: [
               [0, 0],
               [0, 1],
@@ -231,7 +307,7 @@ describe('Game', () => {
         let state
 
         beforeEach(() => {
-          state = Game.moves.switchLanes({
+          state = Game.moves.switchLanesRight({
             road: [
               [0, 0],
               [0, 1],

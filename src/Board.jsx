@@ -48,7 +48,7 @@ const simulate = async (state) => {
 
 const Board = (state) => (
   <main>
-    <h1>&nbsp;{isWinner(state.ctx) && 'You Win!'}</h1>
+    <h1>&nbsp;{isWinner(state.ctx) && `You Win! score: ${state.ctx.gameover.score}`}</h1>
     <table>
       <tbody>
         {state.G.road.map((row, i) => (

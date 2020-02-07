@@ -6,6 +6,8 @@ const renderRoad = ({ road, player: { x, y } }) => {
 
 const getObjectOnRoad = ({ road, x, y }) => {
   if (!road[y]) return 1
+  if (x < 0) return 1
+  if (x >= road[y].length) return 1
   return road[y][x]
 }
 
@@ -23,7 +25,31 @@ const getKeepGoingPlayer = ({ x, y }, road) => {
   return { x, y: y - 2 }
 }
 
-const getSwitchLanesPlayer = (player, road) => {
+const getSwitchLanesLeftPlayer = (player, road) => {
+  const { x, y } = player
+  const obstacle1 = getObjectOnRoad({ road: road, x: x - 1, y: y - 1 })
+  const obstacle2 = getObjectOnRoad({ road: road, x: x - 1, y })
+
+  if (obstacle1) {
+    if (obstacle2) {
+      return { ...player, x, y }
+    }
+
+    return {
+      ...player,
+      x: x - 1,
+      y,
+    }
+  }
+
+  return {
+    ...player,
+    x: x - 1,
+    y: y - 1,
+  }
+}
+
+const getSwitchLanesRightPlayer = (player, road) => {
   const { x, y } = player
   const obstacle1 = getObjectOnRoad({ road: road, x: x + 1, y: y - 1 })
   const obstacle2 = getObjectOnRoad({ road: road, x: x + 1, y })
@@ -35,26 +61,33 @@ const getSwitchLanesPlayer = (player, road) => {
 
     return {
       ...player,
-      x: ((x + 1) % 2),
+      x: x + 1,
       y,
     }
   }
 
   return {
     ...player,
-    x: (x + 1) % 2,
+    x: x + 1,
     y: y - 1,
   }
 }
 
 const generateRoad = (ctx) => {
+  const length = ctx.random.Die(30)
+  const width = ctx.random.Die(6)
+
   let road = []
 
-  for (let i = 0; i < 30; i++) {
-    let potentialTree = ctx.random.Die(2) - 1
-    let lane = ctx.random.Die(2) - 1
-    let row = [0, 0]
-    row[lane] = potentialTree
+  for (let i = 0; i < length; i++) {
+    let row = Array(width).fill(0)
+
+    let treeCount = ctx.random.Die(width) - 2
+    for (let j = 0; j < treeCount; j++) {
+      let lane = ctx.random.Die(width) - 1
+      row[lane] = 1
+    }
+
     road.push(row)
   }
 
@@ -91,8 +124,19 @@ const Game = {
         },
       })
     },
-    switchLanes: (G) => {
-      const player = getSwitchLanesPlayer(G.players.first, G.road)
+    switchLanesLeft: (G) => {
+      const player = getSwitchLanesLeftPlayer(G.players.first, G.road)
+
+      return {
+        ...G,
+        road: renderRoad({ road: G.road, player }),
+        players: {
+          first: player,
+        },
+      }
+    },
+    switchLanesRight: (G) => {
+      const player = getSwitchLanesRightPlayer(G.players.first, G.road)
 
       return {
         ...G,
