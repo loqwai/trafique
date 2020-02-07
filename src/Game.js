@@ -82,7 +82,7 @@ const generateRoad = (ctx) => {
   for (let i = 0; i < length; i++) {
     let row = Array(width).fill(0)
 
-    let treeCount = ctx.random.Die(width) - 2
+    let treeCount = ctx.random.Die(width) - 1
     for (let j = 0; j < treeCount; j++) {
       let lane = ctx.random.Die(width) - 1
       row[lane] = 1
