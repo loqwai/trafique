@@ -25,7 +25,7 @@ const Board = ({ ctx, G, moves }) => {
   })
 
   return (<main>
-    <h1>&nbsp;{isWinner(ctx) && `You Win! score: ${ctx.gameover.score}`}</h1>
+    <h1>&nbsp;{isWinner(ctx) && `You Win! Turns: ${ctx.turn}`}</h1>
     <table>
       <tbody>
         {G.road.map((row, i) => (<tr key={i}>
@@ -35,9 +35,9 @@ const Board = ({ ctx, G, moves }) => {
     </table>
     <p>Use the arrow keys to move</p>
     <div className="keyboard">
-      <button type="button" onClick={moves.switchLanesLeft}>↖️</button>
-      <button type="button" onClick={moves.keepGoing}>⬆</button>
-      <button type="button" onClick={moves.switchLanesRight}>↗️</button>
+      <button type="button" onClick={moves.switchLanesLeft}><span role="img" aria-label="switch lanes left">↖</span>️</button>
+      <button type="button" onClick={moves.keepGoing}><span role="img" aria-label="keep going">⬆</span></button>
+      <button type="button" onClick={moves.switchLanesRight}><span role="img" aria-label="switch lanes right">↗</span>️</button>
     </div>
   </main>)
 }
@@ -47,6 +47,7 @@ Board.propTypes = {
     gameover: PropTypes.shape({
       winner: PropTypes.string,
     }),
+    turn: PropTypes.number,
   }),
   G: PropTypes.shape({
     road: PropTypes.arrayOf(PropTypes.arrayOf(
