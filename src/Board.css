@@ -18,3 +18,17 @@ td {
   background-color: #ccc;
 } 
 
+.keyboard {
+  position: fixed;
+  bottom: 0;
+  left: calc(50% - 280px);
+  opacity: 0.8;
+}
+
+.keyboard > button {
+  width: 100px;
+  height: 100px;
+  font-size: xx-large;
+  margin: 4px;
+}
+

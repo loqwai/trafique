@@ -11,33 +11,52 @@ const cellContents = value => {
   return null
 }
 
-const Board = (state) => (
-  <main>
-    <h1>&nbsp;{isWinner(state.ctx) && `You Win! score: ${state.ctx.gameover.score}`}</h1>
+const Board = ({ ctx, G, moves }) => {
+  React.useEffect(() => {
+    const keyUpHandler = ({ key }) => {
+      if (key === 'ArrowUp') return moves.keepGoing()
+      if (key === 'ArrowLeft') return moves.switchLanesLeft()
+      if (key === 'ArrowRight') return moves.switchLanesRight()
+    }
+    window.addEventListener('keyup', keyUpHandler)
+    return () => {
+      window.removeEventListener('keyup', keyUpHandler)
+    }
+  })
+
+  return (<main>
+    <h1>&nbsp;{isWinner(ctx) && `You Win! score: ${ctx.gameover.score}`}</h1>
     <table>
       <tbody>
-        {state.G.road.map((row, i) => (
-          <tr key={i}>
-            {row.map((cell, j) => (
-              <td key={j}>{cellContents(cell)}</td>
-            ))}
-          </tr>
-        ))}
+        {G.road.map((row, i) => (<tr key={i}>
+          {row.map((cell, j) => (<td key={j}>{cellContents(cell)}</td>))}
+        </tr>))}
       </tbody>
     </table>
-  </main>
-)
+    <p>Use the arrow keys to move</p>
+    <div className="keyboard">
+      <button type="button" onClick={moves.switchLanesLeft}>↖️</button>
+      <button type="button" onClick={moves.keepGoing}>⬆</button>
+      <button type="button" onClick={moves.switchLanesRight}>↗️</button>
+    </div>
+  </main>)
+}
 
 Board.propTypes = {
+  ctx: PropTypes.shape({
+    gameover: PropTypes.shape({
+      winner: PropTypes.string,
+    }),
+  }),
   G: PropTypes.shape({
     road: PropTypes.arrayOf(PropTypes.arrayOf(
       PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
     )),
   }),
-  ctx: PropTypes.shape({
-    gameover: PropTypes.shape({
-      winner: PropTypes.bool,
-    }),
+  moves: PropTypes.shape({
+    keepGoing: PropTypes.func,
+    switchLanesLeft: PropTypes.func,
+    switchLanesRight: PropTypes.func,
   }),
 }
 
