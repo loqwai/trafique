@@ -1,0 +1,17 @@
+{
+  "name": "trafique",
+  "license": "MIT",
+  "scripts": {
+    "start": "http-server -c-1 --port 3000",
+    "build": "babel src --out-dir target",
+    "clean": "rm -rf target"
+  },
+  "dependencies": {
+    "http-server": "^0.12.3"
+  },
+  "devDependencies": {
+    "@babel/cli": "^7.14.8",
+    "@babel/core": "^7.14.8",
+    "@babel/preset-env": "^7.14.8"
+  }
+}
