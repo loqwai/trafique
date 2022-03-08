@@ -54,9 +54,6 @@ class Renderer extends System {
   _horizontalStreet = (xMid, yMid, laneWidth, streetLength) => {
     this._rect(xMid, yMid - laneWidth, streetLength, 2 * laneWidth)
     this._dashedLine(xMid, yMid, xMid + streetLength, yMid)
-    // this._rect(xMid, yMid, streetLength, -laneWidth)
-
-    // this._rect(xMid - laneWidth, yMid, 2 * laneWidth, streetLength)
   }
 
   _verticalStreet = (xMid, yMid, laneWidth, streetLength) => {
@@ -71,12 +68,6 @@ class Renderer extends System {
       (laneWidth * 2),
       (laneWidth * 2),
     )
-    // this._rect(
-    //   xMid - laneWidth - 1,
-    //   yMid - laneWidth - 1,
-    //   (laneWidth * 2) + 2,
-    //   (laneWidth * 2) + 2,
-    // )
   }
 
   _rect = (x, y, width, height) => {
