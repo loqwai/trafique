@@ -1,10 +1,24 @@
+import { World } from 'ecsy'
 import { System } from 'ecsy'
 import { min } from 'ramda'
+
+const laneWidth = 100
+
+/**
+ * @typedef {object} Options
+ * @property {HTMLCanvasElement} canvas
+ * @property {number} priority
+ */
 
 class Renderer extends System {
   #canvas
   #ctx
 
+  /**
+   *
+   * @param {World} world
+   * @param {Options} param1
+   */
   constructor(world, { canvas, priority }) {
     super(world, { priority })
     this.#canvas = canvas
@@ -25,39 +39,65 @@ class Renderer extends System {
     this.#ctx.fillStyle = '#cccccc'
     this.#ctx.strokeStyle = '#000000'
 
-    const midX = this.#canvas.width / 2
-    const midY = this.#canvas.height / 2
+    const xMid = this.#canvas.width / 2
+    const yMid = this.#canvas.height / 2
 
-    const laneWidth = 100
     const streetLength = (min(this.#canvas.height, this.#canvas.width) / 2) - laneWidth
 
-    this._hStreet(midX + laneWidth, midY, laneWidth, streetLength)
-    this._hStreet(midX - laneWidth, midY, laneWidth, -streetLength)
-    this._vStreet(midX, midY + laneWidth, laneWidth, streetLength)
-    this._vStreet(midX, midY - laneWidth, laneWidth, -streetLength)
+    this._horizontalStreet(xMid + laneWidth, yMid, laneWidth, streetLength)
+    this._horizontalStreet(xMid - laneWidth, yMid, laneWidth, -streetLength)
+    this._verticalStreet(xMid, yMid + laneWidth, laneWidth, streetLength)
+    this._verticalStreet(xMid, yMid - laneWidth, laneWidth, -streetLength)
+    this._intersection(xMid, yMid, laneWidth)
   }
 
-  _hStreet = (x, y, width, length) => {
-    this._rect(x, y, length, width)
-    this._rect(x, y, length, -width)
+  _horizontalStreet = (xMid, yMid, laneWidth, streetLength) => {
+    this._rect(xMid, yMid - laneWidth, streetLength, 2 * laneWidth)
+    this._dashedLine(xMid, yMid, xMid + streetLength, yMid)
+    // this._rect(xMid, yMid, streetLength, -laneWidth)
+
+    // this._rect(xMid - laneWidth, yMid, 2 * laneWidth, streetLength)
   }
 
-  _vStreet = (x, y, width, length) => {
-    this._rect(x, y, width, length)
-    this._rect(x, y, -width, length)
+  _verticalStreet = (xMid, yMid, laneWidth, streetLength) => {
+    this._rect(xMid - laneWidth, yMid, 2 * laneWidth, streetLength)
+    this._dashedLine(xMid, yMid, xMid, yMid + streetLength)
+  }
+
+  _intersection(xMid, yMid, laneWidth) {
+    this._rect(
+      xMid - laneWidth,
+      yMid - laneWidth,
+      (laneWidth * 2),
+      (laneWidth * 2),
+    )
+    // this._rect(
+    //   xMid - laneWidth - 1,
+    //   yMid - laneWidth - 1,
+    //   (laneWidth * 2) + 2,
+    //   (laneWidth * 2) + 2,
+    // )
   }
 
   _rect = (x, y, width, height) => {
+    this.#ctx.fillStyle = '#000'
     this.#ctx.fillRect(x, y, width, height)
+
+    this.#ctx.strokeStyle = '#000'
+    this.#ctx.lineWidth = 1
+    this.#ctx.setLineDash([])
     this.#ctx.strokeRect(x, y, width, height)
   }
 
+  _dashedLine = (x0, y0, x1, y1) => {
+    this.#ctx.beginPath()
+    this.#ctx.strokeStyle = '#fff'
+    this.#ctx.lineWidth = 5
+    this.#ctx.setLineDash([25, 35])
+    this.#ctx.moveTo(x0, y0)
+    this.#ctx.lineTo(x1, y1)
+    this.#ctx.stroke()
+  }
 }
-
-// Renderer.queries = {
-//   bgCircles: { components: [Circle, Color, Position, InBackground] },
-//   fgCircles: { components: [Circle, Color, Position, Not(InBackground)] },
-//   rectangles: { components: [Rectangle, Color, Position] },
-// }
 
 export { Renderer }

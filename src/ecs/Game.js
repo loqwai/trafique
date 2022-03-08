@@ -7,15 +7,12 @@ export class Game {
   #animationFrameRequest = null
   #lastTime = performance.now()
   #numMsElapsed = 0
-  #canvas
 
   #world = new World()
 
   constructor({ canvas }) {
-    this.#canvas = canvas
     this.#world
       .registerSystem(Renderer, { canvas })
-
   }
 
   start = () => this._run()
