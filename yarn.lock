@@ -59,7 +59,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@babel/core@npm:7.17.5, @babel/core@npm:^7.11.1, @babel/core@npm:^7.16.0, @babel/core@npm:^7.7.2, @babel/core@npm:^7.8.0":
+"@babel/core@npm:^7, @babel/core@npm:^7.11.1, @babel/core@npm:^7.16.0, @babel/core@npm:^7.7.2, @babel/core@npm:^7.8.0":
   version: 7.17.5
   resolution: "@babel/core@npm:7.17.5"
   dependencies:
@@ -1152,7 +1152,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@babel/plugin-syntax-flow@npm:7.16.7, @babel/plugin-syntax-flow@npm:^7.16.7":
+"@babel/plugin-syntax-flow@npm:^7, @babel/plugin-syntax-flow@npm:^7.16.7":
   version: 7.16.7
   resolution: "@babel/plugin-syntax-flow@npm:7.16.7"
   dependencies:
@@ -1936,7 +1936,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@babel/plugin-transform-react-jsx@npm:7.17.3, @babel/plugin-transform-react-jsx@npm:^7.16.7":
+"@babel/plugin-transform-react-jsx@npm:^7, @babel/plugin-transform-react-jsx@npm:^7.16.7":
   version: 7.17.3
   resolution: "@babel/plugin-transform-react-jsx@npm:7.17.3"
   dependencies:
@@ -3293,7 +3293,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@testing-library/dom@npm:8.11.3, @testing-library/dom@npm:^8.0.0":
+"@testing-library/dom@npm:^8, @testing-library/dom@npm:^8.0.0":
   version: 8.11.3
   resolution: "@testing-library/dom@npm:8.11.3"
   dependencies:
@@ -3309,7 +3309,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@testing-library/jest-dom@npm:5.16.2":
+"@testing-library/jest-dom@npm:^5":
   version: 5.16.2
   resolution: "@testing-library/jest-dom@npm:5.16.2"
   dependencies:
@@ -3326,7 +3326,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@testing-library/react@npm:12.1.4":
+"@testing-library/react@npm:^12":
   version: 12.1.4
   resolution: "@testing-library/react@npm:12.1.4"
   dependencies:
@@ -3340,7 +3340,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@testing-library/user-event@npm:13.5.0":
+"@testing-library/user-event@npm:^13":
   version: 13.5.0
   resolution: "@testing-library/user-event@npm:13.5.0"
   dependencies:
@@ -3817,7 +3817,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@typescript-eslint/eslint-plugin@npm:5.14.0, @typescript-eslint/eslint-plugin@npm:^5.5.0":
+"@typescript-eslint/eslint-plugin@npm:^5, @typescript-eslint/eslint-plugin@npm:^5.5.0":
   version: 5.14.0
   resolution: "@typescript-eslint/eslint-plugin@npm:5.14.0"
   dependencies:
@@ -3851,7 +3851,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@typescript-eslint/parser@npm:5.14.0, @typescript-eslint/parser@npm:^5.5.0":
+"@typescript-eslint/parser@npm:^5, @typescript-eslint/parser@npm:^5.5.0":
   version: 5.14.0
   resolution: "@typescript-eslint/parser@npm:5.14.0"
   dependencies:
@@ -4596,7 +4596,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"autoprefixer@npm:10.4.2, autoprefixer@npm:^10.4.2":
+"autoprefixer@npm:^10, autoprefixer@npm:^10.4.2":
   version: 10.4.2
   resolution: "autoprefixer@npm:10.4.2"
   dependencies:
@@ -4628,7 +4628,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"babel-eslint@npm:10.1.0":
+"babel-eslint@npm:^10":
   version: 10.1.0
   resolution: "babel-eslint@npm:10.1.0"
   dependencies:
@@ -6671,7 +6671,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"eslint-config-react-app@npm:7.0.0, eslint-config-react-app@npm:^7.0.0":
+"eslint-config-react-app@npm:^7, eslint-config-react-app@npm:^7.0.0":
   version: 7.0.0
   resolution: "eslint-config-react-app@npm:7.0.0"
   dependencies:
@@ -6715,7 +6715,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"eslint-plugin-flowtype@npm:8.0.3, eslint-plugin-flowtype@npm:^8.0.3":
+"eslint-plugin-flowtype@npm:^8, eslint-plugin-flowtype@npm:^8.0.3":
   version: 8.0.3
   resolution: "eslint-plugin-flowtype@npm:8.0.3"
   dependencies:
@@ -6729,7 +6729,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"eslint-plugin-import@npm:2.25.4, eslint-plugin-import@npm:^2.25.3":
+"eslint-plugin-import@npm:^2, eslint-plugin-import@npm:^2.25.3":
   version: 2.25.4
   resolution: "eslint-plugin-import@npm:2.25.4"
   dependencies:
@@ -6752,23 +6752,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"eslint-plugin-jest@npm:26.1.1":
-  version: 26.1.1
-  resolution: "eslint-plugin-jest@npm:26.1.1"
-  dependencies:
-    "@typescript-eslint/utils": ^5.10.0
-  peerDependencies:
-    "@typescript-eslint/eslint-plugin": ^5.0.0
-    eslint: ^6.0.0 || ^7.0.0 || ^8.0.0
-  peerDependenciesMeta:
-    "@typescript-eslint/eslint-plugin":
-      optional: true
-    jest:
-      optional: true
-  checksum: efed65bd6b83f15f38e3d8447d0dbbac18c10d6e4c4853c8d0539f5bc8e898cca8136b1e706899b756ea995ed189445b7f15d0fffeb983890608c33e752670d7
-  languageName: node
-  linkType: hard
-
 "eslint-plugin-jest@npm:^25.3.0":
   version: 25.7.0
   resolution: "eslint-plugin-jest@npm:25.7.0"
@@ -6786,7 +6769,24 @@ __metadata:
   languageName: node
   linkType: hard
 
-"eslint-plugin-jsx-a11y@npm:6.5.1, eslint-plugin-jsx-a11y@npm:^6.5.1":
+"eslint-plugin-jest@npm:^26":
+  version: 26.1.1
+  resolution: "eslint-plugin-jest@npm:26.1.1"
+  dependencies:
+    "@typescript-eslint/utils": ^5.10.0
+  peerDependencies:
+    "@typescript-eslint/eslint-plugin": ^5.0.0
+    eslint: ^6.0.0 || ^7.0.0 || ^8.0.0
+  peerDependenciesMeta:
+    "@typescript-eslint/eslint-plugin":
+      optional: true
+    jest:
+      optional: true
+  checksum: efed65bd6b83f15f38e3d8447d0dbbac18c10d6e4c4853c8d0539f5bc8e898cca8136b1e706899b756ea995ed189445b7f15d0fffeb983890608c33e752670d7
+  languageName: node
+  linkType: hard
+
+"eslint-plugin-jsx-a11y@npm:^6, eslint-plugin-jsx-a11y@npm:^6.5.1":
   version: 6.5.1
   resolution: "eslint-plugin-jsx-a11y@npm:6.5.1"
   dependencies:
@@ -6808,7 +6808,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"eslint-plugin-react-hooks@npm:4.3.0, eslint-plugin-react-hooks@npm:^4.3.0":
+"eslint-plugin-react-hooks@npm:^4, eslint-plugin-react-hooks@npm:^4.3.0":
   version: 4.3.0
   resolution: "eslint-plugin-react-hooks@npm:4.3.0"
   peerDependencies:
@@ -6817,7 +6817,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"eslint-plugin-react@npm:7.29.3, eslint-plugin-react@npm:^7.27.1":
+"eslint-plugin-react@npm:^7, eslint-plugin-react@npm:^7.27.1":
   version: 7.29.3
   resolution: "eslint-plugin-react@npm:7.29.3"
   dependencies:
@@ -6927,7 +6927,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"eslint@npm:8.10.0, eslint@npm:^8.3.0":
+"eslint@npm:^8, eslint@npm:^8.3.0":
   version: 8.10.0
   resolution: "eslint@npm:8.10.0"
   dependencies:
@@ -11452,17 +11452,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"postcss@npm:8.4.8, postcss@npm:^8.3.5, postcss@npm:^8.4.4, postcss@npm:^8.4.6, postcss@npm:^8.4.7":
-  version: 8.4.8
-  resolution: "postcss@npm:8.4.8"
-  dependencies:
-    nanoid: ^3.3.1
-    picocolors: ^1.0.0
-    source-map-js: ^1.0.2
-  checksum: 8e42def1ea98a4ac800d2b8937b19c83c6722da6c39ded72b1877eb743922f51b6e93be3667284b685ac18e8b583f21d97f24e0a73161c70fe8dc6901e614b87
-  languageName: node
-  linkType: hard
-
 "postcss@npm:^7.0.35":
   version: 7.0.39
   resolution: "postcss@npm:7.0.39"
@@ -11470,6 +11459,17 @@ __metadata:
     picocolors: ^0.2.1
     source-map: ^0.6.1
   checksum: 4ac793f506c23259189064bdc921260d869a115a82b5e713973c5af8e94fbb5721a5cc3e1e26840500d7e1f1fa42a209747c5b1a151918a9bc11f0d7ed9048e3
+  languageName: node
+  linkType: hard
+
+"postcss@npm:^8, postcss@npm:^8.3.5, postcss@npm:^8.4.4, postcss@npm:^8.4.6, postcss@npm:^8.4.7":
+  version: 8.4.8
+  resolution: "postcss@npm:8.4.8"
+  dependencies:
+    nanoid: ^3.3.1
+    picocolors: ^1.0.0
+    source-map-js: ^1.0.2
+  checksum: 8e42def1ea98a4ac800d2b8937b19c83c6722da6c39ded72b1877eb743922f51b6e93be3667284b685ac18e8b583f21d97f24e0a73161c70fe8dc6901e614b87
   languageName: node
   linkType: hard
 
@@ -11745,7 +11745,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"react-dom@npm:17.0.2":
+"react-dom@npm:^17":
   version: 17.0.2
   resolution: "react-dom@npm:17.0.2"
   dependencies:
@@ -11786,7 +11786,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"react-scripts@npm:5.0.0":
+"react-scripts@npm:^5":
   version: 5.0.0
   resolution: "react-scripts@npm:5.0.0"
   dependencies:
@@ -11863,7 +11863,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"react-use@npm:17.3.2":
+"react-use@npm:^17":
   version: 17.3.2
   resolution: "react-use@npm:17.3.2"
   dependencies:
@@ -11888,7 +11888,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"react@npm:17.0.2":
+"react@npm:^17":
   version: 17.0.2
   resolution: "react@npm:17.0.2"
   dependencies:
@@ -13592,34 +13592,34 @@ resolve@^2.0.0-next.3:
   version: 0.0.0-use.local
   resolution: "trafique@workspace:."
   dependencies:
-    "@babel/core": 7.17.5
-    "@babel/plugin-syntax-flow": 7.16.7
-    "@babel/plugin-transform-react-jsx": 7.17.3
-    "@testing-library/dom": 8.11.3
-    "@testing-library/jest-dom": 5.16.2
-    "@testing-library/react": 12.1.4
-    "@testing-library/user-event": 13.5.0
-    "@typescript-eslint/eslint-plugin": 5.14.0
-    "@typescript-eslint/parser": 5.14.0
-    autoprefixer: 10.4.2
-    babel-eslint: 10.1.0
+    "@babel/core": ^7
+    "@babel/plugin-syntax-flow": ^7
+    "@babel/plugin-transform-react-jsx": ^7
+    "@testing-library/dom": ^8
+    "@testing-library/jest-dom": ^5
+    "@testing-library/react": ^12
+    "@testing-library/user-event": ^13
+    "@typescript-eslint/eslint-plugin": ^5
+    "@typescript-eslint/parser": ^5
+    autoprefixer: ^10
+    babel-eslint: ^10
     ecsy: 0.4.2
-    eslint: 8.10.0
-    eslint-config-react-app: 7.0.0
-    eslint-plugin-flowtype: 8.0.3
-    eslint-plugin-import: 2.25.4
-    eslint-plugin-jest: 26.1.1
-    eslint-plugin-jsx-a11y: 6.5.1
-    eslint-plugin-react: 7.29.3
-    eslint-plugin-react-hooks: 4.3.0
-    postcss: 8.4.8
+    eslint: ^8
+    eslint-config-react-app: ^7
+    eslint-plugin-flowtype: ^8
+    eslint-plugin-import: ^2
+    eslint-plugin-jest: ^26
+    eslint-plugin-jsx-a11y: ^6
+    eslint-plugin-react: ^7
+    eslint-plugin-react-hooks: ^4
+    postcss: ^8
     ramda: 0.28.0
-    react: 17.0.2
-    react-dom: 17.0.2
-    react-scripts: 5.0.0
-    react-use: 17.3.2
-    web-vitals: 2.1.4
-    webpack: 5.70.0
+    react: ^17
+    react-dom: ^17
+    react-scripts: ^5
+    react-use: ^17
+    web-vitals: ^2
+    webpack: ^5
   languageName: unknown
   linkType: soft
 
@@ -14011,7 +14011,7 @@ resolve@^2.0.0-next.3:
   languageName: node
   linkType: hard
 
-"web-vitals@npm:2.1.4":
+"web-vitals@npm:^2":
   version: 2.1.4
   resolution: "web-vitals@npm:2.1.4"
   checksum: 03d3f47dbf55c3dce07beb0ff5de8ddd52e2d0a53a8df5c84e7a16dda93543341d67231fa79b1d9772b091419af4ec0fd395b8bcf451a0e26846e3f76b3d0efc
@@ -14138,7 +14138,7 @@ resolve@^2.0.0-next.3:
   languageName: node
   linkType: hard
 
-"webpack@npm:5.70.0, webpack@npm:^5.64.4":
+"webpack@npm:^5, webpack@npm:^5.64.4":
   version: 5.70.0
   resolution: "webpack@npm:5.70.0"
   dependencies:
