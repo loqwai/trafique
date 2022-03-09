@@ -2,6 +2,8 @@ import { World } from 'ecsy'
 import { min } from 'ramda'
 
 import { Renderer } from './systems/Renderer'
+import { SpawnCar } from './systems/SpawnCar'
+import { Car } from './components/Car'
 
 export class Game {
   #animationFrameRequest = null
@@ -13,9 +15,13 @@ export class Game {
   constructor({ canvas }) {
     this.#world
       .registerSystem(Renderer, { canvas })
+      .registerSystem(SpawnCar, { interval: 1000 })
+      .registerComponent(Car)
   }
 
-  start = () => this._run()
+  start = () => {
+    this._run()
+  }
   stop = () => this.#animationFrameRequest && cancelAnimationFrame(this.#animationFrameRequest)
 
   /**
