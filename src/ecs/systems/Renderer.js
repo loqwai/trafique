@@ -1,6 +1,7 @@
 import { World } from 'ecsy'
 import { System } from 'ecsy'
 import { min } from 'ramda'
+import { Car } from '../components/Car'
 
 const laneWidth = 100
 
@@ -15,9 +16,8 @@ class Renderer extends System {
   #ctx
 
   /**
-   *
    * @param {World} world
-   * @param {Options} param1
+   * @param {Options} options
    */
   constructor(world, { canvas, priority }) {
     super(world, { priority })
@@ -28,6 +28,7 @@ class Renderer extends System {
   execute = (_delta, _time) => {
     this._clear()
     this._renderStreets()
+    this._renderCars()
   }
 
   _clear = () => {
@@ -70,11 +71,11 @@ class Renderer extends System {
     )
   }
 
-  _rect = (x, y, width, height) => {
-    this.#ctx.fillStyle = '#000'
+  _rect = (x, y, width, height, fillColor='#000', strokeColor='#000') => {
+    this.#ctx.fillStyle = fillColor
     this.#ctx.fillRect(x, y, width, height)
 
-    this.#ctx.strokeStyle = '#000'
+    this.#ctx.strokeStyle = strokeColor
     this.#ctx.lineWidth = 1
     this.#ctx.setLineDash([])
     this.#ctx.strokeRect(x, y, width, height)
@@ -89,6 +90,23 @@ class Renderer extends System {
     this.#ctx.lineTo(x1, y1)
     this.#ctx.stroke()
   }
+
+  _renderCars = () => {
+    this.queries.cars.results.forEach(this._renderCar)
+  }
+
+  _renderCar = (entity) => {
+    const car = entity.getComponent(Car)
+
+    const { x, y, width, height } = car
+    this._rect(x, y, width, height, '#ff0000')
+  }
+}
+
+Renderer.queries = {
+  cars: {
+    components: [Car],
+  },
 }
 
 export { Renderer }

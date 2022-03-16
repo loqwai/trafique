@@ -4,6 +4,8 @@ import { min } from 'ramda'
 import { Renderer } from './systems/Renderer'
 import { SpawnCar } from './systems/SpawnCar'
 import { Car } from './components/Car'
+import { GoForward } from './systems/GoForward'
+import { DeSpawnCar } from './systems/DeSpawnCar'
 
 export class Game {
   #animationFrameRequest = null
@@ -14,9 +16,11 @@ export class Game {
 
   constructor({ canvas }) {
     this.#world
+      .registerComponent(Car)
       .registerSystem(Renderer, { canvas })
       .registerSystem(SpawnCar, { interval: 1000 })
-      .registerComponent(Car)
+      .registerSystem(DeSpawnCar)
+      .registerSystem(GoForward)
   }
 
   start = () => {
