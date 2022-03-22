@@ -6,6 +6,8 @@ import { SpawnCar } from './systems/SpawnCar'
 import { Car } from './components/Car'
 import { GoForward } from './systems/GoForward'
 import { DeSpawnCar } from './systems/DeSpawnCar'
+import { UpdateIntersection } from './systems/UpdateIntersection'
+import { Intersection } from './components/Intersection'
 
 export class Game {
   #animationFrameRequest = null
@@ -17,6 +19,8 @@ export class Game {
   constructor({ canvas }) {
     this.#world
       .registerComponent(Car)
+      .registerComponent(Intersection)
+      .registerSystem(UpdateIntersection, { canvas })
       .registerSystem(Renderer, { canvas })
       .registerSystem(SpawnCar, { interval: 1000 })
       .registerSystem(DeSpawnCar)
@@ -24,6 +28,7 @@ export class Game {
   }
 
   start = () => {
+    this.#world.createEntity('Intersection').addComponent(Intersection)
     this._run()
   }
   stop = () => this.#animationFrameRequest && cancelAnimationFrame(this.#animationFrameRequest)

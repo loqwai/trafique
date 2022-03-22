@@ -20,9 +20,11 @@
     "sourceType": "module"
   },
   "plugins": [
-    "jest"
+    "jest",
+    "jsdoc"
   ],
   "rules": {
+    "jsdoc/no-undefined-types": 1,
     "indent": [
       "error",
       2

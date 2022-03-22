@@ -1,9 +1,7 @@
 import { World } from 'ecsy'
 import { System } from 'ecsy'
-import { min } from 'ramda'
 import { Car } from '../components/Car'
-
-const laneWidth = 100
+import { Intersection } from '../components/Intersection'
 
 /**
  * @typedef {object} Options
@@ -40,16 +38,20 @@ class Renderer extends System {
     this.#ctx.fillStyle = '#cccccc'
     this.#ctx.strokeStyle = '#000000'
 
-    const xMid = this.#canvas.width / 2
-    const yMid = this.#canvas.height / 2
+    this.queries.intersection.results.forEach(this._renderIntersection)
+  }
 
-    const streetLength = (min(this.#canvas.height, this.#canvas.width) / 2) - laneWidth
+  _renderIntersection = (entity) => {
+    this.#ctx.fillStyle = '#cccccc'
+    this.#ctx.strokeStyle = '#000000'
 
-    this._horizontalStreet(xMid + laneWidth, yMid, laneWidth, streetLength)
-    this._horizontalStreet(xMid - laneWidth, yMid, laneWidth, -streetLength)
-    this._verticalStreet(xMid, yMid + laneWidth, laneWidth, streetLength)
-    this._verticalStreet(xMid, yMid - laneWidth, laneWidth, -streetLength)
-    this._intersection(xMid, yMid, laneWidth)
+    const { center, streetLength, laneWidth } = entity.getComponent(Intersection)
+
+    this._horizontalStreet(center.x + laneWidth, center.y, laneWidth, streetLength)
+    this._horizontalStreet(center.x - laneWidth, center.y, laneWidth, -streetLength)
+    this._verticalStreet(center.x, center.y + laneWidth, laneWidth, streetLength)
+    this._verticalStreet(center.x, center.y - laneWidth, laneWidth, -streetLength)
+    this._intersectionCenter(center.x, center.y, laneWidth)
   }
 
   _horizontalStreet = (xMid, yMid, laneWidth, streetLength) => {
@@ -62,7 +64,7 @@ class Renderer extends System {
     this._dashedLine(xMid, yMid, xMid, yMid + streetLength)
   }
 
-  _intersection(xMid, yMid, laneWidth) {
+  _intersectionCenter(xMid, yMid, laneWidth) {
     this._rect(
       xMid - laneWidth,
       yMid - laneWidth,
@@ -71,7 +73,7 @@ class Renderer extends System {
     )
   }
 
-  _rect = (x, y, width, height, fillColor='#000', strokeColor='#000') => {
+  _rect = (x, y, width, height, fillColor = '#000', strokeColor = '#000') => {
     this.#ctx.fillStyle = fillColor
     this.#ctx.fillRect(x, y, width, height)
 
@@ -104,6 +106,9 @@ class Renderer extends System {
 }
 
 Renderer.queries = {
+  intersection: {
+    components: [Intersection],
+  },
   cars: {
     components: [Car],
   },
