@@ -5,7 +5,7 @@ class GoForward extends System {
   execute = (_delta, _time) => {
     this.queries.cars.results.forEach(entity => {
       const car = entity.getMutableComponent(Car)
-      car.y += car.horsepower
+      car.position.y += car.horsepower
     })
   }
 }

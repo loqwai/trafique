@@ -1,6 +1,7 @@
 import { System, World } from 'ecsy'
 import { Car } from '../components/Car'
 import { Intersection } from '../components/Intersection'
+import { Vector2 } from '../types/Vector2'
 
 /**
  * @typedef {object} Options
@@ -31,20 +32,20 @@ export class SpawnCar extends System {
     entity.addComponent(Car)
 
     const car = entity.getMutableComponent(Car)
-    const spawnPoint = this._spawnPoint(car)
-    car.x = spawnPoint.x
-    car.y = spawnPoint.y
+    car.position = this._newSpawnPoint(car)
     this.#spawnedCount++
   }
 
-  _spawnPoint = (car) => {
+  _newSpawnPoint = (car) => {
     const { center, streetLength, laneWidth } = this.queries.intersection.results[0].getComponent(Intersection)
 
     const yOffset = (streetLength + laneWidth + car.height)
-    return {
-      x: center.x - (laneWidth / 2 + car.width / 2),
-      y: center.y + (Math.random() > 0.5 ? yOffset : -yOffset),
-    }
+
+    return new Vector2(
+      center.x - (laneWidth / 2 + car.width / 2),
+      // center.y + (Math.random() > 0.5 ? yOffset : -yOffset),
+      center.y + -yOffset,
+    )
   }
 }
 

@@ -100,7 +100,8 @@ class Renderer extends System {
   _renderCar = (entity) => {
     const car = entity.getComponent(Car)
 
-    const { x, y, width, height } = car
+    const { position, width, height } = car
+    const { x, y } = position
     this._rect(x, y, width, height, '#ff0000')
   }
 }

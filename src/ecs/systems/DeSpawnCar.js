@@ -22,7 +22,7 @@ export class DeSpawnCar extends System {
     const bottom = intersection.center.y + intersection.streetLength + intersection.laneWidth
 
     const car = entity.getComponent(Car)
-    if (car.y < bottom) return
+    if (car.position.y < bottom) return
 
     entity.remove()
   }
