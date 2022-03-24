@@ -28,23 +28,35 @@ export class SpawnCar extends System {
   }
 
   _spawnCar = () => {
+    const { center } = this.queries.intersection.results[0].getComponent(Intersection)
     const entity = this.world.createEntity(`Car ${this.#spawnedCount}`)
     entity.addComponent(Car)
 
     const car = entity.getMutableComponent(Car)
     car.position = this._newSpawnPoint(car)
+
+    const vy = (car.position.y < center.y) ? 5 : -5
+    car.velocity = new Vector2(0, vy)
+
     this.#spawnedCount++
   }
 
   _newSpawnPoint = (car) => {
     const { center, streetLength, laneWidth } = this.queries.intersection.results[0].getComponent(Intersection)
 
-    const yOffset = (streetLength + laneWidth + car.height)
+    const isGoingUp = Math.random() > 0.5
+
+    const yOffset = isGoingUp
+      ? (streetLength + laneWidth + car.height)
+      : -(streetLength + laneWidth + car.height)
+
+    const xOffset = isGoingUp
+      ? (laneWidth / 2 - car.width / 2)
+      : -(laneWidth / 2 + car.width / 2)
 
     return new Vector2(
-      center.x - (laneWidth / 2 + car.width / 2),
-      // center.y + (Math.random() > 0.5 ? yOffset : -yOffset),
-      center.y + -yOffset,
+      center.x + xOffset,
+      center.y + yOffset,
     )
   }
 }

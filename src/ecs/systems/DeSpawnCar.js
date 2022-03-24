@@ -20,9 +20,11 @@ export class DeSpawnCar extends System {
   _maybeDeSpawn = (entity) => {
     const intersection = this._intersection()
     const bottom = intersection.center.y + intersection.streetLength + intersection.laneWidth
+    const top = intersection.center.y - intersection.streetLength - intersection.laneWidth
 
     const car = entity.getComponent(Car)
-    if (car.position.y < bottom) return
+    if (car.velocity.y > 0 && car.position.y < bottom) return
+    if (car.velocity.y < 0 && car.position.y > top) return
 
     entity.remove()
   }
