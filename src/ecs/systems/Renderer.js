@@ -42,6 +42,7 @@ class Renderer extends System {
   }
 
   _renderIntersection = (entity) => {
+    this.#ctx.rotate(0)
     this.#ctx.fillStyle = '#cccccc'
     this.#ctx.strokeStyle = '#000000'
 
@@ -65,6 +66,7 @@ class Renderer extends System {
   }
 
   _intersectionCenter(xMid, yMid, laneWidth) {
+    this.#ctx.rotate(0)
     this._rect(
       xMid - laneWidth,
       yMid - laneWidth,
@@ -91,6 +93,7 @@ class Renderer extends System {
     this.#ctx.moveTo(x0, y0)
     this.#ctx.lineTo(x1, y1)
     this.#ctx.stroke()
+    this.#ctx.closePath()
   }
 
   _renderCars = () => {
@@ -100,9 +103,19 @@ class Renderer extends System {
   _renderCar = (entity) => {
     const car = entity.getComponent(Car)
 
-    const { position, width, height } = car
+    const { position, width, height, rotation } = car
     const { x, y } = position
-    this._rect(x, y, width, height, '#ff0000')
+
+    this.#ctx.translate(x, y)
+    this.#ctx.rotate(rotation)
+    this._rect(0 - width / 2, 0 - height / 2, width, height, '#ff0000')
+    // render car mid-point. helps debug car rendering
+    // this.#ctx.moveTo(0, 0)
+    // this.#ctx.arc(0, 0, 5, 0, 2 * Math.PI)
+    // this.#ctx.stroke()
+    // this.#ctx.fill()
+    // this.#ctx.closePath()
+    this.#ctx.setTransform(1, 0, 0, 1, 0, 0)
   }
 }
 

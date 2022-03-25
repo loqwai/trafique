@@ -12,6 +12,10 @@ Car.schema = {
     type: Vector2Type,
     default: new Vector2(),
   },
+  rotation: {
+    type: Types.Number,
+    default: 0,
+  },
   height: {
     type: Types.Number,
     default: 80,
