@@ -29,6 +29,7 @@ class Renderer extends System {
     this._renderStreets()
     this._renderCars()
     this._renderCollisions()
+    this._renderCollisionsCount()
   }
 
   _clear = () => {
@@ -136,6 +137,15 @@ class Renderer extends System {
     this.#ctx.fill()
     this.#ctx.closePath()
     this.#ctx.setTransform(1, 0, 0, 1, 0, 0)
+  }
+
+  _renderCollisionsCount = () => {
+    const count = this.queries.collisions.results.length
+
+    this.#ctx.setTransform(1, 0, 0, 1, 0, 0)
+    this.#ctx.fillStyle = '#000000'
+    this.#ctx.font = '48px sans-serif'
+    this.#ctx.fillText(`Collisions: ${count}`, 10, 58)
   }
 }
 

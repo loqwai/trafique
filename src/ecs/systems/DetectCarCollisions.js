@@ -4,6 +4,7 @@ import { Car } from '../components/Car'
 import { CarCollisions } from '../components/CarCollisions'
 import { Collision } from '../components/Collision'
 import { Vector2 } from '../types/Vector2'
+import { equals } from 'ramda'
 
 export class DetectCarCollisions extends System {
   constructor(world) {
@@ -18,7 +19,7 @@ export class DetectCarCollisions extends System {
     this.queries.normal.results.forEach(this._updateCollider)
 
     this.detector.update()
-    this.detector.checkAll(this._handleCollisions)
+    this.detector.checkAll(this._handleCollision)
   }
 
   _addCarPhysics = (entity) => {
@@ -42,19 +43,20 @@ export class DetectCarCollisions extends System {
     collider.setPosition(position.x, position.y)
   }
 
-  _handleCollisions = (collision) => {
+  _handleCollision = (collision) => {
     const carA = this.queries.normal.results.find(e => e.getComponent(CarCollisions).collider === collision.a)
-    const carB = this.queries.normal.results.find(e => e.getComponent(CarCollisions).collider === collision.a)
+    const carB = this.queries.normal.results.find(e => e.getComponent(CarCollisions).collider === collision.b)
 
     if (!carA || !carB) {
       console.warn('Detected a collision, but couldn\'t find the cars', { carA, carB })
       return
     }
 
-    const existingCollision = this.queries.collisions.results.find(e => {
-      return e.getComponent(Collision).carA === carA.id
-          && e.getComponent(Collision).carB === carB.id
-    })
+    const involvedParties = [carA.id, carB.id].sort()
+
+    const existingCollision = this.queries.collisions.results.find(e => (
+      equals(involvedParties, e.getComponent(Collision).involvedParties)
+    ))
 
     if (existingCollision) {
       return
@@ -66,12 +68,7 @@ export class DetectCarCollisions extends System {
     })
 
 
-    const e = this.world.createEntity()
-    e.addComponent(Collision, {
-      position,
-      carA: carA.id,
-      carB: carB.id,
-    })
+    this.world.createEntity().addComponent(Collision, { position, involvedParties })
   }
 }
 

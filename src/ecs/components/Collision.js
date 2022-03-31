@@ -8,12 +8,7 @@ Collision.schema = {
     type: Vector2Type,
     default: new Vector2(),
   },
-  carA: {
-    type: Types.Number,
-    default: -1,
-  },
-  carB: {
-    type: Types.Number,
-    default: -1,
+  involvedParties: {
+    type: Types.Ref,
   },
 }
