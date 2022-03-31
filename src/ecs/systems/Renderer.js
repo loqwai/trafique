@@ -1,6 +1,7 @@
 import { World } from 'ecsy'
 import { System } from 'ecsy'
 import { Car } from '../components/Car'
+import { Collision } from '../components/Collision'
 import { Intersection } from '../components/Intersection'
 
 /**
@@ -27,6 +28,7 @@ class Renderer extends System {
     this._clear()
     this._renderStreets()
     this._renderCars()
+    this._renderCollisions()
   }
 
   _clear = () => {
@@ -108,13 +110,31 @@ class Renderer extends System {
 
     this.#ctx.translate(x, y)
     this.#ctx.rotate(rotation)
-    this._rect(0 - width / 2, 0 - height / 2, width, height, '#ff0000')
+    this._rect(0 - width / 2, 0 - height / 2, width, height, '#999999')
     // render car mid-point. helps debug car rendering
     // this.#ctx.moveTo(0, 0)
     // this.#ctx.arc(0, 0, 5, 0, 2 * Math.PI)
     // this.#ctx.stroke()
     // this.#ctx.fill()
     // this.#ctx.closePath()
+    this.#ctx.setTransform(1, 0, 0, 1, 0, 0)
+  }
+
+  _renderCollisions = () => {
+    this.queries.collisions.results.forEach(this._renderCollision)
+  }
+
+  _renderCollision = (entity) => {
+    const { position } = entity.getComponent(Collision)
+
+    this.#ctx.setTransform(1, 0, 0, 1, 0, 0)
+    this.#ctx.translate(position.x, position.y)
+    this.#ctx.fillStyle = '#ff0000'
+    this.#ctx.beginPath()
+    this.#ctx.arc(0, 0, 10, 0, 2 * Math.PI)
+    this.#ctx.stroke()
+    this.#ctx.fill()
+    this.#ctx.closePath()
     this.#ctx.setTransform(1, 0, 0, 1, 0, 0)
   }
 }
@@ -125,6 +145,9 @@ Renderer.queries = {
   },
   cars: {
     components: [Car],
+  },
+  collisions: {
+    components: [Collision],
   },
 }
 

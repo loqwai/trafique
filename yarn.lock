@@ -2588,6 +2588,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@types/rbush@npm:^3.0.0":
+  version: 3.0.0
+  resolution: "@types/rbush@npm:3.0.0"
+  checksum: 050eb2af4d7cb59c5b3dddfb9af93e4abfcffb1766d82fdcd4d37e03cff374f7cf761eef3b8cd48f976416ee3dd7ee4991bde938698865ed0c660317f3a020c2
+  languageName: node
+  linkType: hard
+
 "@types/react-dom@npm:*":
   version: 17.0.14
   resolution: "@types/react-dom@npm:17.0.14"
@@ -2621,6 +2628,13 @@ __metadata:
   version: 0.12.1
   resolution: "@types/retry@npm:0.12.1"
   checksum: 5f46b2556053655f78262bb33040dc58417c900457cc63ff37d6c35349814471453ef511af0cec76a540c601296cd2b22f64bab1ab649c0dacc0223765ba876c
+  languageName: node
+  linkType: hard
+
+"@types/sat@npm:^0.0.31":
+  version: 0.0.31
+  resolution: "@types/sat@npm:0.0.31"
+  checksum: be60a6b7631c32accc98c668fc58ba10cedbeff9f7d207596e002950a32320b80eb7f26ed03763d15dfd3b3e11f0541d848dff1c2eda583d7f5d1ceeb10cbb2e
   languageName: node
   linkType: hard
 
@@ -4974,6 +4988,18 @@ __metadata:
   version: 1.0.4
   resolution: "destroy@npm:1.0.4"
   checksum: da9ab4961dc61677c709da0c25ef01733042614453924d65636a7db37308fef8a24cd1e07172e61173d471ca175371295fbc984b0af5b2b4ff47cd57bd784c03
+  languageName: node
+  linkType: hard
+
+"detect-collisions@npm:^3.2.6":
+  version: 3.2.6
+  resolution: "detect-collisions@npm:3.2.6"
+  dependencies:
+    "@types/rbush": ^3.0.0
+    "@types/sat": ^0.0.31
+    rbush: ^3.0.1
+    sat: ^0.9.0
+  checksum: dc6a7ee43ec3832d3b605fb3592ba972ef86593b796fd628a2219a00f50f936cb2838d894531b0f6434374da82832a05d922bc8107a84892b3b16c49f2eda02a
   languageName: node
   linkType: hard
 
@@ -10155,6 +10181,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"quickselect@npm:^2.0.0":
+  version: 2.0.0
+  resolution: "quickselect@npm:2.0.0"
+  checksum: ed2e78431050d223fb75da20ee98011aef1a03f7cb04e1a32ee893402e640be3cfb76d72e9dbe01edf3bb457ff6a62e5c2d85748424d1aa531f6ba50daef098c
+  languageName: node
+  linkType: hard
+
 "raf@npm:^3.4.1":
   version: 3.4.1
   resolution: "raf@npm:3.4.1"
@@ -10196,6 +10229,15 @@ __metadata:
     iconv-lite: 0.4.24
     unpipe: 1.0.0
   checksum: d2961fa3c71c9c22dc2c3fd60ff377bf36dfed7d7a748f2b25d585934a3e9df565bb9aa5bc2e3a716ea941f4bc2a6ddc795c8b0cf7219fb071029b59b1985394
+  languageName: node
+  linkType: hard
+
+"rbush@npm:^3.0.1":
+  version: 3.0.1
+  resolution: "rbush@npm:3.0.1"
+  dependencies:
+    quickselect: ^2.0.0
+  checksum: b7def5ba762ca01b6c7c032098ef61b86bd4fef4afb82e4a1d70a07a929b39e779290446c2d4730f577e8a1c8fd0dfd349605b5ea0229258d5f013debdffa65a
   languageName: node
   linkType: hard
 
@@ -10820,6 +10862,13 @@ __metadata:
     sass-embedded:
       optional: true
   checksum: 5d73a428588150f704016aa27397941bb9246cecd2ee083b573e95d969fc080ac6a16f2fe1cc64aca08f6e70da6f3c586ee68f0efc9f527fecc360e5f1c299ec
+  languageName: node
+  linkType: hard
+
+"sat@npm:^0.9.0":
+  version: 0.9.0
+  resolution: "sat@npm:0.9.0"
+  checksum: c4eb73f8fafcfe44417826d4282e96f6dbabe41a60f40fc4e8eb7b1fcfcb474d2b1a63c400cb37b2019ff4d13d59b9781d7f67f9a2ca5cb004812b59fc1df973
   languageName: node
   linkType: hard
 
@@ -11905,6 +11954,7 @@ __metadata:
     "@typescript-eslint/parser": ^5.17.0
     autoprefixer: ^10.4.4
     babel-eslint: ^10.1.0
+    detect-collisions: ^3.2.6
     ecsy: ^0.4.2
     eslint: ^8.12.0
     eslint-config-react-app: ^7.0.0

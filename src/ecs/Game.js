@@ -8,6 +8,9 @@ import { GoForward } from './systems/GoForward'
 import { DeSpawnCar } from './systems/DeSpawnCar'
 import { UpdateIntersection } from './systems/UpdateIntersection'
 import { Intersection } from './components/Intersection'
+import { CarCollisions } from './components/CarCollisions'
+import { Collision } from './components/Collision'
+import { DetectCarCollisions } from './systems/DetectCarCollisions'
 
 export class Game {
   #animationFrameRequest = null
@@ -19,12 +22,15 @@ export class Game {
   constructor({ canvas }) {
     this.#world
       .registerComponent(Car)
+      .registerComponent(CarCollisions)
+      .registerComponent(Collision)
       .registerComponent(Intersection)
       .registerSystem(UpdateIntersection, { canvas })
       .registerSystem(Renderer, { canvas })
-      .registerSystem(SpawnCar, { interval: 1000 })
+      .registerSystem(SpawnCar, { interval: 500 })
       .registerSystem(DeSpawnCar)
       .registerSystem(GoForward)
+      .registerSystem(DetectCarCollisions)
   }
 
   start = () => {

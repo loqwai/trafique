@@ -1,6 +1,7 @@
 import { Component, Types } from 'ecsy'
 import { Vector2, Vector2Type } from '../types/Vector2'
 
+
 export class Car extends Component { }
 
 Car.schema = {
