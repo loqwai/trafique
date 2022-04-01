@@ -1,16 +1,19 @@
 import { World } from 'ecsy'
 import { min } from 'ramda'
 
-import { Renderer } from './systems/Renderer'
-import { SpawnCar } from './systems/SpawnCar'
 import { Car } from './components/Car'
-import { GoForward } from './systems/GoForward'
-import { DeSpawnCar } from './systems/DeSpawnCar'
-import { UpdateIntersection } from './systems/UpdateIntersection'
-import { Intersection } from './components/Intersection'
 import { CarCollisions } from './components/CarCollisions'
 import { Collision } from './components/Collision'
+import { Intersection } from './components/Intersection'
+import { Score } from './components/Score'
+
+import { DeSpawnCar } from './systems/DeSpawnCar'
 import { DetectCarCollisions } from './systems/DetectCarCollisions'
+import { GoForward } from './systems/GoForward'
+import { Renderer } from './systems/Renderer'
+import { SpawnCar } from './systems/SpawnCar'
+import { UpdateIntersection } from './systems/UpdateIntersection'
+import { UpdateScore } from './systems/UpdateScore'
 
 export class Game {
   #animationFrameRequest = null
@@ -25,16 +28,19 @@ export class Game {
       .registerComponent(CarCollisions)
       .registerComponent(Collision)
       .registerComponent(Intersection)
+      .registerComponent(Score)
       .registerSystem(UpdateIntersection, { canvas })
       .registerSystem(Renderer, { canvas })
       .registerSystem(SpawnCar, { interval: 500 })
       .registerSystem(DeSpawnCar)
       .registerSystem(GoForward)
       .registerSystem(DetectCarCollisions)
+      .registerSystem(UpdateScore)
   }
 
   start = () => {
     this.#world.createEntity('Intersection').addComponent(Intersection)
+    this.#world.createEntity('Score').addComponent(Score)
     this._run()
   }
   stop = () => this.#animationFrameRequest && cancelAnimationFrame(this.#animationFrameRequest)

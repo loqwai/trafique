@@ -11,7 +11,6 @@ import { sample } from '../../utils/sample'
 export class SpawnCar extends System {
   #interval = 0
   #lastSpawn = 0
-  #spawnedCount = 0
   /**
    * @param {World} world
    * @param {Options} options
@@ -29,7 +28,7 @@ export class SpawnCar extends System {
   }
 
   _spawnCar = () => {
-    const entity = this.world.createEntity(`Car ${this.#spawnedCount}`)
+    const entity = this.world.createEntity(`Car ${this.queries.cars.results.length}`)
     entity.addComponent(Car)
 
     const car = entity.getMutableComponent(Car)
@@ -37,8 +36,6 @@ export class SpawnCar extends System {
     car.position = position
     car.velocity = velocity
     car.rotation = rotation
-
-    this.#spawnedCount++
   }
 
   _newSpawnPoint = () => {
@@ -50,5 +47,8 @@ export class SpawnCar extends System {
 SpawnCar.queries = {
   intersection: {
     components: [Intersection],
+  },
+  cars: {
+    components: [Car],
   },
 }

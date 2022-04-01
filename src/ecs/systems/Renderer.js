@@ -1,8 +1,10 @@
 import { World } from 'ecsy'
 import { System } from 'ecsy'
+
 import { Car } from '../components/Car'
 import { Collision } from '../components/Collision'
 import { Intersection } from '../components/Intersection'
+import { Score } from '../components/Score'
 
 /**
  * @typedef {object} Options
@@ -29,7 +31,7 @@ class Renderer extends System {
     this._renderStreets()
     this._renderCars()
     this._renderCollisions()
-    this._renderCollisionsCount()
+    this._renderScore()
   }
 
   _clear = () => {
@@ -139,26 +141,22 @@ class Renderer extends System {
     this.#ctx.setTransform(1, 0, 0, 1, 0, 0)
   }
 
-  _renderCollisionsCount = () => {
-    const count = this.queries.collisions.results.length
+  _renderScore = () => {
+    const score = this.queries.score.results[0].getComponent(Score)
 
     this.#ctx.setTransform(1, 0, 0, 1, 0, 0)
     this.#ctx.fillStyle = '#000000'
     this.#ctx.font = '48px sans-serif'
-    this.#ctx.fillText(`Collisions: ${count}`, 10, 58)
+    this.#ctx.fillText(`Arrived: ${score.numArrived}`, 10, 58)
+    this.#ctx.fillText(`Collisions: ${score.numCollisions}`, 10, 2 * 58)
   }
 }
 
 Renderer.queries = {
-  intersection: {
-    components: [Intersection],
-  },
-  cars: {
-    components: [Car],
-  },
-  collisions: {
-    components: [Collision],
-  },
+  cars: { components: [Car] },
+  collisions: { components: [Collision] },
+  intersection: { components: [Intersection] },
+  score: { components: [Score] },
 }
 
 export { Renderer }
