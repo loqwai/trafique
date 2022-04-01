@@ -5,6 +5,7 @@ import { Car } from '../components/Car'
 import { Collision } from '../components/Collision'
 import { Intersection } from '../components/Intersection'
 import { Score } from '../components/Score'
+import { StopSign } from '../components/StopSign'
 
 /**
  * @typedef {object} Options
@@ -31,6 +32,7 @@ class Renderer extends System {
     this._renderStreets()
     this._renderCars()
     this._renderCollisions()
+    this._renderStopSigns()
     this._renderScore()
   }
 
@@ -90,6 +92,19 @@ class Renderer extends System {
     this.#ctx.strokeRect(x, y, width, height)
   }
 
+  _circ = (x, y, radius, fillColor = '#000', strokeColor = '#000') => {
+    this.#ctx.setTransform(1, 0, 0, 1, 0, 0)
+    this.#ctx.translate(x, y)
+    this.#ctx.fillStyle = fillColor
+    this.#ctx.strokeStyle = strokeColor
+    this.#ctx.beginPath()
+    this.#ctx.arc(0, 0, radius, 0, 2 * Math.PI)
+    this.#ctx.stroke()
+    this.#ctx.fill()
+    this.#ctx.closePath()
+    this.#ctx.setTransform(1, 0, 0, 1, 0, 0)
+  }
+
   _dashedLine = (x0, y0, x1, y1) => {
     this.#ctx.beginPath()
     this.#ctx.strokeStyle = '#fff'
@@ -130,15 +145,17 @@ class Renderer extends System {
   _renderCollision = (entity) => {
     const { position } = entity.getComponent(Collision)
 
-    this.#ctx.setTransform(1, 0, 0, 1, 0, 0)
-    this.#ctx.translate(position.x, position.y)
-    this.#ctx.fillStyle = '#ff0000'
-    this.#ctx.beginPath()
-    this.#ctx.arc(0, 0, 10, 0, 2 * Math.PI)
-    this.#ctx.stroke()
-    this.#ctx.fill()
-    this.#ctx.closePath()
-    this.#ctx.setTransform(1, 0, 0, 1, 0, 0)
+    this._circ(position.x, position.y, 10, '#f59042')
+  }
+
+  _renderStopSigns = () => {
+    this.queries.stopSigns.results.forEach(this._renderStopSign)
+  }
+
+  _renderStopSign = (entity) => {
+    const { position } = entity.getComponent(StopSign)
+
+    this._circ(position.x, position.y, 40, '#ff0000')
   }
 
   _renderScore = () => {
@@ -157,6 +174,7 @@ Renderer.queries = {
   collisions: { components: [Collision] },
   intersection: { components: [Intersection] },
   score: { components: [Score] },
+  stopSigns: { components: [StopSign] },
 }
 
 export { Renderer }

@@ -48,6 +48,7 @@ export class Vector2 {
 
   clone = () => new Vector2(this.x, this.y)
 
+  equals = (other) => this.x === other.x && this.y === other.y
   add = (other) => new Vector2(this.x + other.x, this.y + other.y)
   subtract = (other) => new Vector2(this.x - other.x, this.y - other.y)
 

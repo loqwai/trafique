@@ -28,7 +28,7 @@ export class SpawnCar extends System {
   }
 
   _spawnCar = () => {
-    const entity = this.world.createEntity(`Car ${this.queries.cars.results.length}`)
+    const entity = this.world.createEntity()
     entity.addComponent(Car)
 
     const car = entity.getMutableComponent(Car)

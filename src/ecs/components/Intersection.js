@@ -9,6 +9,16 @@ export class Intersection extends Component {
     this._westSpawnPoint(),
   ]
 
+  northBoundStopSignPosition = () => new Vector2({
+    x: this.center.x + (1.5 * this.laneWidth),
+    y: this.center.y + (1.5 * this.laneWidth),
+  })
+
+  southBoundStopSignPosition = () => new Vector2({
+    x: this.center.x - (1.5 * this.laneWidth),
+    y: this.center.y - (1.5 * this.laneWidth),
+  })
+
   _northSpawnPoint = () => ({
     position: new Vector2({
       x: this.center.x - (this.laneWidth / 2),

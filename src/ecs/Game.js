@@ -6,12 +6,15 @@ import { CarCollisions } from './components/CarCollisions'
 import { Collision } from './components/Collision'
 import { Intersection } from './components/Intersection'
 import { Score } from './components/Score'
+import { StopSign } from './components/StopSign'
 
 import { DeSpawnCar } from './systems/DeSpawnCar'
 import { DetectCarCollisions } from './systems/DetectCarCollisions'
 import { GoForward } from './systems/GoForward'
+import { ObeyStopSign } from './systems/ObeyStopSign'
 import { Renderer } from './systems/Renderer'
 import { SpawnCar } from './systems/SpawnCar'
+import { SpawnStopSigns } from './systems/SpawnStopSigns'
 import { UpdateIntersection } from './systems/UpdateIntersection'
 import { UpdateScore } from './systems/UpdateScore'
 
@@ -29,18 +32,21 @@ export class Game {
       .registerComponent(Collision)
       .registerComponent(Intersection)
       .registerComponent(Score)
+      .registerComponent(StopSign)
       .registerSystem(UpdateIntersection, { canvas })
+      .registerSystem(SpawnStopSigns)
       .registerSystem(Renderer, { canvas })
       .registerSystem(SpawnCar, { interval: 500 })
       .registerSystem(DeSpawnCar)
       .registerSystem(GoForward)
+      .registerSystem(ObeyStopSign)
       .registerSystem(DetectCarCollisions)
       .registerSystem(UpdateScore)
   }
 
   start = () => {
-    this.#world.createEntity('Intersection').addComponent(Intersection)
-    this.#world.createEntity('Score').addComponent(Score)
+    this.#world.createEntity().addComponent(Intersection)
+    this.#world.createEntity().addComponent(Score)
     this._run()
   }
   stop = () => this.#animationFrameRequest && cancelAnimationFrame(this.#animationFrameRequest)
