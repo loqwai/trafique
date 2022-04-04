@@ -52,7 +52,7 @@ export class Intersection extends Component {
       x: -5,
       y: 0,
     }),
-    rotation: Math.PI / 2,
+    rotation: -Math.PI / 2,
   })
 
   _westSpawnPoint = () => ({
@@ -64,7 +64,7 @@ export class Intersection extends Component {
       x: 5,
       y: 0,
     }),
-    rotation: -Math.PI / 2,
+    rotation: Math.PI / 2,
   })
 }
 

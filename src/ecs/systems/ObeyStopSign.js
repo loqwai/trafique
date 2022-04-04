@@ -5,7 +5,7 @@ import { Car } from '../components/Car'
 import { RadialSensor } from '../components/RadialSensor'
 import { StopSign } from '../components/StopSign'
 import { Observation } from '../types/Observation'
-import { closeTo } from '../../utils/closeTo'
+import { rotationCloseTo } from '../../utils/rotationCloseTo'
 
 export class ObeyStopSign extends System {
   constructor(world) {
@@ -80,12 +80,12 @@ export class ObeyStopSign extends System {
 
     const distance = car.sightDistance - collision.overlap
 
-    if (stopSign.locationName === 'northBound' && closeTo(car.rotation, Math.PI, 0.1)) {
+    if (stopSign.locationName === 'northBound' && rotationCloseTo(car.rotation, Math.PI, 0.1)) {
       car.observations.push(new Observation({ event: 'see-stop-sign', distance }))
       return
     }
 
-    if (stopSign.locationName === 'southBound' && closeTo(car.rotation, 0, 0.1)) {
+    if (stopSign.locationName === 'southBound' && rotationCloseTo(car.rotation, 0, 0.1)) {
       car.observations.push(new Observation({ event: 'see-stop-sign', distance }))
       return
     }

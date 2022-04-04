@@ -32,9 +32,9 @@ class Renderer extends System {
     this._clear()
     this._renderStreets()
     this._renderCars()
-    this._renderCollisions()
     this._renderStopSigns()
     this._renderCarRadialSensors()
+    this._renderCollisions()
     this._renderScore()
   }
 
