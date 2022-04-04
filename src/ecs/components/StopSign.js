@@ -12,6 +12,10 @@ StopSign.schema = {
     type: Types.Number,
     default: -1,
   },
+  radius: {
+    type: Types.Number,
+    default: 40,
+  },
   position: {
     type: Vector2Type,
     default: new Vector2(),

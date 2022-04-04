@@ -4,6 +4,7 @@ import { System } from 'ecsy'
 import { Car } from '../components/Car'
 import { Collision } from '../components/Collision'
 import { Intersection } from '../components/Intersection'
+import { RadialSensor } from '../components/RadialSensor'
 import { Score } from '../components/Score'
 import { StopSign } from '../components/StopSign'
 
@@ -33,6 +34,7 @@ class Renderer extends System {
     this._renderCars()
     this._renderCollisions()
     this._renderStopSigns()
+    this._renderCarRadialSensors()
     this._renderScore()
   }
 
@@ -130,11 +132,7 @@ class Renderer extends System {
     this.#ctx.rotate(rotation)
     this._rect(0 - width / 2, 0 - height / 2, width, height, '#999999')
     // render car mid-point. helps debug car rendering
-    // this.#ctx.moveTo(0, 0)
-    // this.#ctx.arc(0, 0, 5, 0, 2 * Math.PI)
-    // this.#ctx.stroke()
-    // this.#ctx.fill()
-    // this.#ctx.closePath()
+    // this._circ(x, y, 5, '#ff0000')
     this.#ctx.setTransform(1, 0, 0, 1, 0, 0)
   }
 
@@ -153,9 +151,19 @@ class Renderer extends System {
   }
 
   _renderStopSign = (entity) => {
-    const { position } = entity.getComponent(StopSign)
+    const { position, radius } = entity.getComponent(StopSign)
 
-    this._circ(position.x, position.y, 40, '#ff0000')
+    this._circ(position.x, position.y, radius, '#ff0000')
+  }
+
+  _renderCarRadialSensors = () => {
+    this.queries.carRadialSensors.results.forEach(this._renderCarRadialSensor)
+  }
+
+  _renderCarRadialSensor = (entity) => {
+    const { radius, position } = entity.getComponent(RadialSensor)
+
+    this._circ(position.x, position.y, radius, '#33ff0033', '#000000')
   }
 
   _renderScore = () => {
@@ -175,6 +183,8 @@ Renderer.queries = {
   intersection: { components: [Intersection] },
   score: { components: [Score] },
   stopSigns: { components: [StopSign] },
+
+  carRadialSensors: { components: [Car, RadialSensor] },
 }
 
 export { Renderer }

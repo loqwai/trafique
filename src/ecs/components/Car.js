@@ -25,4 +25,20 @@ Car.schema = {
     type: Types.Number,
     default: 40,
   },
+  sightDistance: {
+    type: Types.Number,
+    default: 160,
+  },
+  observations: {
+    type: Types.Array,
+    default: [],
+  },
+  brakingForce: {
+    type: Types.Number,
+    default: 0.1,
+  },
+  maxSpeed: {
+    type: Types.Number,
+    default: 0.5,
+  },
 }

@@ -5,12 +5,13 @@ import { Car } from './components/Car'
 import { CarCollisions } from './components/CarCollisions'
 import { Collision } from './components/Collision'
 import { Intersection } from './components/Intersection'
+import { RadialSensor } from './components/RadialSensor'
 import { Score } from './components/Score'
 import { StopSign } from './components/StopSign'
 
 import { DeSpawnCar } from './systems/DeSpawnCar'
 import { DetectCarCollisions } from './systems/DetectCarCollisions'
-import { GoForward } from './systems/GoForward'
+import { DriveCar } from './systems/DriveCar'
 import { ObeyStopSign } from './systems/ObeyStopSign'
 import { Renderer } from './systems/Renderer'
 import { SpawnCar } from './systems/SpawnCar'
@@ -31,6 +32,7 @@ export class Game {
       .registerComponent(CarCollisions)
       .registerComponent(Collision)
       .registerComponent(Intersection)
+      .registerComponent(RadialSensor)
       .registerComponent(Score)
       .registerComponent(StopSign)
       .registerSystem(UpdateIntersection, { canvas })
@@ -38,7 +40,7 @@ export class Game {
       .registerSystem(Renderer, { canvas })
       .registerSystem(SpawnCar, { interval: 500 })
       .registerSystem(DeSpawnCar)
-      .registerSystem(GoForward)
+      .registerSystem(DriveCar)
       .registerSystem(ObeyStopSign)
       .registerSystem(DetectCarCollisions)
       .registerSystem(UpdateScore)
