@@ -29,6 +29,10 @@ Car.schema = {
     type: Types.Number,
     default: 160,
   },
+  sightArc: {
+    type: Types.Number,
+    default: Math.PI,
+  },
   observations: {
     type: Types.Array,
     default: [],

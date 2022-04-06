@@ -1,6 +1,6 @@
 
 
-const normalizeRotation = (rotation) => {
+export const normalizeRotation = (rotation) => {
   let n = (rotation < 0)
     ? 1 + Math.floor(-rotation / (Math.PI * 2))
     : 1

@@ -1,5 +1,6 @@
 import { World } from 'ecsy'
 import { System } from 'ecsy'
+import { normalizeRotation } from '../../utils/rotationCloseTo'
 
 import { Car } from '../components/Car'
 import { Collision } from '../components/Collision'
@@ -94,17 +95,27 @@ class Renderer extends System {
     this.#ctx.strokeRect(x, y, width, height)
   }
 
-  _circ = (x, y, radius, fillColor = '#000', strokeColor = '#000') => {
-    this.#ctx.setTransform(1, 0, 0, 1, 0, 0)
-    this.#ctx.translate(x, y)
+  _arc = (x, y, radius, startArc, endArc, fillColor = '#000', strokeColor = '#000') => {
+    const nStartArc = normalizeRotation(startArc - (Math.PI / 2))
+    const nEndArc = normalizeRotation(endArc - (Math.PI / 2))
+
     this.#ctx.fillStyle = fillColor
     this.#ctx.strokeStyle = strokeColor
     this.#ctx.beginPath()
-    this.#ctx.arc(0, 0, radius, 0, 2 * Math.PI)
+    this.#ctx.moveTo(x, y)
+    this.#ctx.arc(x, y, radius, nStartArc, nEndArc)
+    this.#ctx.closePath()
+    this.#ctx.fill()
+    this.#ctx.stroke()
+  }
+
+  _circ = (x, y, radius, fillColor = '#000', strokeColor = '#000') => {
+    this.#ctx.fillStyle = fillColor
+    this.#ctx.strokeStyle = strokeColor
+    this.#ctx.beginPath()
+    this.#ctx.arc(x, y, radius, 0, Math.PI * 2)
     this.#ctx.stroke()
     this.#ctx.fill()
-    this.#ctx.closePath()
-    this.#ctx.setTransform(1, 0, 0, 1, 0, 0)
   }
 
   _dashedLine = (x0, y0, x1, y1) => {
@@ -161,9 +172,38 @@ class Renderer extends System {
   }
 
   _renderCarRadialSensor = (entity) => {
-    const { radius, position } = entity.getComponent(RadialSensor)
+    const { position, rotation, radius, arc } = entity.getComponent(RadialSensor)
 
-    this._circ(position.x, position.y, radius, '#33ff0033', '#000000')
+    this.#ctx.setTransform(1, 0, 0, 1, 0, 0)
+    this.#ctx.fillStyle = '#000000'
+    this.#ctx.font = '10px sans-serif'
+    this.#ctx.fillText(Math.round(10 * rotation) / 10, position.x, position.y)
+
+    // const beginArc = normalizeRotation(rotation - (arc / 2) - (Math.PI / 2))
+    // const endArc = normalizeRotation(rotation + (arc / 2) - (Math.PI / 2))
+
+    // ctx.beginPath();
+    // ctx.moveTo(cx,cy);
+    // ctx.arc(cx,cy,radius,startAngle,endAngle);
+    // ctx.closePath();
+    // ctx.fillStyle=fillcolor;
+    // ctx.fill();
+
+    // this.#ctx.setTransform(1, 0, 0, 1, 0, 0)
+    // this.#ctx.fillStyle = '#33ff0033'
+    // this.#ctx.strokeStyle = '#000000'
+    // this.#ctx.beginPath()
+    // this.#ctx.moveTo(position.x, position.y)
+    // this.#ctx.arc(position.x, position.y, radius, beginArc, endArc)
+    // this.#ctx.closePath()
+    // this.#ctx.fill()
+    // this.#ctx.stroke()
+    // this.#ctx.setTransform(1, 0, 0, 1, 0, 0)
+
+    const startArc = rotation - (arc / 2)
+    const endArc = rotation + (arc / 2)
+
+    this._arc(position.x, position.y, radius, startArc, endArc, '#33ff0033', '#000000')
   }
 
   _renderScore = () => {

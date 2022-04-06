@@ -8,9 +8,17 @@ RadialSensor.schema = {
     type: Vector2Type,
     default: new Vector2(),
   },
+  rotation: {
+    type: Types.Number,
+    default: 0,
+  },
   radius: {
     type: Types.Number,
     default: 0,
+  },
+  arc: {
+    type: Types.Number,
+    default: 2 * Math.PI,
   },
   collider: {
     type: Types.Ref,

@@ -32,7 +32,13 @@ export class ObeyStopSign extends System {
     const position = car.position.toJSON()
     const collider = this.detector.createCircle(position, car.sightDistance)
 
-    entity.addComponent(RadialSensor, { collider, radius: car.sightDistance, position: car.position })
+    entity.addComponent(RadialSensor, {
+      collider,
+      position: car.position,
+      rotation: car.rotation,
+      radius: car.sightDistance,
+      arc: car.sightArc,
+    })
   }
 
   _updateRadialSensorOnStopSign = (entity) => {
@@ -59,11 +65,13 @@ export class ObeyStopSign extends System {
   }
 
   _updateRadialSensorOnCar = (entity) => {
-    const { position, sightDistance } = entity.getComponent(Car)
+    const { position, rotation, sightDistance, sightArc } = entity.getComponent(Car)
     const radialSensor = entity.getMutableComponent(RadialSensor)
     radialSensor.collider.setPosition(position.x, position.y)
     radialSensor.position = position.clone()
     radialSensor.radius = sightDistance
+    radialSensor.arc = sightArc
+    radialSensor.rotation = rotation
   }
 
   _handleCollision = (collision) => {
