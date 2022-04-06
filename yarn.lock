@@ -2285,23 +2285,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@testing-library/dom@npm:^8.0.0":
-  version: 8.11.4
-  resolution: "@testing-library/dom@npm:8.11.4"
-  dependencies:
-    "@babel/code-frame": ^7.10.4
-    "@babel/runtime": ^7.12.5
-    "@types/aria-query": ^4.2.0
-    aria-query: ^5.0.0
-    chalk: ^4.1.0
-    dom-accessibility-api: ^0.5.9
-    lz-string: ^1.4.4
-    pretty-format: ^27.0.2
-  checksum: fb0206bae868288cab57435423ed384ed6ebdc81efd0d15a85b4c1181cf7182c55b42f0a65bdba2211c372b66de21144455433ac5d11c72a89ce5ba4d38fb005
-  languageName: node
-  linkType: hard
-
-"@testing-library/dom@npm:^8.13.0":
+"@testing-library/dom@npm:^8.13.0, @testing-library/dom@npm:^8.5.0":
   version: 8.13.0
   resolution: "@testing-library/dom@npm:8.13.0"
   dependencies:
@@ -2334,28 +2318,26 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@testing-library/react@npm:^12.1.4":
-  version: 12.1.4
-  resolution: "@testing-library/react@npm:12.1.4"
+"@testing-library/react@npm:^13.0.0":
+  version: 13.0.0
+  resolution: "@testing-library/react@npm:13.0.0"
   dependencies:
     "@babel/runtime": ^7.12.5
-    "@testing-library/dom": ^8.0.0
+    "@testing-library/dom": ^8.5.0
     "@types/react-dom": "*"
   peerDependencies:
-    react: "*"
-    react-dom: "*"
-  checksum: 944c5f8d4abb22c0650c25c7ae499651828c37c0e741ff67a4635d4cd99b307d486dabec05b372aba638bd359d29cd2af97393b5055ea294a201d80b4bc384b8
+    react: ^18.0.0
+    react-dom: ^18.0.0
+  checksum: 75c2348cff6ac00f22c997c72f1444a802ebe6e671c8db70f203070d0e5d4c5a7e31d62cd86e2eedde68558834b256f99a972fe45b15fd2356e3c65b5515e197
   languageName: node
   linkType: hard
 
-"@testing-library/user-event@npm:^13.5.0":
-  version: 13.5.0
-  resolution: "@testing-library/user-event@npm:13.5.0"
-  dependencies:
-    "@babel/runtime": ^7.12.5
+"@testing-library/user-event@npm:^14.0.4":
+  version: 14.0.4
+  resolution: "@testing-library/user-event@npm:14.0.4"
   peerDependencies:
     "@testing-library/dom": ">=7.21.4"
-  checksum: 16319de685fbb7008f1ba667928f458b2d08196918002daca56996de80ef35e6d9de26e9e1ece7d00a004692b95a597cf9142fff0dc53f2f51606a776584f549
+  checksum: 7a99309acfd22e5173543546548ad2fe8b53466294607fdc9300e914d320f86b1631a45f2e5a695750c1067272d7b57ed541e7e3645fe1fff4de285ecdf76521
   languageName: node
   linkType: hard
 
@@ -10528,8 +10510,8 @@ __metadata:
     ts-easing: ^0.2.0
     tslib: ^2.1.0
   peerDependencies:
-    react: ^16.8.0  || ^17.0.0
-    react-dom: ^16.8.0  || ^17.0.0
+    react: ^18.0.0
+    react-dom: ^18.0.0
   checksum: 7379460f51b78c5375f8e039f59305c55efb75205d49a18d579154fcccfddf98fa9460a734e7d4cf3b1be8f1c15ec86feeab0d846fbaaa1fea425da83aaf117c
   languageName: node
   linkType: hard
@@ -12050,8 +12032,8 @@ __metadata:
     "@babel/plugin-transform-react-jsx": ^7.17.3
     "@testing-library/dom": ^8.13.0
     "@testing-library/jest-dom": ^5.16.4
-    "@testing-library/react": ^12.1.4
-    "@testing-library/user-event": ^13.5.0
+    "@testing-library/react": ^13.0.0
+    "@testing-library/user-event": ^14.0.4
     "@typescript-eslint/eslint-plugin": ^5.18.0
     "@typescript-eslint/parser": ^5.18.0
     autoprefixer: ^10.4.4
