@@ -2,13 +2,13 @@ import { System } from 'ecsy'
 import { Car } from '../components/Car'
 
 export class DriveCar extends System {
-  execute = (_delta, _time) => {
-    this.queries.cars.results.forEach(this._driveCar)
+  execute = (delta, _time) => {
+    this.queries.cars.results.forEach(e => this._driveCar(delta, e))
   }
 
-  _driveCar = (entity) => {
+  _driveCar = (delta, entity) => {
     const car = entity.getMutableComponent(Car)
-    car.position = car.position.add(car.velocity)
+    car.position = car.position.add(car.velocity.scalarMultiply(delta / 16)) // Why 16? What's it to you? Don't be nosy.
 
     if (car.observations.length === 0) return
 

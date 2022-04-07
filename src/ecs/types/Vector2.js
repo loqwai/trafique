@@ -51,6 +51,7 @@ export class Vector2 {
   equals = (other) => this.x === other.x && this.y === other.y
   add = (other) => new Vector2(this.x + other.x, this.y + other.y)
   subtract = (other) => new Vector2(this.x - other.x, this.y - other.y)
+  scalarMultiply = (n) => new Vector2(this.x * n, this.y * n)
 
   toJSON = () => ({ x: this.x, y: this.y })
 }
