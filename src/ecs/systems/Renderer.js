@@ -1,6 +1,5 @@
 import { World } from 'ecsy'
 import { System } from 'ecsy'
-import { normalizeRotation } from '../../utils/rotationCloseTo'
 
 import { Car } from '../components/Car'
 import { Collision } from '../components/Collision'
@@ -18,6 +17,7 @@ import { StopSign } from '../components/StopSign'
 class Renderer extends System {
   #canvas
   #ctx
+  #fps
 
   /**
    * @param {World} world
@@ -27,9 +27,13 @@ class Renderer extends System {
     super(world, { priority })
     this.#canvas = canvas
     this.#ctx = canvas.getContext('2d')
+    this.#fps = 0
   }
 
-  execute = (_delta, _time) => {
+  execute = (delta, _time) => {
+    this.#fps *= 0.95
+    this.#fps += 0.05 * (1000 / delta)
+
     this._clear()
     this._renderStreets()
     this._renderCars()
@@ -96,14 +100,11 @@ class Renderer extends System {
   }
 
   _arc = (x, y, radius, startArc, endArc, fillColor = '#000', strokeColor = '#000') => {
-    const nStartArc = normalizeRotation(startArc - (Math.PI / 2))
-    const nEndArc = normalizeRotation(endArc - (Math.PI / 2))
-
     this.#ctx.fillStyle = fillColor
     this.#ctx.strokeStyle = strokeColor
     this.#ctx.beginPath()
     this.#ctx.moveTo(x, y)
-    this.#ctx.arc(x, y, radius, nStartArc, nEndArc)
+    this.#ctx.arc(x, y, radius, startArc, endArc)
     this.#ctx.closePath()
     this.#ctx.fill()
     this.#ctx.stroke()
@@ -139,11 +140,12 @@ class Renderer extends System {
     const { position, width, height, rotation } = car
     const { x, y } = position
 
+    this.#ctx.setTransform(1, 0, 0, 1, 0, 0)
     this.#ctx.translate(x, y)
     this.#ctx.rotate(rotation)
-    this._rect(0 - width / 2, 0 - height / 2, width, height, '#999999')
+    this._rect(0 - height / 2, 0 - width / 2, height, width, '#999999')
     // render car mid-point. helps debug car rendering
-    // this._circ(x, y, 5, '#ff0000')
+    // this._circ(0, 0, 5, '#ff0000')
     this.#ctx.setTransform(1, 0, 0, 1, 0, 0)
   }
 
@@ -165,6 +167,12 @@ class Renderer extends System {
     const { position, radius } = entity.getComponent(StopSign)
 
     this._circ(position.x, position.y, radius, '#ff0000')
+    this.#ctx.fillStyle = '#ffffff'
+    this.#ctx.strokeStyle = '#000000'
+    this.#ctx.font = '36px sans-serif'
+    this.#ctx.textAlign = 'center'
+    this.#ctx.textBaseline = 'middle'
+    this.#ctx.fillText('Stop', position.x, position.y)
   }
 
   _renderCarRadialSensors = () => {
@@ -172,11 +180,16 @@ class Renderer extends System {
   }
 
   _renderCarRadialSensor = (entity) => {
-    const { position, rotation, radius, arc } = entity.getComponent(RadialSensor)
+    const { position: { x, y }, rotation, radius, arc } = entity.getComponent(RadialSensor)
     const startArc = rotation - (arc / 2)
     const endArc = rotation + (arc / 2)
 
-    this._arc(position.x, position.y, radius, startArc, endArc, '#33ff0033', '#000000')
+    // this.#ctx.setTransform(1, 0, 0, 1, 0, 0)
+    // this.#ctx.translate(x, y)
+    // this.#ctx.rotate(rotation)
+
+    this._arc(x, y, radius, startArc, endArc, '#33ff0033', '#000000')
+    // this.#ctx.setTransform(1, 0, 0, 1, 0, 0)
   }
 
   _renderScore = () => {
@@ -185,8 +198,12 @@ class Renderer extends System {
     this.#ctx.setTransform(1, 0, 0, 1, 0, 0)
     this.#ctx.fillStyle = '#000000'
     this.#ctx.font = '48px sans-serif'
+    this.#ctx.textAlign = 'start'
+    this.#ctx.textBaseline = 'alphabetic'
     this.#ctx.fillText(`Arrived: ${score.numArrived}`, 10, 58)
     this.#ctx.fillText(`Collisions: ${score.numCollisions}`, 10, 2 * 58)
+    this.#ctx.fillText(`Cars: ${this.queries.cars.results.length}`, 10, 3 * 58)
+    this.#ctx.fillText(`FPS: ${Math.round(this.#fps)}`, 10, 4 * 58)
   }
 }
 

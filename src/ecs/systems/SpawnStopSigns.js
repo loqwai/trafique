@@ -14,6 +14,8 @@ export class SpawnStopSigns extends System {
 
     this._spawnStopSign(entity.id, stopSigns, 'northBound', intersection.northBoundStopSignPosition())
     this._spawnStopSign(entity.id, stopSigns, 'southBound', intersection.southBoundStopSignPosition())
+    this._spawnStopSign(entity.id, stopSigns, 'westBound', intersection.westBoundStopSignPosition())
+    this._spawnStopSign(entity.id, stopSigns, 'eastBound', intersection.eastBoundStopSignPosition())
   }
 
   _spawnStopSign = (intersectionId, stopSigns, locationName, position) => {

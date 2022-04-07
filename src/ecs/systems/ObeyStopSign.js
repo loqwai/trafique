@@ -5,22 +5,25 @@ import { Car } from '../components/Car'
 import { RadialSensor } from '../components/RadialSensor'
 import { StopSign } from '../components/StopSign'
 import { Observation } from '../types/Observation'
-import { rotationCloseTo } from '../../utils/rotationCloseTo'
+import { normalizeAngle } from '../../utils/normalizeAngle'
 
 export class ObeyStopSign extends System {
   constructor(world) {
     super(world)
     this.world = world
     this.detector = new CollissionSystem()
+
+    this.carSensors = new Map()
+    this.stopSignSensors = new Map()
   }
 
   execute() {
     this.queries.carsAdded.results.forEach(this._addRadialSensorToCar)
-    this.queries.carsRemoved.results.forEach(this._removeRadialSensor)
+    this.queries.carsRemoved.results.forEach(this._removeRadialSensorFromCar)
     this.queries.cars.results.forEach(this._updateRadialSensorOnCar)
 
     this.queries.stopSignsAdded.results.forEach(this._addRadialSensorToStopSign)
-    this.queries.stopSignsRemoved.results.forEach(this._removeRadialSensor)
+    this.queries.stopSignsRemoved.results.forEach(this._removeRadialSensorFromStopSign)
     this.queries.stopSigns.results.forEach(this._updateRadialSensorOnStopSign)
 
     this.detector.update()
@@ -39,29 +42,16 @@ export class ObeyStopSign extends System {
       radius: car.sightDistance,
       arc: car.sightArc,
     })
+
+    this.carSensors.set(collider, entity)
   }
 
-  _updateRadialSensorOnStopSign = (entity) => {
-    const { position, radius } = entity.getComponent(StopSign)
-    const radialSensor = entity.getMutableComponent(RadialSensor)
-    radialSensor.collider.setPosition(position.x, position.y)
-    radialSensor.position = position.clone()
-    radialSensor.radius = radius
-  }
-
-  _addRadialSensorToStopSign = (entity) => {
-    const stopSign = entity.getComponent(StopSign)
-    const position = stopSign.position.toJSON()
-    const collider = this.detector.createCircle(position, stopSign.radius)
-
-    entity.addComponent(RadialSensor, { collider, radius: stopSign.radius, position: stopSign.position })
-  }
-
-  _removeRadialSensor = (entity) => {
+  _removeRadialSensorFromCar = (entity) => {
     const { collider } = entity.getComponent(RadialSensor)
 
     this.detector.remove(collider)
     entity.removeComponent(RadialSensor)
+    this.carSensors.delete(collider)
   }
 
   _updateRadialSensorOnCar = (entity) => {
@@ -74,29 +64,53 @@ export class ObeyStopSign extends System {
     radialSensor.rotation = rotation
   }
 
+  _addRadialSensorToStopSign = (entity) => {
+    const stopSign = entity.getComponent(StopSign)
+    const position = stopSign.position.toJSON()
+    const collider = this.detector.createCircle(position, stopSign.radius)
+
+    entity.addComponent(RadialSensor, { collider, radius: stopSign.radius, position: stopSign.position })
+    this.stopSignSensors.set(collider, entity)
+  }
+
+  _removeRadialSensorFromStopSign = (entity) => {
+    const { collider } = entity.getComponent(RadialSensor)
+
+    this.detector.remove(collider)
+    entity.removeComponent(RadialSensor)
+    this.stopSignSensors.delete(collider)
+  }
+
+  _updateRadialSensorOnStopSign = (entity) => {
+    const { position, radius } = entity.getComponent(StopSign)
+    const radialSensor = entity.getMutableComponent(RadialSensor)
+    radialSensor.collider.setPosition(position.x, position.y)
+    radialSensor.position = position.clone()
+    radialSensor.radius = radius
+  }
+
   _handleCollision = (collision) => {
-    const entity = this.queries.cars.results.find(e => e.getComponent(RadialSensor).collider === collision.a)
+    if (!this.carSensors.has(collision.a)) return // it was probably a stop sign, and they don't really obey things
+    if (!this.stopSignSensors.has(collision.b)) return // it probably saw another car
 
-    if (!entity) return // it was probably a stop sign
+    const car = this.carSensors.get(collision.a).getMutableComponent(Car)
+    const stopSign = this.stopSignSensors.get(collision.b).getComponent(StopSign)
 
-    const car = entity.getMutableComponent(Car)
-    const stopSignEntity = this.queries.stopSigns.results.find(e => e.getComponent(RadialSensor).collider === collision.b)
+    const beginArc = car.rotation - car.sightArc / 2
+    const endArc = car.rotation + car.sightArc / 2
 
-    if (!stopSignEntity) return // it was probably another car. Need to do a real hemisphere detection
+    // const dy = stopSign.position.y - car.position.y
 
-    const stopSign = stopSignEntity.getComponent(StopSign)
+    const { x: dx, y: dy } = stopSign.position.subtract(car.position)
 
-    const distance = car.sightDistance - collision.overlap
+    const angle = normalizeAngle(Math.atan2(dy, dx))
 
-    if (stopSign.locationName === 'northBound' && rotationCloseTo(car.rotation, Math.PI, 0.1)) {
-      car.observations.push(new Observation({ event: 'see-stop-sign', distance }))
-      return
-    }
+    if (angle < beginArc || endArc < angle) return // the car is not in the arc of the stop sign
 
-    if (stopSign.locationName === 'southBound' && rotationCloseTo(car.rotation, 0, 0.1)) {
-      car.observations.push(new Observation({ event: 'see-stop-sign', distance }))
-      return
-    }
+    car.observations.push(new Observation({
+      event: 'see-stop-sign',
+      distance: car.sightDistance - collision.overlap,
+    }))
   }
 }
 

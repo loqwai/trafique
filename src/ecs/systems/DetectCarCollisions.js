@@ -4,13 +4,14 @@ import { Car } from '../components/Car'
 import { CarCollisions } from '../components/CarCollisions'
 import { Collision } from '../components/Collision'
 import { Vector2 } from '../types/Vector2'
-import { equals } from 'ramda'
 
 export class DetectCarCollisions extends System {
   constructor(world) {
     super(world)
     this.world = world
     this.detector = new CollissionSystem()
+    this.knownCollisions = new Set()
+    this.carCache = new Map()
   }
 
   execute = () => {
@@ -28,6 +29,8 @@ export class DetectCarCollisions extends System {
     const collider = this.detector.createBox(position, car.width, car.height)
 
     entity.addComponent(CarCollisions, { collider })
+
+    this.carCache.set(collider, entity)
   }
 
   _removeCarPhysics = (entity) => {
@@ -35,6 +38,8 @@ export class DetectCarCollisions extends System {
 
     this.detector.remove(collider)
     entity.removeComponent(CarCollisions)
+
+    this.carCache.delete(collider)
   }
 
   _updateCollider = (entity) => {
@@ -44,21 +49,17 @@ export class DetectCarCollisions extends System {
   }
 
   _handleCollision = (collision) => {
-    const carA = this.queries.normal.results.find(e => e.getComponent(CarCollisions).collider === collision.a)
-    const carB = this.queries.normal.results.find(e => e.getComponent(CarCollisions).collider === collision.b)
+    const carA = this.carCache.get(collision.a)
+    const carB = this.carCache.get(collision.b)
 
     if (!carA || !carB) {
       console.warn('Detected a collision, but couldn\'t find the cars', { carA, carB })
       return
     }
 
-    const involvedParties = [carA.id, carB.id].sort()
+    const key = [carA.id, carB.id].sort().join('-')
 
-    const existingCollision = this.queries.collisions.results.find(e => (
-      equals(involvedParties, e.getComponent(Collision).involvedParties)
-    ))
-
-    if (existingCollision) {
+    if (this.knownCollisions.has(key)) {
       return
     }
 
@@ -67,8 +68,8 @@ export class DetectCarCollisions extends System {
       y: (collision.a.pos.y + collision.b.pos.y) / 2,
     })
 
-
-    this.world.createEntity().addComponent(Collision, { position, involvedParties })
+    this.world.createEntity().addComponent(Collision, { position, involvedParties: [carA.id, carB.id].sort() })
+    this.knownCollisions.add(key)
   }
 }
 
