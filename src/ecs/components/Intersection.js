@@ -9,24 +9,36 @@ export class Intersection extends Component {
     this._eastBoundSpawnPoint(),
   ]
 
-  northBoundStopSignPosition = () => new Vector2({
-    x: this.center.x + (1.5 * this.laneWidth),
-    y: this.center.y + (1.5 * this.laneWidth),
+  northBoundStopSign = () => ({
+    position: new Vector2({
+      x: this.center.x + (1.5 * this.laneWidth),
+      y: this.center.y + (1.5 * this.laneWidth),
+    }),
+    rotation: Math.PI / 2,
   })
 
-  southBoundStopSignPosition = () => new Vector2({
-    x: this.center.x - (1.5 * this.laneWidth),
-    y: this.center.y - (1.5 * this.laneWidth),
+  southBoundStopSign = () => ({
+    position: new Vector2({
+      x: this.center.x - (1.5 * this.laneWidth),
+      y: this.center.y - (1.5 * this.laneWidth),
+    }),
+    rotation: 3 * Math.PI / 2,
   })
 
-  westBoundStopSignPosition = () => new Vector2({
-    x: this.center.x + (1.5 * this.laneWidth),
-    y: this.center.y - (1.5 * this.laneWidth),
+  westBoundStopSign = () => ({
+    position: new Vector2({
+      x: this.center.x + (1.5 * this.laneWidth),
+      y: this.center.y - (1.5 * this.laneWidth),
+    }),
+    rotation: 0,
   })
 
-  eastBoundStopSignPosition = () => new Vector2({
-    x: this.center.x - (1.5 * this.laneWidth),
-    y: this.center.y + (1.5 * this.laneWidth),
+  eastBoundStopSign = () => ({
+    position: new Vector2({
+      x: this.center.x - (1.5 * this.laneWidth),
+      y: this.center.y + (1.5 * this.laneWidth),
+    }),
+    rotation: Math.PI,
   })
 
   _southBoundSpawnPoint = () => ({

@@ -165,14 +165,19 @@ class Renderer extends System {
 
   _renderStopSign = (entity) => {
     const { position, radius } = entity.getComponent(StopSign)
+    const { x, y } = position
 
-    this._circ(position.x, position.y, radius, '#ff0000')
+    this._circ(x, y, radius, '#ff0000')
     this.#ctx.fillStyle = '#ffffff'
     this.#ctx.strokeStyle = '#000000'
     this.#ctx.font = '36px sans-serif'
     this.#ctx.textAlign = 'center'
     this.#ctx.textBaseline = 'middle'
-    this.#ctx.fillText('Stop', position.x, position.y)
+    this.#ctx.fillText('Stop', x, y)
+
+    if (entity.hasComponent(RadialSensor)) {
+      this._renderRadialSensor(entity, '#ff000033')
+    }
   }
 
   _renderCarRadialSensors = () => {
@@ -180,16 +185,16 @@ class Renderer extends System {
   }
 
   _renderCarRadialSensor = (entity) => {
-    const { position: { x, y }, rotation, radius, arc } = entity.getComponent(RadialSensor)
+    this._renderRadialSensor(entity, '#33ff0033')
+  }
+
+  _renderRadialSensor = (entity, fill, stroke='#000000') => {
+    const { position, rotation, radius, arc } = entity.getComponent(RadialSensor)
+    const { x, y } = position
     const startArc = rotation - (arc / 2)
     const endArc = rotation + (arc / 2)
 
-    // this.#ctx.setTransform(1, 0, 0, 1, 0, 0)
-    // this.#ctx.translate(x, y)
-    // this.#ctx.rotate(rotation)
-
-    this._arc(x, y, radius, startArc, endArc, '#33ff0033', '#000000')
-    // this.#ctx.setTransform(1, 0, 0, 1, 0, 0)
+    this._arc(x, y, radius, startArc, endArc, fill, stroke)
   }
 
   _renderScore = () => {

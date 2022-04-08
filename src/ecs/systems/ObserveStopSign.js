@@ -7,7 +7,7 @@ import { StopSign } from '../components/StopSign'
 import { Observation } from '../types/Observation'
 import { normalizeAngle } from '../../utils/normalizeAngle'
 
-export class ObeyStopSign extends System {
+export class ObserveStopSign extends System {
   constructor(world) {
     super(world)
     this.world = world
@@ -69,7 +69,7 @@ export class ObeyStopSign extends System {
     const position = stopSign.position.toJSON()
     const collider = this.detector.createCircle(position, stopSign.radius)
 
-    entity.addComponent(RadialSensor, { collider, radius: stopSign.radius, position: stopSign.position })
+    entity.addComponent(RadialSensor, { collider, radius: stopSign.sightDistance, position: stopSign.position, arc: stopSign.sightArc })
     this.stopSignSensors.set(collider, entity)
   }
 
@@ -82,11 +82,13 @@ export class ObeyStopSign extends System {
   }
 
   _updateRadialSensorOnStopSign = (entity) => {
-    const { position, radius } = entity.getComponent(StopSign)
+    const { position, sightDistance, sightArc, rotation } = entity.getComponent(StopSign)
     const radialSensor = entity.getMutableComponent(RadialSensor)
     radialSensor.collider.setPosition(position.x, position.y)
     radialSensor.position = position.clone()
-    radialSensor.radius = radius
+    radialSensor.radius = sightDistance
+    radialSensor.arc = sightArc
+    radialSensor.rotation = rotation
   }
 
   _handleCollision = (collision) => {
@@ -96,25 +98,40 @@ export class ObeyStopSign extends System {
     const car = this.carSensors.get(collision.a).getMutableComponent(Car)
     const stopSign = this.stopSignSensors.get(collision.b).getComponent(StopSign)
 
-    const beginArc = car.rotation - car.sightArc / 2
-    const endArc = car.rotation + car.sightArc / 2
 
-    // const dy = stopSign.position.y - car.position.y
-
-    const { x: dx, y: dy } = stopSign.position.subtract(car.position)
-
-    const angle = normalizeAngle(Math.atan2(dy, dx))
-
-    if (angle < beginArc || endArc < angle) return // the car is not in the arc of the stop sign
+    if (!this.#isStopSignInCarSightArc(car, stopSign)) return
+    if (!this.#isCarInStopSignSightArc(car, stopSign)) return
 
     car.observations.push(new Observation({
       event: 'see-stop-sign',
       distance: car.sightDistance - collision.overlap,
     }))
   }
+
+  #isStopSignInCarSightArc = (car, stopSign) => {
+    const beginArc = car.rotation - car.sightArc / 2
+    const endArc = car.rotation + car.sightArc / 2
+
+    const { x: dx, y: dy } = stopSign.position.subtract(car.position)
+
+    const angle = normalizeAngle(Math.atan2(dy, dx))
+
+    return beginArc < angle && angle < endArc
+  }
+
+  #isCarInStopSignSightArc = (car, stopSign) => {
+    const beginArc = stopSign.rotation - stopSign.sightArc / 2
+    const endArc = stopSign.rotation + stopSign.sightArc / 2
+
+    const { x: dx, y: dy } = car.position.subtract(stopSign.position)
+
+    const angle = normalizeAngle(Math.atan2(dy, dx))
+
+    return beginArc < angle && angle < endArc
+  }
 }
 
-ObeyStopSign.queries = {
+ObserveStopSign.queries = {
   carsAdded: { components: [Car, Not(RadialSensor)] },
   carsRemoved: { components: [Not(Car), RadialSensor, Not(StopSign)] },
   cars: { components: [Car, RadialSensor] },

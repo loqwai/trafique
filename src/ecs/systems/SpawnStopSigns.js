@@ -12,14 +12,14 @@ export class SpawnStopSigns extends System {
 
     const stopSigns = this.queries.stopSigns.results.filter(e => e.getComponent(StopSign).intersectionId === entity.id)
 
-    this._spawnStopSign(entity.id, stopSigns, 'northBound', intersection.northBoundStopSignPosition())
-    this._spawnStopSign(entity.id, stopSigns, 'southBound', intersection.southBoundStopSignPosition())
-    this._spawnStopSign(entity.id, stopSigns, 'westBound', intersection.westBoundStopSignPosition())
-    this._spawnStopSign(entity.id, stopSigns, 'eastBound', intersection.eastBoundStopSignPosition())
+    this._spawnStopSign(entity.id, stopSigns, 'northBound', intersection.northBoundStopSign())
+    this._spawnStopSign(entity.id, stopSigns, 'southBound', intersection.southBoundStopSign())
+    this._spawnStopSign(entity.id, stopSigns, 'westBound', intersection.westBoundStopSign())
+    this._spawnStopSign(entity.id, stopSigns, 'eastBound', intersection.eastBoundStopSign())
   }
 
-  _spawnStopSign = (intersectionId, stopSigns, locationName, position) => {
-    const stopSign = this._findOrCreateStopSign(stopSigns, locationName, position, intersectionId)
+  _spawnStopSign = (intersectionId, stopSigns, locationName, { position, rotation }) => {
+    const stopSign = this._findOrCreateStopSign(stopSigns, locationName, position, rotation, intersectionId)
 
     if (stopSign.getComponent(StopSign).position.equals(position)) {
       return
@@ -28,7 +28,7 @@ export class SpawnStopSigns extends System {
     stopSign.getMutableComponent(StopSign).position = position
   }
 
-  _findOrCreateStopSign = (stopSigns, locationName, position, intersectionId) => {
+  _findOrCreateStopSign = (stopSigns, locationName, position, rotation, intersectionId) => {
     const existing = stopSigns.find(e => e.getComponent(StopSign).locationName === locationName)
     if (existing) return existing
 
@@ -38,6 +38,7 @@ export class SpawnStopSigns extends System {
         position,
         intersectionId,
         locationName,
+        rotation,
       })
   }
 }
