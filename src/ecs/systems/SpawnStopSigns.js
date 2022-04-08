@@ -14,8 +14,8 @@ export class SpawnStopSigns extends System {
 
     this._spawnStopSign(entity.id, stopSigns, 'northBound', intersection.northBoundStopSign())
     this._spawnStopSign(entity.id, stopSigns, 'southBound', intersection.southBoundStopSign())
-    this._spawnStopSign(entity.id, stopSigns, 'westBound', intersection.westBoundStopSign())
-    this._spawnStopSign(entity.id, stopSigns, 'eastBound', intersection.eastBoundStopSign())
+    // this._spawnStopSign(entity.id, stopSigns, 'westBound', intersection.westBoundStopSign())
+    // this._spawnStopSign(entity.id, stopSigns, 'eastBound', intersection.eastBoundStopSign())
   }
 
   _spawnStopSign = (intersectionId, stopSigns, locationName, { position, rotation }) => {

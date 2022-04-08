@@ -12,7 +12,9 @@ import { StopSign } from './components/StopSign'
 import { DeSpawnCar } from './systems/DeSpawnCar'
 import { DetectCarCollisions } from './systems/DetectCarCollisions'
 import { DriveCar } from './systems/DriveCar'
-import { RecordObservations } from './systems/RecordObservations'
+import { ManageCarSensors } from './systems/ManageCarSensors'
+import { ManageStopSignSensors } from './systems/ManageStopSignSensors'
+import { ObserveStopSigns } from './systems/ObserveStopSigns'
 import { Renderer } from './systems/Renderer'
 import { SpawnCar } from './systems/SpawnCar'
 import { SpawnStopSigns } from './systems/SpawnStopSigns'
@@ -40,8 +42,10 @@ export class Game {
       .registerSystem(Renderer, { canvas })
       .registerSystem(SpawnCar, { interval: 500 })
       .registerSystem(DeSpawnCar)
+      .registerSystem(ManageCarSensors)
+      .registerSystem(ManageStopSignSensors)
       .registerSystem(DriveCar)
-      .registerSystem(RecordObservations)
+      .registerSystem(ObserveStopSigns)
       .registerSystem(DetectCarCollisions)
       .registerSystem(UpdateScore)
   }

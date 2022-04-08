@@ -20,7 +20,4 @@ RadialSensor.schema = {
     type: Types.Number,
     default: 2 * Math.PI,
   },
-  collider: {
-    type: Types.Ref,
-  },
 }
