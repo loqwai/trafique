@@ -44,7 +44,6 @@ export class Game {
       .registerComponent(StopSign)
       .registerSystem(UpdateIntersection, { canvas })
       .registerSystem(SpawnStopSigns)
-      .registerSystem(Renderer, { canvas })
       .registerSystem(SpawnCar, { interval: 500 })
       .registerSystem(DeSpawnCar)
       .registerSystem(DriveCar)
@@ -52,6 +51,7 @@ export class Game {
       .registerSystem(ClearStopSignObservations)
       .registerSystem(DetectCarCollisions)
       .registerSystem(UpdateScore)
+      .registerSystem(Renderer, { canvas })
   }
 
   start = () => {
