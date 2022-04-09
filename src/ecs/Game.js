@@ -11,6 +11,7 @@ import { Rotation } from './components/Rotation'
 import { Score } from './components/Score'
 import { SightArc } from './components/SightArc'
 import { StopSign } from './components/StopSign'
+import { ClearStopSignObservations } from './systems/ClearStopSignObservations'
 
 import { DeSpawnCar } from './systems/DeSpawnCar'
 import { DetectCarCollisions } from './systems/DetectCarCollisions'
@@ -48,6 +49,7 @@ export class Game {
       .registerSystem(DeSpawnCar)
       .registerSystem(DriveCar)
       .registerSystem(ObserveStopSigns)
+      .registerSystem(ClearStopSignObservations)
       .registerSystem(DetectCarCollisions)
       .registerSystem(UpdateScore)
   }
