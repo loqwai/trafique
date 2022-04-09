@@ -1,5 +1,4 @@
 import { System, World } from 'ecsy'
-import { flatten } from 'ramda'
 import { Car } from '../components/Car'
 import { Intersection } from '../components/Intersection'
 import { sample } from '../../utils/sample'
@@ -7,6 +6,7 @@ import { SightArc } from '../components/SightArc'
 import { Position } from '../components/Position'
 import { Rotation } from '../components/Rotation'
 import { Observer } from '../components/Observer'
+import { Vector2 } from '../types/Vector2'
 
 /**
  * @typedef {object} Options
@@ -27,12 +27,12 @@ export class SpawnCar extends System {
   execute = (_delta, time) => {
     if (time - this.#lastSpawn > this.#interval) {
       this.#lastSpawn = time
-      this._spawnCar()
+      this.#spawnCar()
     }
   }
 
-  _spawnCar = () => {
-    const { position, velocity, rotation } = this._newSpawnPoint()
+  #spawnCar = () => {
+    const { position, velocity, rotation } = this.#randomSpawnPoint()
 
     this.world.createEntity()
       .addComponent(Car, { velocity })
@@ -42,17 +42,72 @@ export class SpawnCar extends System {
       .addComponent(Observer)
   }
 
-  _newSpawnPoint = () => {
-    const spawnPoints = flatten(this.queries.intersection.results.map(e => e.getComponent(Intersection).getCarSpawnPoints()))
-    return sample(spawnPoints)
+  #randomSpawnPoint = () => sample(this.#spawnPoints())
+
+  #spawnPoints = () => this.queries.intersections.results.map(this.#spawnPointsForIntersectionEntity).flat(1)
+
+  #spawnPointsForIntersectionEntity = (entity) => {
+    const intersection = entity.getComponent(Intersection)
+
+    return [
+      this.#southBoundSpawnPoint(intersection),
+      this.#northBoundSpawnPoint(intersection),
+      this.#westBoundSpawnPoint(intersection),
+      this.#eastBoundSpawnPoint(intersection),
+    ]
   }
+
+  #southBoundSpawnPoint = ({ center, laneWidth, streetLength }) => ({
+    position: new Vector2({
+      x: center.x - (laneWidth / 2),
+      y: center.y - streetLength - laneWidth,
+    }),
+    velocity: new Vector2({
+      x: 0,
+      y: 5,
+    }),
+    rotation: Math.PI / 2,
+  })
+
+  #northBoundSpawnPoint = ({ center, laneWidth, streetLength }) => ({
+    position: new Vector2({
+      x: center.x + (laneWidth / 2),
+      y: center.y + streetLength + laneWidth,
+    }),
+    velocity: new Vector2({
+      x: 0,
+      y: -5,
+    }),
+    rotation: 3 * Math.PI / 2,
+  })
+
+  #westBoundSpawnPoint = ({ center, laneWidth, streetLength }) => ({
+    position: new Vector2({
+      x: center.x + streetLength + laneWidth,
+      y: center.y - (laneWidth / 2),
+    }),
+    velocity: new Vector2({
+      x: -5,
+      y: 0,
+    }),
+    rotation: Math.PI,
+  })
+
+  #eastBoundSpawnPoint = ({ center, laneWidth, streetLength }) => ({
+    position: new Vector2({
+      x: center.x - streetLength - laneWidth,
+      y: center.y + (laneWidth / 2),
+    }),
+    velocity: new Vector2({
+      x: 5,
+      y: 0,
+    }),
+    rotation: 0,
+  })
 }
 
 SpawnCar.queries = {
-  intersection: {
+  intersections: {
     components: [Intersection],
-  },
-  cars: {
-    components: [Car],
   },
 }
