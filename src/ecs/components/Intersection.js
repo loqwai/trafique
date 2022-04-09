@@ -2,46 +2,14 @@ import { Component, Types } from 'ecsy'
 import { Vector2, Vector2Type } from '../types/Vector2'
 
 export class Intersection extends Component {
-  getSpawnPoints = () => [
-    this._southBoundSpawnPoint(),
-    this._northBoundSpawnPoint(),
-    this._westBoundSpawnPoint(),
-    this._eastBoundSpawnPoint(),
+  getCarSpawnPoints = () => [
+    this.#southBoundCarSpawnPoint(),
+    this.#northBoundCarSpawnPoint(),
+    this.#westBoundCarSpawnPoint(),
+    this.#eastBoundCarSpawnPoint(),
   ]
 
-  northBoundStopSign = () => ({
-    position: new Vector2({
-      x: this.center.x + (1.5 * this.laneWidth),
-      y: this.center.y + (1.5 * this.laneWidth),
-    }),
-    rotation: Math.PI / 2,
-  })
-
-  southBoundStopSign = () => ({
-    position: new Vector2({
-      x: this.center.x - (1.5 * this.laneWidth),
-      y: this.center.y - (1.5 * this.laneWidth),
-    }),
-    rotation: 3 * Math.PI / 2,
-  })
-
-  westBoundStopSign = () => ({
-    position: new Vector2({
-      x: this.center.x + (1.5 * this.laneWidth),
-      y: this.center.y - (1.5 * this.laneWidth),
-    }),
-    rotation: 0,
-  })
-
-  eastBoundStopSign = () => ({
-    position: new Vector2({
-      x: this.center.x - (1.5 * this.laneWidth),
-      y: this.center.y + (1.5 * this.laneWidth),
-    }),
-    rotation: Math.PI,
-  })
-
-  _southBoundSpawnPoint = () => ({
+  #southBoundCarSpawnPoint = () => ({
     position: new Vector2({
       x: this.center.x - (this.laneWidth / 2),
       y: this.center.y - this.streetLength - this.laneWidth,
@@ -53,7 +21,7 @@ export class Intersection extends Component {
     rotation: Math.PI / 2,
   })
 
-  _northBoundSpawnPoint = () => ({
+  #northBoundCarSpawnPoint = () => ({
     position: new Vector2({
       x: this.center.x + (this.laneWidth / 2),
       y: this.center.y + this.streetLength + this.laneWidth,
@@ -65,7 +33,7 @@ export class Intersection extends Component {
     rotation: 3 * Math.PI / 2,
   })
 
-  _westBoundSpawnPoint = () => ({
+  #westBoundCarSpawnPoint = () => ({
     position: new Vector2({
       x: this.center.x + this.streetLength + this.laneWidth,
       y: this.center.y - (this.laneWidth / 2),
@@ -77,7 +45,7 @@ export class Intersection extends Component {
     rotation: Math.PI,
   })
 
-  _eastBoundSpawnPoint = () => ({
+  #eastBoundCarSpawnPoint = () => ({
     position: new Vector2({
       x: this.center.x - this.streetLength - this.laneWidth,
       y: this.center.y + (this.laneWidth / 2),

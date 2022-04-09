@@ -43,7 +43,7 @@ export class SpawnCar extends System {
   }
 
   _newSpawnPoint = () => {
-    const spawnPoints = flatten(this.queries.intersection.results.map(e => e.getComponent(Intersection).getSpawnPoints()))
+    const spawnPoints = flatten(this.queries.intersection.results.map(e => e.getComponent(Intersection).getCarSpawnPoints()))
     return sample(spawnPoints)
   }
 }

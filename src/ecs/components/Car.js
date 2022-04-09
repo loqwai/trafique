@@ -17,10 +17,6 @@ Car.schema = {
     type: Types.Number,
     default: 40,
   },
-  observations: {
-    type: Types.Array,
-    default: [],
-  },
   brakingForce: {
     type: Types.Number,
     default: 0.1,

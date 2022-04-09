@@ -1,5 +1,4 @@
 import { Component, Types } from 'ecsy'
-import { Vector2, Vector2Type } from '../types/Vector2'
 
 export class StopSign extends Component { }
 
