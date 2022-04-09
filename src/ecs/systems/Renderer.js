@@ -4,8 +4,10 @@ import { System } from 'ecsy'
 import { Car } from '../components/Car'
 import { Collision } from '../components/Collision'
 import { Intersection } from '../components/Intersection'
-import { RadialSensor } from '../components/RadialSensor'
+import { Position } from '../components/Position'
+import { Rotation } from '../components/Rotation'
 import { Score } from '../components/Score'
+import { SightArc } from '../components/SightArc'
 import { StopSign } from '../components/StopSign'
 
 /**
@@ -38,7 +40,8 @@ class Renderer extends System {
     this._renderStreets()
     this._renderCars()
     this._renderStopSigns()
-    this._renderCarRadialSensors()
+    this._renderCarSightArcs()
+    this._renderStopSignSightArcs()
     this._renderCollisions()
     this._renderScore()
   }
@@ -135,10 +138,9 @@ class Renderer extends System {
   }
 
   _renderCar = (entity) => {
-    const car = entity.getComponent(Car)
-
-    const { position, width, height, rotation } = car
-    const { x, y } = position
+    const { width, height } = entity.getComponent(Car)
+    const { value: { x, y } } = entity.getComponent(Position)
+    const { value: rotation } = entity.getComponent(Rotation)
 
     this.#ctx.setTransform(1, 0, 0, 1, 0, 0)
     this.#ctx.translate(x, y)
@@ -164,8 +166,8 @@ class Renderer extends System {
   }
 
   _renderStopSign = (entity) => {
-    const { position, radius } = entity.getComponent(StopSign)
-    const { x, y } = position
+    const { radius } = entity.getComponent(StopSign)
+    const { value: { x, y } } = entity.getComponent(Position)
 
     this._circ(x, y, radius, '#ff0000')
     this.#ctx.fillStyle = '#ffffff'
@@ -174,27 +176,21 @@ class Renderer extends System {
     this.#ctx.textAlign = 'center'
     this.#ctx.textBaseline = 'middle'
     this.#ctx.fillText('Stop', x, y)
-
-    if (entity.hasComponent(RadialSensor)) {
-      this._renderRadialSensor(entity, '#ff000033')
-    }
   }
 
-  _renderCarRadialSensors = () => {
-    this.queries.carRadialSensors.results.forEach(this._renderCarRadialSensor)
-  }
+  _renderCarSightArcs = () => this.queries.carSightArcs.results.forEach(e => this._renderSightArc(e, '#33ff0033'))
 
-  _renderCarRadialSensor = (entity) => {
-    this._renderRadialSensor(entity, '#33ff0033')
-  }
+  _renderStopSignSightArcs = () => this.queries.stopSignSightArcs.results.forEach(e => this._renderSightArc(e, '#ff000033'))
 
-  _renderRadialSensor = (entity, fill, stroke='#000000') => {
-    const { position, rotation, radius, arc } = entity.getComponent(RadialSensor)
-    const { x, y } = position
+  _renderSightArc = (entity, fill, stroke='#000000') => {
+    const { value: { x, y } } = entity.getComponent(Position)
+    const { value: rotation } = entity.getComponent(Rotation)
+    const { arc, distance } = entity.getComponent(SightArc)
+
     const startArc = rotation - (arc / 2)
     const endArc = rotation + (arc / 2)
 
-    this._arc(x, y, radius, startArc, endArc, fill, stroke)
+    this._arc(x, y, distance, startArc, endArc, fill, stroke)
   }
 
   _renderScore = () => {
@@ -213,13 +209,14 @@ class Renderer extends System {
 }
 
 Renderer.queries = {
-  cars: { components: [Car] },
+  cars: { components: [Car, Position, Rotation] },
   collisions: { components: [Collision] },
   intersection: { components: [Intersection] },
   score: { components: [Score] },
-  stopSigns: { components: [StopSign] },
+  stopSigns: { components: [StopSign, Position] },
 
-  carRadialSensors: { components: [Car, RadialSensor] },
+  carSightArcs: { components: [Car, SightArc, Position, Rotation] },
+  stopSignSightArcs: { components: [StopSign, SightArc, Position, Rotation] },
 }
 
 export { Renderer }

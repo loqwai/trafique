@@ -3,6 +3,10 @@ import { flatten } from 'ramda'
 import { Car } from '../components/Car'
 import { Intersection } from '../components/Intersection'
 import { sample } from '../../utils/sample'
+import { SightArc } from '../components/SightArc'
+import { Position } from '../components/Position'
+import { Rotation } from '../components/Rotation'
+import { Observer } from '../components/Observer'
 
 /**
  * @typedef {object} Options
@@ -28,14 +32,14 @@ export class SpawnCar extends System {
   }
 
   _spawnCar = () => {
-    const entity = this.world.createEntity()
-    entity.addComponent(Car)
+    const { position, velocity, rotation } = this._newSpawnPoint()
 
-    const car = entity.getMutableComponent(Car)
-    const { position, velocity, rotation } = this._newSpawnPoint(car)
-    car.position = position
-    car.velocity = velocity
-    car.rotation = rotation
+    this.world.createEntity()
+      .addComponent(Car, { velocity })
+      .addComponent(Position, { value: position })
+      .addComponent(Rotation, { value: rotation })
+      .addComponent(SightArc, { arc: Math.PI, distance: 160 })
+      .addComponent(Observer)
   }
 
   _newSpawnPoint = () => {

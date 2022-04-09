@@ -5,17 +5,9 @@ import { Vector2, Vector2Type } from '../types/Vector2'
 export class Car extends Component { }
 
 Car.schema = {
-  position: {
-    type: Vector2Type,
-    default: new Vector2(),
-  },
   velocity: {
     type: Vector2Type,
     default: new Vector2(),
-  },
-  rotation: {
-    type: Types.Number,
-    default: 0,
   },
   height: {
     type: Types.Number,
@@ -24,14 +16,6 @@ Car.schema = {
   width: {
     type: Types.Number,
     default: 40,
-  },
-  sightDistance: {
-    type: Types.Number,
-    default: 160,
-  },
-  sightArc: {
-    type: Types.Number,
-    default: Math.PI,
   },
   observations: {
     type: Types.Array,

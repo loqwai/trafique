@@ -1,5 +1,9 @@
 import { System } from 'ecsy'
 import { Intersection } from '../components/Intersection'
+import { Observer } from '../components/Observer'
+import { Position } from '../components/Position'
+import { Rotation } from '../components/Rotation'
+import { SightArc } from '../components/SightArc'
 import { StopSign } from '../components/StopSign'
 
 export class SpawnStopSigns extends System {
@@ -14,18 +18,18 @@ export class SpawnStopSigns extends System {
 
     this._spawnStopSign(entity.id, stopSigns, 'northBound', intersection.northBoundStopSign())
     this._spawnStopSign(entity.id, stopSigns, 'southBound', intersection.southBoundStopSign())
-    // this._spawnStopSign(entity.id, stopSigns, 'westBound', intersection.westBoundStopSign())
-    // this._spawnStopSign(entity.id, stopSigns, 'eastBound', intersection.eastBoundStopSign())
+    this._spawnStopSign(entity.id, stopSigns, 'westBound', intersection.westBoundStopSign())
+    this._spawnStopSign(entity.id, stopSigns, 'eastBound', intersection.eastBoundStopSign())
   }
 
   _spawnStopSign = (intersectionId, stopSigns, locationName, { position, rotation }) => {
     const stopSign = this._findOrCreateStopSign(stopSigns, locationName, position, rotation, intersectionId)
 
-    if (stopSign.getComponent(StopSign).position.equals(position)) {
+    if (stopSign.getComponent(Position).value.equals(position)) {
       return
     }
 
-    stopSign.getMutableComponent(StopSign).position = position
+    stopSign.getMutableComponent(Position).position = position
   }
 
   _findOrCreateStopSign = (stopSigns, locationName, position, rotation, intersectionId) => {
@@ -34,12 +38,11 @@ export class SpawnStopSigns extends System {
 
     return this.world
       .createEntity()
-      .addComponent(StopSign, {
-        position,
-        intersectionId,
-        locationName,
-        rotation,
-      })
+      .addComponent(StopSign, { intersectionId, locationName })
+      .addComponent(SightArc, { arc: Math.PI, distance: 80 })
+      .addComponent(Position, { value: position })
+      .addComponent(Rotation, { value: rotation })
+      .addComponent(Observer)
   }
 }
 

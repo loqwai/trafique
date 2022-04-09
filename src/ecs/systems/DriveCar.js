@@ -1,16 +1,21 @@
 import { System } from 'ecsy'
 import { Car } from '../components/Car'
+import { Observer } from '../components/Observer'
+import { Position } from '../components/Position'
 
 export class DriveCar extends System {
   execute = (delta, _time) => {
-    this.queries.cars.results.forEach(e => this._driveCar(delta, e))
+    this.queries.cars.results.forEach(e => this.#driveCar(delta, e))
   }
 
-  _driveCar = (delta, entity) => {
-    const car = entity.getMutableComponent(Car)
-    car.position = car.position.add(car.velocity.scalarMultiply(delta / 16)) // Why 16? What's it to you? Don't be nosy.
+  #driveCar = (delta, entity) => {
+    const car = entity.getComponent(Car)
+    const observer = entity.getMutableComponent(Observer)
+    const position = entity.getMutableComponent(Position)
 
-    if (car.observations.length === 0) return
+    position.value = position.value.add(car.velocity.scalarMultiply(delta / 16)) // Why 16? What's it to you? Don't be nosy.
+
+    if (observer.observations.length === 0) return
 
     if (car.velocity.y > 0) {
       car.velocity.y = Math.max(0, car.velocity.y - car.brakingForce)
@@ -28,12 +33,12 @@ export class DriveCar extends System {
       car.velocity.x = Math.min(0, car.velocity.x + car.brakingForce)
     }
 
-    car.observations.length = 0
+    observer.observations.length = 0
   }
 }
 
 DriveCar.queries = {
   cars: {
-    components: [Car],
+    components: [Car, Observer, Position],
   },
 }

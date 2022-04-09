@@ -16,20 +16,4 @@ StopSign.schema = {
     type: Types.Number,
     default: 40,
   },
-  position: {
-    type: Vector2Type,
-    default: new Vector2(),
-  },
-  rotation: {
-    type: Types.Number,
-    default: 0,
-  },
-  sightDistance: {
-    type: Types.Number,
-    default: 80,
-  },
-  sightArc: {
-    type: Types.Number,
-    default: Math.PI,
-  },
 }

@@ -2,6 +2,8 @@ import { System } from 'ecsy'
 import { rotationCloseTo } from '../../utils/rotationCloseTo'
 import { Car } from '../components/Car'
 import { Intersection } from '../components/Intersection'
+import { Position } from '../components/Position'
+import { Rotation } from '../components/Rotation'
 
 /**
  * @typedef {object} Options
@@ -19,17 +21,18 @@ export class DeSpawnCar extends System {
 
   _maybeDeSpawn = (entity) => {
     const intersection = this._intersection()
+    const { value: position } = entity.getComponent(Position)
+    const { value: rotation } = entity.getComponent(Rotation)
 
     const bottom = intersection.center.y + intersection.streetLength + intersection.laneWidth
     const top = intersection.center.y - intersection.streetLength - intersection.laneWidth
     const left = intersection.center.x - intersection.streetLength - intersection.laneWidth
     const right = intersection.center.x + intersection.streetLength + intersection.laneWidth
 
-    const car = entity.getComponent(Car)
-    if (rotationCloseTo(car.rotation, Math.PI / 2, 0.1) && car.position.y < bottom) return // going down
-    if (rotationCloseTo(car.rotation, 3 * Math.PI / 2, 0.1) && car.position.y > top) return // going up
-    if (rotationCloseTo(car.rotation, 0, 0.1) && car.position.x < right) return // going right
-    if (rotationCloseTo(car.rotation, Math.PI, 0.1) && car.position.x > left) return // going left
+    if (rotationCloseTo(rotation, Math.PI / 2, 0.1) && position.y < bottom) return // going down
+    if (rotationCloseTo(rotation, 3 * Math.PI / 2, 0.1) && position.y > top) return // going up
+    if (rotationCloseTo(rotation, 0, 0.1) && position.x < right) return // going right
+    if (rotationCloseTo(rotation, Math.PI, 0.1) && position.x > left) return // going left
 
     console.log('despawn')
 
@@ -39,7 +42,7 @@ export class DeSpawnCar extends System {
 
 DeSpawnCar.queries = {
   cars: {
-    components: [Car],
+    components: [Car, Rotation, Position],
   },
   intersection: {
     components: [Intersection],
