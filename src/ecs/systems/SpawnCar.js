@@ -62,10 +62,7 @@ export class SpawnCar extends System {
       x: center.x - (laneWidth / 2),
       y: center.y - streetLength - laneWidth,
     }),
-    velocity: new Vector2({
-      x: 0,
-      y: 5,
-    }),
+    velocity: new Vector2(),
     rotation: Math.PI / 2,
   })
 
@@ -74,10 +71,7 @@ export class SpawnCar extends System {
       x: center.x + (laneWidth / 2),
       y: center.y + streetLength + laneWidth,
     }),
-    velocity: new Vector2({
-      x: 0,
-      y: -5,
-    }),
+    velocity: new Vector2(),
     rotation: 3 * Math.PI / 2,
   })
 
@@ -86,10 +80,7 @@ export class SpawnCar extends System {
       x: center.x + streetLength + laneWidth,
       y: center.y - (laneWidth / 2),
     }),
-    velocity: new Vector2({
-      x: -5,
-      y: 0,
-    }),
+    velocity: new Vector2(),
     rotation: Math.PI,
   })
 
@@ -98,10 +89,7 @@ export class SpawnCar extends System {
       x: center.x - streetLength - laneWidth,
       y: center.y + (laneWidth / 2),
     }),
-    velocity: new Vector2({
-      x: 5,
-      y: 0,
-    }),
+    velocity: new Vector2(),
     rotation: 0,
   })
 }

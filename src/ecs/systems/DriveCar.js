@@ -2,6 +2,8 @@ import { System } from 'ecsy'
 import { Car } from '../components/Car'
 import { Observer } from '../components/Observer'
 import { Position } from '../components/Position'
+import { Rotation } from '../components/Rotation'
+import { Vector2 } from '../types/Vector2'
 
 export class DriveCar extends System {
   execute = (delta, _time) => {
@@ -11,11 +13,21 @@ export class DriveCar extends System {
   #driveCar = (delta, entity) => {
     const car = entity.getComponent(Car)
     const observer = entity.getMutableComponent(Observer)
-    const position = entity.getMutableComponent(Position)
 
-    position.value = position.value.add(car.velocity.scalarMultiply(delta / 16)) // Why 16? What's it to you? Don't be nosy.
+    const seeSomething = observer.observations.length > 0
 
-    if (observer.observations.length === 0) return
+    if (seeSomething) this.#slowDown(entity)
+    if (!seeSomething) this.#speedUp(entity)
+
+    // Why divide by 16? What's it to you? Don't be nosy.
+    const increment = car.velocity.scalarMultiply(delta / 16)
+    entity.getMutableComponent(Position).value.addMut(increment)
+
+    observer.observations.length = 0
+  }
+
+  #slowDown = (entity) => {
+    const car = entity.getMutableComponent(Car)
 
     if (car.velocity.y > 0) {
       car.velocity.y = Math.max(0, car.velocity.y - car.brakingForce)
@@ -32,13 +44,26 @@ export class DriveCar extends System {
     if (car.velocity.x < 0) {
       car.velocity.x = Math.min(0, car.velocity.x + car.brakingForce)
     }
+  }
 
-    observer.observations.length = 0
+  #speedUp = (entity) => {
+    // return
+    const car = entity.getComponent(Car)
+    if (car.velocity.magnitude() >= car.maxSpeed) return
+
+    const { value: rotation } = entity.getComponent(Rotation)
+
+    const targetUnit = new Vector2(Math.cos(rotation), Math.sin(rotation))
+    const target = targetUnit.scalarMultiply(car.targetSpeed)
+
+    const increment = target.scalarMultiply(car.accelerationForce)
+
+    entity.getMutableComponent(Car).velocity.addMut(increment).limitMut(car.targetSpeed)
   }
 }
 
 DriveCar.queries = {
   cars: {
-    components: [Car, Observer, Position],
+    components: [Car, Observer, Position, Rotation],
   },
 }

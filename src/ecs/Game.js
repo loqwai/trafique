@@ -16,6 +16,7 @@ import { ClearStopSignObservations } from './systems/ClearStopSignObservations'
 import { DeSpawnCar } from './systems/DeSpawnCar'
 import { DetectCarCollisions } from './systems/DetectCarCollisions'
 import { DriveCar } from './systems/DriveCar'
+import { ObserveOtherCars } from './systems/ObserveOtherCars'
 import { ObserveStopSigns } from './systems/ObserveStopSigns'
 import { Renderer } from './systems/Renderer'
 import { SpawnCar } from './systems/SpawnCar'
@@ -47,6 +48,7 @@ export class Game {
       .registerSystem(SpawnCar, { interval: 500 })
       .registerSystem(DeSpawnCar)
       .registerSystem(DriveCar)
+      .registerSystem(ObserveOtherCars)
       .registerSystem(ObserveStopSigns)
       .registerSystem(ClearStopSignObservations)
       .registerSystem(DetectCarCollisions)

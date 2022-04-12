@@ -49,9 +49,23 @@ export class Vector2 {
   clone = () => new Vector2(this.x, this.y)
 
   equals = (other) => this.x === other.x && this.y === other.y
-  add = (other) => new Vector2(this.x + other.x, this.y + other.y)
+  addMut = (other) => {
+    this.x += other.x
+    this.y += other.y
+    return this
+  }
+  add = (other) => this.clone().addMut(other)
   subtract = (other) => new Vector2(this.x - other.x, this.y - other.y)
   scalarMultiply = (n) => new Vector2(this.x * n, this.y * n)
+  magnitude = () => Math.sqrt(this.x ** 2 + this.y ** 2)
+  limitMut = (n) => {
+    const magnitude = this.magnitude()
+    if (magnitude > n) {
+      this.x = this.x / magnitude * n
+      this.y = this.y / magnitude * n
+    }
+    return this
+  }
 
   toJSON = () => ({ x: this.x, y: this.y })
 }
