@@ -59,13 +59,7 @@ export class ObserveOtherCars extends System {
 
     const detector = new CollissionSystem()
     const offset = new Vector2(Math.cos(aRotation), Math.sin(aRotation)).scalarMultiply(distance)
-    const target = aPosition
-      // .subtract(new Vector2(aCar.width / 2, aCar.height / 2))
-      .add(offset)
-
-    const bPos = bPosition
-      // .subtract(new Vector2(bCar.width / 2, bCar.height / 2))
-      .toJSON()
+    const target = aPosition.add(offset)
 
     const aOffset = new Vector2(-aCar.width / 2, -aCar.height / 2)
     const aCollider = detector
@@ -75,7 +69,7 @@ export class ObserveOtherCars extends System {
 
     const bOffset = new Vector2(-bCar.width / 2, -bCar.height / 2).toJSON()
     const bCollider = detector
-      .createBox(bPos, bCar.width, bCar.height)
+      .createBox(bPosition.toJSON(), bCar.width, bCar.height)
       .translate(bOffset.x, bOffset.y)
       .setAngle((Math.PI / 2) + bRotation)
 
