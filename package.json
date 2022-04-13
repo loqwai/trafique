@@ -15,7 +15,7 @@
     "@testing-library/dom": "^8.13.0",
     "@testing-library/jest-dom": "^5.16.4",
     "@testing-library/react": "^13.0.1",
-    "@testing-library/user-event": "^14.0.4",
+    "@testing-library/user-event": "^14.1.0",
     "autoprefixer": "^10.4.4",
     "detect-collisions": "^3.2.7",
     "ecsy": "^0.4.2",
