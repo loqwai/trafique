@@ -7,6 +7,8 @@ import { SightArc } from '../components/SightArc'
 import { Position } from '../components/Position'
 import { Observer } from '../components/Observer'
 import { Rotation } from '../components/Rotation'
+import { Car } from '../components/Car'
+import { StopSign } from '../components/StopSign'
 
 export class ObserveStopSigns extends System {
   #detector = new CollissionSystem()
@@ -24,6 +26,9 @@ export class ObserveStopSigns extends System {
   #handleCollision = (collision) => {
     const a = this.#observersByCollider.get(collision.a)
     const b = this.#observersByCollider.get(collision.b)
+
+    if (!a.hasComponent(Car)) return
+    if (!b.hasComponent(StopSign)) return
 
     if (!this.#isInArc(a, b)) return
     if (!this.#isInArc(b, a)) return

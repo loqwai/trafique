@@ -46,7 +46,9 @@ export class SpawnCar extends System {
   }
 
   #randomSpawnPoint = () => {
-    for (let spawnPoint of shuffle(this.#spawnPoints())) {
+    const points = this.#spawnPoints()
+    const shuffledPoints = shuffle(points)
+    for (let spawnPoint of shuffledPoints) {
       if (this.#occupied(spawnPoint)) continue
 
       return spawnPoint

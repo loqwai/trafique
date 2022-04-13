@@ -48,12 +48,12 @@ export class Game {
       .registerSystem(SpawnCar, { interval: 500 })
       .registerSystem(DeSpawnCar)
       .registerSystem(DriveCar)
-      .registerSystem(ObserveOtherCars)
       .registerSystem(ObserveStopSigns)
       .registerSystem(ClearStopSignObservations)
-      .registerSystem(DetectCarCollisions)
-      .registerSystem(UpdateScore)
       .registerSystem(Renderer, { canvas })
+      .registerSystem(DetectCarCollisions, { canvas })
+      .registerSystem(ObserveOtherCars, { canvas })
+      .registerSystem(UpdateScore)
   }
 
   start = () => {

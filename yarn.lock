@@ -5055,15 +5055,15 @@ __metadata:
   languageName: node
   linkType: hard
 
-"detect-collisions@npm:^3.2.6":
-  version: 3.2.6
-  resolution: "detect-collisions@npm:3.2.6"
+"detect-collisions@npm:^3.2.7":
+  version: 3.2.7
+  resolution: "detect-collisions@npm:3.2.7"
   dependencies:
     "@types/rbush": ^3.0.0
     "@types/sat": ^0.0.31
     rbush: ^3.0.1
     sat: ^0.9.0
-  checksum: dc6a7ee43ec3832d3b605fb3592ba972ef86593b796fd628a2219a00f50f936cb2838d894531b0f6434374da82832a05d922bc8107a84892b3b16c49f2eda02a
+  checksum: 136059755259d69ccba5f1397e26a479737b945565197cb8e50c80c940b07c308a6d77465c428db5745fac491058ad9ed21c4fbc31f4a3cbbcd2c6489041d20d
   languageName: node
   linkType: hard
 
@@ -12038,7 +12038,7 @@ __metadata:
     "@typescript-eslint/parser": ^5.18.0
     autoprefixer: ^10.4.4
     babel-eslint: ^10.1.0
-    detect-collisions: ^3.2.6
+    detect-collisions: ^3.2.7
     ecsy: ^0.4.2
     eslint: ^8.12.0
     eslint-config-react-app: ^7.0.0

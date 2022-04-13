@@ -47,6 +47,7 @@ class Renderer extends System {
   }
 
   _clear = () => {
+    this.#ctx.setTransform(1, 0, 0, 1, 0, 0)
     this.#ctx.fillStyle = '#ffffff'
     this.#ctx.fillRect(0, 0, this.#canvas.width, this.#canvas.height)
   }
@@ -73,16 +74,19 @@ class Renderer extends System {
   }
 
   _horizontalStreet = (xMid, yMid, laneWidth, streetLength) => {
+    this.#ctx.setTransform(1, 0, 0, 1, 0, 0)
     this._rect(xMid, yMid - laneWidth, streetLength, 2 * laneWidth)
     this._dashedLine(xMid, yMid, xMid + streetLength, yMid)
   }
 
   _verticalStreet = (xMid, yMid, laneWidth, streetLength) => {
+    this.#ctx.setTransform(1, 0, 0, 1, 0, 0)
     this._rect(xMid - laneWidth, yMid, 2 * laneWidth, streetLength)
     this._dashedLine(xMid, yMid, xMid, yMid + streetLength)
   }
 
   _intersectionCenter(xMid, yMid, laneWidth) {
+    this.#ctx.setTransform(1, 0, 0, 1, 0, 0)
     this.#ctx.rotate(0)
     this._rect(
       xMid - laneWidth,
@@ -145,7 +149,7 @@ class Renderer extends System {
     this.#ctx.setTransform(1, 0, 0, 1, 0, 0)
     this.#ctx.translate(x, y)
     this.#ctx.rotate(rotation)
-    this._rect(0 - height / 2, 0 - width / 2, height, width, '#999999')
+    this._rect(0 - height / 2, 0 - width / 2, height, width, '#999999', '#000000')
     // render car mid-point. helps debug car rendering
     // this._circ(0, 0, 5, '#ff0000')
     this.#ctx.setTransform(1, 0, 0, 1, 0, 0)

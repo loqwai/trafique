@@ -50,8 +50,8 @@ export class SpawnStopSigns extends System {
   }
 
   #spawnPoints = (intersection) => [
-    this.#southBoundSpawnPoint(intersection),
-    this.#northBoundSpawnPoint(intersection),
+    // this.#southBoundSpawnPoint(intersection),
+    // this.#northBoundSpawnPoint(intersection),
     this.#westBoundSpawnPoint(intersection),
     this.#eastBoundSpawnPoint(intersection),
   ]

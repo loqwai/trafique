@@ -5,12 +5,20 @@ import { Collision } from '../components/Collision'
 import { Vector2 } from '../types/Vector2'
 import { Position } from '../components/Position'
 import { Rotation } from '../components/Rotation'
+import { drawCollider } from '../../utils/drawCollider'
 
 export class DetectCarCollisions extends System {
   #detector = new CollissionSystem()
   #knownCollisions = new Set()
   #collidersByCar = new Map()
   #carsByCollider = new Map()
+  #ctx
+
+  constructor(world, { canvas }) {
+    super(world)
+
+    this.#ctx = canvas.getContext('2d')
+  }
 
   execute = () => {
     this.queries.cars.results.forEach(this.#ensureCollider)
@@ -25,8 +33,12 @@ export class DetectCarCollisions extends System {
 
     const car = entity.getComponent(Car)
     const { value: position } = entity.getComponent(Position)
+    const { value: rotation } = entity.getComponent(Rotation)
 
     const collider = this.#detector.createBox(position.toJSON(), car.width, car.height)
+    const offset = new Vector2(-car.width / 2, -car.height / 2)
+    collider.setAngle((Math.PI / 2) + rotation)
+    collider.translate(offset.x, offset.y)
     this.#collidersByCar.set(entity, collider)
     this.#carsByCollider.set(collider, entity)
   }
@@ -39,8 +51,12 @@ export class DetectCarCollisions extends System {
       return
     }
 
-    const { value: { x, y } } = entity.getComponent(Position)
-    collider.setPosition(x, y)
+    const { value: position } = entity.getComponent(Position)
+    const { value: rotation } = entity.getComponent(Rotation)
+
+    collider.setPosition(position.x, position.y)
+    collider.setAngle((Math.PI / 2) + rotation)
+    drawCollider(this.#ctx, collider, '#ff0000')
   }
 
   _handleCollision = (collision) => {

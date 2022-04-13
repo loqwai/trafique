@@ -34,8 +34,6 @@ export class DeSpawnCar extends System {
     if (rotationCloseTo(rotation, 0, 0.1) && position.x < right) return // going right
     if (rotationCloseTo(rotation, Math.PI, 0.1) && position.x > left) return // going left
 
-    console.log('despawn')
-
     entity.remove()
   }
 }
