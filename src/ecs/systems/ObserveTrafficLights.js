@@ -36,7 +36,6 @@ export class ObserveTrafficLights extends System {
     const { distance } = a.getComponent(SightArc)
     const { state } = b.getComponent(TrafficLight)
 
-    console.log('collision!')
     a.getMutableComponent(Observer).observations.push(new Observation({
       event: 'see-traffic-light',
       distance: distance - collision.overlap,
