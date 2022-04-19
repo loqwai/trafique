@@ -3,9 +3,6 @@ import { System as CollissionSystem } from 'detect-collisions'
 import { ClickEvent } from '../components/ClickEvent'
 import { Position } from '../components/Position'
 import { TrafficLight } from '../components/TrafficLight'
-import { StopSign } from '../components/StopSign'
-import { SightArc } from '../components/SightArc'
-import { Rotation } from '../components/Rotation'
 
 export class CycleTrafficLightOnClick extends System {
   #detector = new CollissionSystem()
@@ -23,13 +20,6 @@ export class CycleTrafficLightOnClick extends System {
   #processClickEvent = (entity) => {
     const { value: position } = entity.getComponent(Position)
     const click = this.#detector.createCircle(position.toJSON(), 1)
-
-    // this.world
-    //   .createEntity()
-    //   .addComponent(StopSign, { locationName: 'foo' })
-    //   .addComponent(SightArc, { arc: Math.PI, distance: 80 })
-    //   .addComponent(Position, { value: position })
-    //   .addComponent(Rotation, { value: 0 })
 
     const potentials = this.#detector.getPotentials(click)
     potentials.forEach(collider => {
