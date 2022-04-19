@@ -10,6 +10,13 @@ import { Rotation } from '../components/Rotation'
 import { Score } from '../components/Score'
 import { SightArc } from '../components/SightArc'
 import { StopSign } from '../components/StopSign'
+import { TrafficLight } from '../components/TrafficLight'
+
+const TRAFFIC_LIGHT_SIGHT_ARC_COLORS = {
+  red: '#ff000033',
+  yellow: '#ffff0033',
+  green: '#00ff0033',
+}
 
 /**
  * @typedef {object} Options
@@ -41,6 +48,8 @@ class Renderer extends System {
     this.#renderIntersections()
     this.#renderCars()
     this.#renderStopSigns()
+    this.#renderTrafficLights()
+    this.#renderTrafficLightSightArcs()
     this.#renderCarSightArcs()
     this.#renderStopSignSightArcs()
     this.#renderCollisions()
@@ -184,9 +193,29 @@ class Renderer extends System {
     this.#ctx.fillText('Stop', x, y)
   }
 
+  #renderTrafficLights = () => {
+    this.queries.trafficLights.results.forEach(this.#renderTrafficLight)
+  }
+
+  #renderTrafficLight = (entity) => {
+    const { radius, state } = entity.getComponent(TrafficLight)
+    const { value: { x, y } } = entity.getComponent(Position)
+
+    this.#resetTransform()
+    this.#circ(x, y, radius, state)
+  }
+
   #renderCarSightArcs = () => this.queries.carSightArcs.results.forEach(e => this.#renderSightArc(e, '#33ff0033'))
 
   #renderStopSignSightArcs = () => this.queries.stopSignSightArcs.results.forEach(e => this.#renderSightArc(e, '#ff000033'))
+
+  #renderTrafficLightSightArcs = () => this.queries.trafficLightSightArcs.results.forEach(this.#renderTrafficLightSightArc)
+
+  #renderTrafficLightSightArc = (entity) => {
+    const { state } = entity.getComponent(TrafficLight)
+    const color = TRAFFIC_LIGHT_SIGHT_ARC_COLORS[state]
+    return this.#renderSightArc(entity, color)
+  }
 
   #renderSightArc = (entity, fill, stroke = '#000000') => {
     const { value: { x, y } } = entity.getComponent(Position)
@@ -221,9 +250,11 @@ Renderer.queries = {
   intersection: { components: [Intersection] },
   score: { components: [Score] },
   stopSigns: { components: [StopSign, Position] },
+  trafficLights: { components: [TrafficLight, Position] },
 
   carSightArcs: { components: [Car, SightArc, Position, Rotation] },
   stopSignSightArcs: { components: [StopSign, SightArc, Position, Rotation] },
+  trafficLightSightArcs: { components: [TrafficLight, SightArc, Position, Rotation] },
 }
 
 export { Renderer }

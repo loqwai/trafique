@@ -14,7 +14,7 @@ export class DriveCar extends System {
     const car = entity.getComponent(Car)
     const observer = entity.getMutableComponent(Observer)
 
-    const seeSomething = observer.observations.length > 0
+    const seeSomething = observer.observations.filter(this.#relevant).length > 0
 
     if (seeSomething) this.#slowDown(entity)
     if (!seeSomething) this.#speedUp(entity)
@@ -24,6 +24,13 @@ export class DriveCar extends System {
     entity.getMutableComponent(Position).value.addMut(increment)
 
     observer.observations.length = 0
+  }
+
+  #relevant = (observation) => {
+    if (observation.event === 'see-traffic-light') {
+      return observation.meta.trafficLightState !== 'green'
+    }
+    return true
   }
 
   #slowDown = (entity) => {

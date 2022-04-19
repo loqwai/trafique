@@ -9,19 +9,18 @@ import { Observer } from '../components/Observer'
 import { Position } from '../components/Position'
 import { Rotation } from '../components/Rotation'
 import { SightArc } from '../components/SightArc'
-import { drawCollider } from '../../utils/drawCollider'
 
+// With how dumb the cars are now, we could theoretically get away with using only the 
+// box colliders. I'm leaving the radials in so that we can put in projecting collision
+// prediction later. For example: "If I run this stop sign, is there cross traffic that 
+// might hit me?". In that case, we'd want to use the sight arc to spot the car, then project
+// it's movement to see if it might collide with us. That should be able entirely replace
+// the current box based system, since their only purpose is to allow cars to ignore oncomming
+// traffic
 export class ObserveOtherCars extends System {
   #detector = new CollissionSystem()
   #collidersByObserver = new Map()
   #observersByCollider = new Map()
-  #ctx
-
-  constructor(world, { canvas }) {
-    super(world)
-
-    this.#ctx = canvas.getContext('2d')
-  }
 
   execute() {
     this.queries.observers.results.forEach(this.#ensureCollider)
@@ -72,9 +71,6 @@ export class ObserveOtherCars extends System {
       .createBox(bPosition.toJSON(), bCar.width, bCar.height)
       .translate(bOffset.x, bOffset.y)
       .setAngle((Math.PI / 2) + bRotation)
-
-    drawCollider(this.#ctx, aCollider, '#ff7777')
-    drawCollider(this.#ctx, bCollider, '#7777ff')
 
     const collision = Boolean(detector.checkCollision(aCollider, bCollider))
     detector.clear()

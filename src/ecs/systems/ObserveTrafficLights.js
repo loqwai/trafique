@@ -8,9 +8,9 @@ import { Position } from '../components/Position'
 import { Observer } from '../components/Observer'
 import { Rotation } from '../components/Rotation'
 import { Car } from '../components/Car'
-import { StopSign } from '../components/StopSign'
+import { TrafficLight } from '../components/TrafficLight'
 
-export class ObserveStopSigns extends System {
+export class ObserveTrafficLights extends System {
   #detector = new CollissionSystem()
   #collidersByObserver = new Map()
   #observersByCollider = new Map()
@@ -28,16 +28,21 @@ export class ObserveStopSigns extends System {
     const b = this.#observersByCollider.get(collision.b)
 
     if (!a.hasComponent(Car)) return
-    if (!b.hasComponent(StopSign)) return
+    if (!b.hasComponent(TrafficLight)) return
 
     if (!this.#isInArc(a, b)) return
     if (!this.#isInArc(b, a)) return
 
     const { distance } = a.getComponent(SightArc)
+    const { state } = b.getComponent(TrafficLight)
 
+    console.log('collision!')
     a.getMutableComponent(Observer).observations.push(new Observation({
-      event: 'see-stop-sign',
+      event: 'see-traffic-light',
       distance: distance - collision.overlap,
+      meta: {
+        trafficLightState: state,
+      },
     }))
   }
 
@@ -60,7 +65,7 @@ export class ObserveStopSigns extends System {
 
   #ensureCollider = (entity) => {
     if (this.#collidersByObserver.has(entity)) return
-    if (!entity.hasComponent(StopSign) && !entity.hasComponent(Car)) return
+    if (!entity.hasComponent(TrafficLight) && !entity.hasComponent(Car)) return
 
     const { distance } = entity.getComponent(SightArc)
     const { value: position } = entity.getComponent(Position)
@@ -83,6 +88,6 @@ export class ObserveStopSigns extends System {
   }
 }
 
-ObserveStopSigns.queries = {
+ObserveTrafficLights.queries = {
   observers: { components: [Observer, Position, Rotation, SightArc] },
 }

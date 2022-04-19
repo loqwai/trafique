@@ -11,6 +11,7 @@ import { Rotation } from './components/Rotation'
 import { Score } from './components/Score'
 import { SightArc } from './components/SightArc'
 import { StopSign } from './components/StopSign'
+import { TrafficLight } from './components/TrafficLight'
 import { ClearStopSignObservations } from './systems/ClearStopSignObservations'
 
 import { DeSpawnCar } from './systems/DeSpawnCar'
@@ -18,9 +19,10 @@ import { DetectCarCollisions } from './systems/DetectCarCollisions'
 import { DriveCar } from './systems/DriveCar'
 import { ObserveOtherCars } from './systems/ObserveOtherCars'
 import { ObserveStopSigns } from './systems/ObserveStopSigns'
+import { ObserveTrafficLights } from './systems/ObserveTrafficLights'
 import { Renderer } from './systems/Renderer'
 import { SpawnCar } from './systems/SpawnCar'
-import { SpawnStopSigns } from './systems/SpawnStopSigns'
+import { SpawnTrafficLights } from './systems/SpawnTrafficLights'
 import { UpdateScore } from './systems/UpdateScore'
 
 export class Game {
@@ -42,15 +44,17 @@ export class Game {
       .registerComponent(Score)
       .registerComponent(SightArc)
       .registerComponent(StopSign)
-      .registerSystem(SpawnStopSigns)
+      .registerComponent(TrafficLight)
+      .registerSystem(SpawnTrafficLights)
       .registerSystem(SpawnCar, { interval: 500 })
       .registerSystem(DeSpawnCar)
       .registerSystem(DriveCar)
       .registerSystem(ObserveStopSigns)
+      .registerSystem(ObserveTrafficLights)
       .registerSystem(ClearStopSignObservations)
       .registerSystem(Renderer, { canvas })
-      .registerSystem(DetectCarCollisions, { canvas })
-      .registerSystem(ObserveOtherCars, { canvas })
+      .registerSystem(DetectCarCollisions)
+      .registerSystem(ObserveOtherCars)
       .registerSystem(UpdateScore)
   }
 

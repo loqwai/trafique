@@ -11,13 +11,6 @@ export class DetectCarCollisions extends System {
   #knownCollisions = new Set()
   #collidersByCar = new Map()
   #carsByCollider = new Map()
-  #ctx
-
-  constructor(world, { canvas }) {
-    super(world)
-
-    this.#ctx = canvas.getContext('2d')
-  }
 
   execute = () => {
     this.queries.cars.results.forEach(this.#ensureCollider)
