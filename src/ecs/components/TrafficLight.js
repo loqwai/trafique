@@ -1,6 +1,17 @@
+/* eslint-disable react/no-direct-mutation-state */
 import { Component, Types } from 'ecsy'
 
-export class TrafficLight extends Component { }
+const STATE_TRANSITIONS = {
+  red: 'green',
+  yellow: 'red',
+  green: 'yellow',
+}
+
+export class TrafficLight extends Component { 
+  cycle = () => {
+    this.state = STATE_TRANSITIONS[this.state]
+  }
+}
 
 TrafficLight.schema = {
   state: {

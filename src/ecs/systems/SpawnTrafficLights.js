@@ -27,11 +27,10 @@ export class SpawnTrafficLights extends System {
     this.#spawnPoints(intersection).forEach(point => this.#updateTrafficLight(entity, point))
   }
 
-  #updateTrafficLight = (intersection, { locationName, position, rotation, state }) => {
+  #updateTrafficLight = (intersection, { locationName, position, rotation }) => {
     const trafficLight = this.#findOrCreateTrafficLight(intersection, locationName, position, rotation)
 
     trafficLight.getMutableComponent(Position).position = position
-    trafficLight.getMutableComponent(TrafficLight).state = state
   }
 
   #findOrCreateTrafficLight = (intersection, locationName, position, rotation) => {
@@ -64,7 +63,6 @@ export class SpawnTrafficLights extends System {
       y: center.y + (1.5 * laneWidth),
     }),
     rotation: Math.PI / 2,
-    state: 'red',
   })
 
   #southBoundSpawnPoint = ({ center, laneWidth }) => ({
@@ -74,7 +72,6 @@ export class SpawnTrafficLights extends System {
       y: center.y - (1.5 * laneWidth),
     }),
     rotation: 3 * Math.PI / 2,
-    state: 'green',
   })
 
   #westBoundSpawnPoint = ({ center, laneWidth }) => ({
@@ -84,7 +81,6 @@ export class SpawnTrafficLights extends System {
       y: center.y - (1.5 * laneWidth),
     }),
     rotation: 0,
-    state: 'yellow',
   })
 
   #eastBoundSpawnPoint = ({ center, laneWidth }) => ({
@@ -94,7 +90,6 @@ export class SpawnTrafficLights extends System {
       y: center.y + (1.5 * laneWidth),
     }),
     rotation: Math.PI,
-    state: 'red',
   })
 }
 

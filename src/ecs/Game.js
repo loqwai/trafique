@@ -1,8 +1,10 @@
 import { World } from 'ecsy'
 import { min } from 'ramda'
+import { calculateClickOffset } from '../utils/calculateClickOffset'
 
 import { Car } from './components/Car'
 import { CarCollisions } from './components/CarCollisions'
+import { ClickEvent } from './components/ClickEvent'
 import { Collision } from './components/Collision'
 import { Intersection } from './components/Intersection'
 import { Observer } from './components/Observer'
@@ -13,6 +15,7 @@ import { SightArc } from './components/SightArc'
 import { StopSign } from './components/StopSign'
 import { TrafficLight } from './components/TrafficLight'
 import { ClearStopSignObservations } from './systems/ClearStopSignObservations'
+import { CycleTrafficLightOnClick } from './systems/CycleTrafficLightOnClick'
 
 import { DeSpawnCar } from './systems/DeSpawnCar'
 import { DetectCarCollisions } from './systems/DetectCarCollisions'
@@ -24,6 +27,7 @@ import { Renderer } from './systems/Renderer'
 import { SpawnCar } from './systems/SpawnCar'
 import { SpawnTrafficLights } from './systems/SpawnTrafficLights'
 import { UpdateScore } from './systems/UpdateScore'
+import { Vector2 } from './types/Vector2'
 
 export class Game {
   #animationFrameRequest = null
@@ -31,11 +35,14 @@ export class Game {
   #numMsElapsed = 0
 
   #world = new World()
+  #canvas
 
   constructor({ canvas }) {
+    this.#canvas = canvas
     this.#world
       .registerComponent(Car)
       .registerComponent(CarCollisions)
+      .registerComponent(ClickEvent)
       .registerComponent(Collision)
       .registerComponent(Intersection)
       .registerComponent(Observer)
@@ -46,6 +53,7 @@ export class Game {
       .registerComponent(StopSign)
       .registerComponent(TrafficLight)
       .registerSystem(SpawnTrafficLights)
+      .registerSystem(CycleTrafficLightOnClick)
       .registerSystem(SpawnCar, { interval: 500 })
       .registerSystem(DeSpawnCar)
       .registerSystem(DriveCar)
@@ -64,6 +72,18 @@ export class Game {
     this._run()
   }
   stop = () => this.#animationFrameRequest && cancelAnimationFrame(this.#animationFrameRequest)
+
+  onClick = (e) => {
+    const { clientX, clientY } = e
+
+    const { width, height } = this.#canvas
+
+    const { x, y } = calculateClickOffset({ width, height, x: clientX, y: clientY })
+
+    this.#world.createEntity()
+      .addComponent(ClickEvent)
+      .addComponent(Position, { value: new Vector2({ x, y }) })
+  }
 
   /**
    * Private function that runs on each animation frame. If you're trying to
