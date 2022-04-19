@@ -137,3 +137,5 @@ yarn-error.log*
 /.pnp.*
 
 /target
+
+.vscode

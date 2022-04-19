@@ -21,7 +21,6 @@ import { ObserveStopSigns } from './systems/ObserveStopSigns'
 import { Renderer } from './systems/Renderer'
 import { SpawnCar } from './systems/SpawnCar'
 import { SpawnStopSigns } from './systems/SpawnStopSigns'
-import { UpdateIntersection } from './systems/UpdateIntersection'
 import { UpdateScore } from './systems/UpdateScore'
 
 export class Game {
@@ -43,7 +42,6 @@ export class Game {
       .registerComponent(Score)
       .registerComponent(SightArc)
       .registerComponent(StopSign)
-      .registerSystem(UpdateIntersection, { canvas })
       .registerSystem(SpawnStopSigns)
       .registerSystem(SpawnCar, { interval: 500 })
       .registerSystem(DeSpawnCar)

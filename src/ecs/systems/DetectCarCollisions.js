@@ -56,7 +56,6 @@ export class DetectCarCollisions extends System {
 
     collider.setPosition(position.x, position.y)
     collider.setAngle((Math.PI / 2) + rotation)
-    drawCollider(this.#ctx, collider, '#ff0000')
   }
 
   _handleCollision = (collision) => {

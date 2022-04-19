@@ -1,5 +1,6 @@
 import { World } from 'ecsy'
 import { System } from 'ecsy'
+import { calculateTransform } from '../../utils/calculateTransform'
 
 import { Car } from '../components/Car'
 import { Collision } from '../components/Collision'
@@ -36,59 +37,60 @@ class Renderer extends System {
     this.#fps *= 0.95
     this.#fps += 0.05 * (1000 / delta)
 
-    this._clear()
-    this._renderStreets()
-    this._renderCars()
-    this._renderStopSigns()
-    this._renderCarSightArcs()
-    this._renderStopSignSightArcs()
-    this._renderCollisions()
-    this._renderScore()
+    this.#clear()
+    this.#renderIntersections()
+    this.#renderCars()
+    this.#renderStopSigns()
+    this.#renderCarSightArcs()
+    this.#renderStopSignSightArcs()
+    this.#renderCollisions()
+    this.#renderScore()
   }
 
-  _clear = () => {
+  #clear = () => {
     this.#ctx.setTransform(1, 0, 0, 1, 0, 0)
     this.#ctx.fillStyle = '#ffffff'
     this.#ctx.fillRect(0, 0, this.#canvas.width, this.#canvas.height)
   }
 
-  _renderStreets = () => {
-    this.#ctx.fillStyle = '#cccccc'
-    this.#ctx.strokeStyle = '#000000'
+  #resetTransform = () => {
+    const { scale, offsetX, offsetY } = calculateTransform(this.#canvas)
 
-    this.queries.intersection.results.forEach(this._renderIntersection)
+    this.#ctx.setTransform(scale, 0, 0, scale, offsetX, offsetY)
   }
 
-  _renderIntersection = (entity) => {
+  #renderIntersections = () => {
+    this.queries.intersection.results.forEach(this.#renderIntersection)
+  }
+
+  #renderIntersection = (entity) => {
     this.#ctx.rotate(0)
     this.#ctx.fillStyle = '#cccccc'
     this.#ctx.strokeStyle = '#000000'
 
     const { center, streetLength, laneWidth } = entity.getComponent(Intersection)
 
-    this._horizontalStreet(center.x + laneWidth, center.y, laneWidth, streetLength)
-    this._horizontalStreet(center.x - laneWidth, center.y, laneWidth, -streetLength)
-    this._verticalStreet(center.x, center.y + laneWidth, laneWidth, streetLength)
-    this._verticalStreet(center.x, center.y - laneWidth, laneWidth, -streetLength)
-    this._intersectionCenter(center.x, center.y, laneWidth)
+    this.#resetTransform()
+
+    this.#horizontalStreet(center.x + laneWidth, center.y, laneWidth, streetLength)
+    this.#horizontalStreet(center.x - laneWidth, center.y, laneWidth, -streetLength)
+    this.#verticalStreet(center.x, center.y + laneWidth, laneWidth, streetLength)
+    this.#verticalStreet(center.x, center.y - laneWidth, laneWidth, -streetLength)
+    this.#intersectionCenter(center.x, center.y, laneWidth)
   }
 
-  _horizontalStreet = (xMid, yMid, laneWidth, streetLength) => {
-    this.#ctx.setTransform(1, 0, 0, 1, 0, 0)
-    this._rect(xMid, yMid - laneWidth, streetLength, 2 * laneWidth)
-    this._dashedLine(xMid, yMid, xMid + streetLength, yMid)
+  #horizontalStreet = (xMid, yMid, laneWidth, streetLength) => {
+    this.#rect(xMid, yMid - laneWidth, streetLength, 2 * laneWidth)
+    this.#dashedLine(xMid, yMid, xMid + streetLength, yMid)
   }
 
-  _verticalStreet = (xMid, yMid, laneWidth, streetLength) => {
-    this.#ctx.setTransform(1, 0, 0, 1, 0, 0)
-    this._rect(xMid - laneWidth, yMid, 2 * laneWidth, streetLength)
-    this._dashedLine(xMid, yMid, xMid, yMid + streetLength)
+  #verticalStreet = (xMid, yMid, laneWidth, streetLength) => {
+    this.#rect(xMid - laneWidth, yMid, 2 * laneWidth, streetLength)
+    this.#dashedLine(xMid, yMid, xMid, yMid + streetLength)
   }
 
-  _intersectionCenter(xMid, yMid, laneWidth) {
-    this.#ctx.setTransform(1, 0, 0, 1, 0, 0)
-    this.#ctx.rotate(0)
-    this._rect(
+  #intersectionCenter(xMid, yMid, laneWidth) {
+    this.#rect(
       xMid - laneWidth,
       yMid - laneWidth,
       (laneWidth * 2),
@@ -96,7 +98,7 @@ class Renderer extends System {
     )
   }
 
-  _rect = (x, y, width, height, fillColor = '#000', strokeColor = '#000') => {
+  #rect = (x, y, width, height, fillColor = '#000', strokeColor = '#000') => {
     this.#ctx.fillStyle = fillColor
     this.#ctx.fillRect(x, y, width, height)
 
@@ -106,7 +108,7 @@ class Renderer extends System {
     this.#ctx.strokeRect(x, y, width, height)
   }
 
-  _arc = (x, y, radius, startArc, endArc, fillColor = '#000', strokeColor = '#000') => {
+  #arc = (x, y, radius, startArc, endArc, fillColor = '#000', strokeColor = '#000') => {
     this.#ctx.fillStyle = fillColor
     this.#ctx.strokeStyle = strokeColor
     this.#ctx.beginPath()
@@ -117,7 +119,7 @@ class Renderer extends System {
     this.#ctx.stroke()
   }
 
-  _circ = (x, y, radius, fillColor = '#000', strokeColor = '#000') => {
+  #circ = (x, y, radius, fillColor = '#000', strokeColor = '#000') => {
     this.#ctx.fillStyle = fillColor
     this.#ctx.strokeStyle = strokeColor
     this.#ctx.beginPath()
@@ -126,7 +128,7 @@ class Renderer extends System {
     this.#ctx.fill()
   }
 
-  _dashedLine = (x0, y0, x1, y1) => {
+  #dashedLine = (x0, y0, x1, y1) => {
     this.#ctx.beginPath()
     this.#ctx.strokeStyle = '#fff'
     this.#ctx.lineWidth = 5
@@ -137,43 +139,43 @@ class Renderer extends System {
     this.#ctx.closePath()
   }
 
-  _renderCars = () => {
-    this.queries.cars.results.forEach(this._renderCar)
+  #renderCars = () => {
+    this.queries.cars.results.forEach(this.#renderCar)
   }
 
-  _renderCar = (entity) => {
+  #renderCar = (entity) => {
     const { width, height } = entity.getComponent(Car)
     const { value: { x, y } } = entity.getComponent(Position)
     const { value: rotation } = entity.getComponent(Rotation)
 
-    this.#ctx.setTransform(1, 0, 0, 1, 0, 0)
+    this.#resetTransform()
     this.#ctx.translate(x, y)
     this.#ctx.rotate(rotation)
-    this._rect(0 - height / 2, 0 - width / 2, height, width, '#999999', '#000000')
+    this.#rect(0 - height / 2, 0 - width / 2, height, width, '#999999', '#000000')
     // render car mid-point. helps debug car rendering
     // this._circ(0, 0, 5, '#ff0000')
-    this.#ctx.setTransform(1, 0, 0, 1, 0, 0)
   }
 
-  _renderCollisions = () => {
-    this.queries.collisions.results.forEach(this._renderCollision)
+  #renderCollisions = () => {
+    this.queries.collisions.results.forEach(this.#renderCollision)
   }
 
-  _renderCollision = (entity) => {
+  #renderCollision = (entity) => {
     const { position } = entity.getComponent(Collision)
 
-    this._circ(position.x, position.y, 10, '#f59042')
+    this.#circ(position.x, position.y, 10, '#f59042')
   }
 
-  _renderStopSigns = () => {
-    this.queries.stopSigns.results.forEach(this._renderStopSign)
+  #renderStopSigns = () => {
+    this.queries.stopSigns.results.forEach(this.#renderStopSign)
   }
 
-  _renderStopSign = (entity) => {
+  #renderStopSign = (entity) => {
     const { radius } = entity.getComponent(StopSign)
     const { value: { x, y } } = entity.getComponent(Position)
 
-    this._circ(x, y, radius, '#ff0000')
+    this.#resetTransform()
+    this.#circ(x, y, radius, '#ff0000')
     this.#ctx.fillStyle = '#ffffff'
     this.#ctx.strokeStyle = '#000000'
     this.#ctx.font = '36px sans-serif'
@@ -182,11 +184,11 @@ class Renderer extends System {
     this.#ctx.fillText('Stop', x, y)
   }
 
-  _renderCarSightArcs = () => this.queries.carSightArcs.results.forEach(e => this._renderSightArc(e, '#33ff0033'))
+  #renderCarSightArcs = () => this.queries.carSightArcs.results.forEach(e => this.#renderSightArc(e, '#33ff0033'))
 
-  _renderStopSignSightArcs = () => this.queries.stopSignSightArcs.results.forEach(e => this._renderSightArc(e, '#ff000033'))
+  #renderStopSignSightArcs = () => this.queries.stopSignSightArcs.results.forEach(e => this.#renderSightArc(e, '#ff000033'))
 
-  _renderSightArc = (entity, fill, stroke='#000000') => {
+  #renderSightArc = (entity, fill, stroke = '#000000') => {
     const { value: { x, y } } = entity.getComponent(Position)
     const { value: rotation } = entity.getComponent(Rotation)
     const { arc, distance } = entity.getComponent(SightArc)
@@ -194,13 +196,14 @@ class Renderer extends System {
     const startArc = rotation - (arc / 2)
     const endArc = rotation + (arc / 2)
 
-    this._arc(x, y, distance, startArc, endArc, fill, stroke)
+    this.#resetTransform()
+    this.#arc(x, y, distance, startArc, endArc, fill, stroke)
   }
 
-  _renderScore = () => {
+  #renderScore = () => {
     const score = this.queries.score.results[0].getComponent(Score)
 
-    this.#ctx.setTransform(1, 0, 0, 1, 0, 0)
+    this.#resetTransform()
     this.#ctx.fillStyle = '#000000'
     this.#ctx.font = '48px sans-serif'
     this.#ctx.textAlign = 'start'
