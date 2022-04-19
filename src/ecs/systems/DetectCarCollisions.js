@@ -5,7 +5,6 @@ import { Collision } from '../components/Collision'
 import { Vector2 } from '../types/Vector2'
 import { Position } from '../components/Position'
 import { Rotation } from '../components/Rotation'
-import { drawCollider } from '../../utils/drawCollider'
 
 export class DetectCarCollisions extends System {
   #detector = new CollissionSystem()
