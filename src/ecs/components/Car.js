@@ -25,6 +25,10 @@ Car.schema = {
     type: Types.Number,
     default: 5,
   },
+  maxSpeed: {
+    type: Types.Number,
+    default: 10,
+  },
   accelerationForce: {
     type: Types.Number,
     default: 0.1,
