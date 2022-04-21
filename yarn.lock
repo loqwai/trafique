@@ -1584,14 +1584,14 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@es-joy/jsdoccomment@npm:~0.25.0":
-  version: 0.25.0
-  resolution: "@es-joy/jsdoccomment@npm:0.25.0"
+"@es-joy/jsdoccomment@npm:~0.28.0":
+  version: 0.28.0
+  resolution: "@es-joy/jsdoccomment@npm:0.28.0"
   dependencies:
     comment-parser: 1.3.1
     esquery: ^1.4.0
-    jsdoc-type-pratt-parser: ~2.2.5
-  checksum: 31e423412ecefda9875cbd504727e16e8a7a0a11e55e68de4a7bc7455fa210141a179d9b987336c9c792f361e300be933d95a7f86af25614e7cd70c7bb9489c6
+    jsdoc-type-pratt-parser: ~3.0.1
+  checksum: 41756afb28035fb323b03a5f0ce78fa4ae1741dbd602ef89e912ddbdd6d08f2a7060ce46860a738558c680b6e5b26fce6fcd7f3edaa382c7dff13af60203733e
   languageName: node
   linkType: hard
 
@@ -2234,7 +2234,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@testing-library/react@npm:^13.0.1":
+"@testing-library/react@npm:^13.1.1":
   version: 13.1.1
   resolution: "@testing-library/react@npm:13.1.1"
   dependencies:
@@ -2248,7 +2248,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@testing-library/user-event@npm:^14.1.0":
+"@testing-library/user-event@npm:^14.1.1":
   version: 14.1.1
   resolution: "@testing-library/user-event@npm:14.1.1"
   peerDependencies:
@@ -2701,7 +2701,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@typescript-eslint/eslint-plugin@npm:^5.19.0, @typescript-eslint/eslint-plugin@npm:^5.5.0":
+"@typescript-eslint/eslint-plugin@npm:^5.20.0, @typescript-eslint/eslint-plugin@npm:^5.5.0":
   version: 5.20.0
   resolution: "@typescript-eslint/eslint-plugin@npm:5.20.0"
   dependencies:
@@ -2735,7 +2735,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@typescript-eslint/parser@npm:^5.19.0, @typescript-eslint/parser@npm:^5.5.0":
+"@typescript-eslint/parser@npm:^5.20.0, @typescript-eslint/parser@npm:^5.5.0":
   version: 5.20.0
   resolution: "@typescript-eslint/parser@npm:5.20.0"
   dependencies:
@@ -4816,7 +4816,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"detect-collisions@npm:^3.2.7":
+"detect-collisions@npm:^3.5.0":
   version: 3.5.0
   resolution: "detect-collisions@npm:3.5.0"
   dependencies:
@@ -5402,11 +5402,11 @@ __metadata:
   languageName: node
   linkType: hard
 
-"eslint-plugin-jsdoc@npm:39.2.3":
-  version: 39.2.3
-  resolution: "eslint-plugin-jsdoc@npm:39.2.3"
+"eslint-plugin-jsdoc@npm:39.2.7":
+  version: 39.2.7
+  resolution: "eslint-plugin-jsdoc@npm:39.2.7"
   dependencies:
-    "@es-joy/jsdoccomment": ~0.25.0
+    "@es-joy/jsdoccomment": ~0.28.0
     comment-parser: 1.3.1
     debug: ^4.3.4
     escape-string-regexp: ^4.0.0
@@ -5415,7 +5415,7 @@ __metadata:
     spdx-expression-parse: ^3.0.1
   peerDependencies:
     eslint: ^7.0.0 || ^8.0.0
-  checksum: db18c27759edbb09fed7d7a4d61b28b834e563c3aaf007378ceec24e591e816688274b7ef0a209e19579a20527276392eebdc45e455bcd863e34e11d03722bbe
+  checksum: 71f4fe4eb938ba7e65feeeda67fe0540fe7801ecec7895df7a5f66135e1a3888d0e9b270e092dff4c7390d5d05d832960fc1f6b93a771795262da01df97eb028
   languageName: node
   linkType: hard
 
@@ -7652,10 +7652,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"jsdoc-type-pratt-parser@npm:~2.2.5":
-  version: 2.2.5
-  resolution: "jsdoc-type-pratt-parser@npm:2.2.5"
-  checksum: 47d68147fae7fe4343e0c1d47cbf55d2d963696e0583a1d398846be06df2df8e149e34a6304e04b6c148839600234e99a860bc712af829fac557fe7e5cd82141
+"jsdoc-type-pratt-parser@npm:~3.0.1":
+  version: 3.0.1
+  resolution: "jsdoc-type-pratt-parser@npm:3.0.1"
+  checksum: 452b3cb843cc31296a608f6bfebf19c7d52e2b872debfaa63ffda3d288915e06a4a1bd0212a0c0a8d6d3f70633c72bc3abfc8ef4755c8453063650f8c0f56694
   languageName: node
   linkType: hard
 
@@ -11680,20 +11680,20 @@ __metadata:
     "@babel/plugin-transform-react-jsx": ^7.17.3
     "@testing-library/dom": ^8.13.0
     "@testing-library/jest-dom": ^5.16.4
-    "@testing-library/react": ^13.0.1
-    "@testing-library/user-event": ^14.1.0
-    "@typescript-eslint/eslint-plugin": ^5.19.0
-    "@typescript-eslint/parser": ^5.19.0
+    "@testing-library/react": ^13.1.1
+    "@testing-library/user-event": ^14.1.1
+    "@typescript-eslint/eslint-plugin": ^5.20.0
+    "@typescript-eslint/parser": ^5.20.0
     autoprefixer: ^10.4.4
     babel-eslint: ^10.1.0
-    detect-collisions: ^3.2.7
+    detect-collisions: ^3.5.0
     ecsy: ^0.4.2
     eslint: ^8.13.0
     eslint-config-react-app: ^7.0.1
     eslint-plugin-flowtype: ^8.0.3
     eslint-plugin-import: ^2.26.0
     eslint-plugin-jest: ^26.1.4
-    eslint-plugin-jsdoc: 39.2.3
+    eslint-plugin-jsdoc: 39.2.7
     eslint-plugin-jsx-a11y: ^6.5.1
     eslint-plugin-react: ^7.29.4
     eslint-plugin-react-hooks: ^4.4.0
