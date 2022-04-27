@@ -10,6 +10,7 @@ import { Rotation } from '../components/Rotation'
 import { Score } from '../components/Score'
 import { SightArc } from '../components/SightArc'
 import { StopSign } from '../components/StopSign'
+import { Timer } from '../components/Timer'
 import { TrafficLight } from '../components/TrafficLight'
 
 const TRAFFIC_LIGHT_SIGHT_ARC_COLORS = {
@@ -17,6 +18,11 @@ const TRAFFIC_LIGHT_SIGHT_ARC_COLORS = {
   yellow: '#ffff0033',
   green: '#00ff0033',
 }
+
+var TIMER_FORMAT = new Intl.NumberFormat('en-US', {
+  minimumIntegerDigits: 1,
+  minimumFractionDigits: 2,
+})
 
 /**
  * @typedef {object} Options
@@ -54,6 +60,7 @@ class Renderer extends System {
     this.#renderStopSignSightArcs()
     this.#renderCollisions()
     this.#renderScore()
+    this.#renderTimer()
   }
 
   #clear = () => {
@@ -242,6 +249,21 @@ class Renderer extends System {
     this.#ctx.fillText(`Cars: ${this.queries.cars.results.length}`, 10, 3 * 58)
     this.#ctx.fillText(`FPS: ${Math.round(this.#fps)}`, 10, 4 * 58)
   }
+
+  #renderTimer = () => {
+    const timer = this.queries.timers.results[0]?.getComponent(Timer)
+    if (!timer) return
+
+    const timeRemaining = Math.round((timer.remaining) / 10) / 100
+    const formattedTimeRemaining = `${TIMER_FORMAT.format(timeRemaining)}`.padEnd()
+
+    this.#resetTransform()
+    this.#ctx.fillStyle = '#000000'
+    this.#ctx.font = '48px sans-serif'
+    this.#ctx.textAlign = 'end'
+    this.#ctx.textBaseline = 'alphabetic'
+    this.#ctx.fillText(`${formattedTimeRemaining}s remaining`, 990, 58)
+  }
 }
 
 Renderer.queries = {
@@ -250,6 +272,7 @@ Renderer.queries = {
   intersection: { components: [Intersection] },
   score: { components: [Score] },
   stopSigns: { components: [StopSign, Position] },
+  timers: { components: [Timer] },
   trafficLights: { components: [TrafficLight, Position] },
 
   carSightArcs: { components: [Car, SightArc, Position, Rotation] },

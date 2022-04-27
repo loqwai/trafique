@@ -4,6 +4,7 @@ import { Car } from '../components/Car'
 import { Observer } from '../components/Observer'
 import { Position } from '../components/Position'
 import { Rotation } from '../components/Rotation'
+import { Timer } from '../components/Timer'
 import { Vector2 } from '../types/Vector2'
 
 const OBSERVATION_RELEVANCE = {
@@ -16,6 +17,8 @@ const OBSERVATION_RELEVANCE = {
 
 export class DriveCar extends System {
   execute = (delta, _time) => {
+    if (!this.queries.timers.results[0]?.getComponent(Timer)?.running) return
+
     this.queries.cars.results.forEach(e => this.#driveCar(delta, e))
   }
 
@@ -91,5 +94,8 @@ export class DriveCar extends System {
 DriveCar.queries = {
   cars: {
     components: [Car, Observer, Position, Rotation],
+  },
+  timers: {
+    components: [Timer],
   },
 }

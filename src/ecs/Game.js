@@ -13,13 +13,15 @@ import { Rotation } from './components/Rotation'
 import { Score } from './components/Score'
 import { SightArc } from './components/SightArc'
 import { StopSign } from './components/StopSign'
+import { Timer } from './components/Timer'
 import { TrafficLight } from './components/TrafficLight'
+
 import { ClearStopSignObservations } from './systems/ClearStopSignObservations'
 import { CycleTrafficLightOnClick } from './systems/CycleTrafficLightOnClick'
-
 import { DeSpawnCar } from './systems/DeSpawnCar'
 import { DetectCarCollisions } from './systems/DetectCarCollisions'
 import { DriveCar } from './systems/DriveCar'
+import { ManageTimer } from './systems/ManageTimer'
 import { ObserveOtherCars } from './systems/ObserveOtherCars'
 import { ObserveStopSigns } from './systems/ObserveStopSigns'
 import { ObserveTrafficLights } from './systems/ObserveTrafficLights'
@@ -27,6 +29,7 @@ import { Renderer } from './systems/Renderer'
 import { SpawnCar } from './systems/SpawnCar'
 import { SpawnTrafficLights } from './systems/SpawnTrafficLights'
 import { UpdateScore } from './systems/UpdateScore'
+
 import { Vector2 } from './types/Vector2'
 
 export class Game {
@@ -51,7 +54,9 @@ export class Game {
       .registerComponent(Score)
       .registerComponent(SightArc)
       .registerComponent(StopSign)
+      .registerComponent(Timer)
       .registerComponent(TrafficLight)
+      .registerSystem(ManageTimer, { roundDuration: 5 * 1000 })
       .registerSystem(SpawnTrafficLights)
       .registerSystem(CycleTrafficLightOnClick)
       .registerSystem(SpawnCar, { interval: 500 })
