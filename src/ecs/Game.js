@@ -56,7 +56,7 @@ export class Game {
       .registerComponent(StopSign)
       .registerComponent(Timer)
       .registerComponent(TrafficLight)
-      .registerSystem(ManageTimer, { roundDuration: 5 * 1000 })
+      .registerSystem(ManageTimer, { roundDuration: 30 * 1000 })
       .registerSystem(SpawnTrafficLights)
       .registerSystem(CycleTrafficLightOnClick)
       .registerSystem(SpawnCar, { interval: 500 })
