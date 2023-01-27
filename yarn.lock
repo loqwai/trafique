@@ -1689,14 +1689,14 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@es-joy/jsdoccomment@npm:~0.28.0":
-  version: 0.28.1
-  resolution: "@es-joy/jsdoccomment@npm:0.28.1"
+"@es-joy/jsdoccomment@npm:~0.36.1":
+  version: 0.36.1
+  resolution: "@es-joy/jsdoccomment@npm:0.36.1"
   dependencies:
     comment-parser: 1.3.1
     esquery: ^1.4.0
-    jsdoc-type-pratt-parser: ~3.0.1
-  checksum: 7dcbbcfef36d8a1414595bedc4d895f0cf90c06f96f531db759ec10cf8092b83687ba397a131f1be4450e177eaa563cb464ee555502d0e62efeaff7c24414522
+    jsdoc-type-pratt-parser: ~3.1.0
+  checksum: 28e697779230dc6a95b1f233a8c2a72b64fbea686e407106e5d4292083421a997452731c414de26c10bee86e8e0397c5fb84d6ecfd4b472a29735e1af103ddb6
   languageName: node
   linkType: hard
 
@@ -5636,20 +5636,20 @@ __metadata:
   languageName: node
   linkType: hard
 
-"eslint-plugin-jsdoc@npm:39.2.7":
-  version: 39.2.7
-  resolution: "eslint-plugin-jsdoc@npm:39.2.7"
+"eslint-plugin-jsdoc@npm:39.6.9":
+  version: 39.6.9
+  resolution: "eslint-plugin-jsdoc@npm:39.6.9"
   dependencies:
-    "@es-joy/jsdoccomment": ~0.28.0
+    "@es-joy/jsdoccomment": ~0.36.1
     comment-parser: 1.3.1
     debug: ^4.3.4
     escape-string-regexp: ^4.0.0
     esquery: ^1.4.0
-    semver: ^7.3.7
+    semver: ^7.3.8
     spdx-expression-parse: ^3.0.1
   peerDependencies:
     eslint: ^7.0.0 || ^8.0.0
-  checksum: 71f4fe4eb938ba7e65feeeda67fe0540fe7801ecec7895df7a5f66135e1a3888d0e9b270e092dff4c7390d5d05d832960fc1f6b93a771795262da01df97eb028
+  checksum: adcf61e206e45d67b77dc3b3c8ed7267a8ecd445bd37a650a0226747a68c91569a81b51a76c90925252b0939f78d4bdbc4a6769388394da7840b61818fbde142
   languageName: node
   linkType: hard
 
@@ -8024,10 +8024,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"jsdoc-type-pratt-parser@npm:~3.0.1":
-  version: 3.0.1
-  resolution: "jsdoc-type-pratt-parser@npm:3.0.1"
-  checksum: 452b3cb843cc31296a608f6bfebf19c7d52e2b872debfaa63ffda3d288915e06a4a1bd0212a0c0a8d6d3f70633c72bc3abfc8ef4755c8453063650f8c0f56694
+"jsdoc-type-pratt-parser@npm:~3.1.0":
+  version: 3.1.0
+  resolution: "jsdoc-type-pratt-parser@npm:3.1.0"
+  checksum: 2f437b57621f1e481918165f6cf0e48256628a9e510d8b3f88a2ab667bf2128bf8b94c628b57c43e78f555ca61983e9c282814703840dc091d2623992214a061
   languageName: node
   linkType: hard
 
@@ -11148,6 +11148,17 @@ __metadata:
   languageName: node
   linkType: hard
 
+"semver@npm:^7.3.8":
+  version: 7.3.8
+  resolution: "semver@npm:7.3.8"
+  dependencies:
+    lru-cache: ^6.0.0
+  bin:
+    semver: bin/semver.js
+  checksum: ba9c7cbbf2b7884696523450a61fee1a09930d888b7a8d7579025ad93d459b2d1949ee5bbfeb188b2be5f4ac163544c5e98491ad6152df34154feebc2cc337c1
+  languageName: node
+  linkType: hard
+
 "send@npm:0.18.0":
   version: 0.18.0
   resolution: "send@npm:0.18.0"
@@ -12100,7 +12111,7 @@ __metadata:
     eslint-plugin-flowtype: ^8.0.3
     eslint-plugin-import: ^2.26.0
     eslint-plugin-jest: ^26.1.4
-    eslint-plugin-jsdoc: 39.2.7
+    eslint-plugin-jsdoc: 39.6.9
     eslint-plugin-jsx-a11y: ^6.5.1
     eslint-plugin-react: ^7.29.4
     eslint-plugin-react-hooks: ^4.4.0
