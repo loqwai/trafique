@@ -17,7 +17,7 @@
     "@testing-library/react": "^13.1.1",
     "@testing-library/user-event": "^14.1.1",
     "autoprefixer": "^10.4.4",
-    "detect-collisions": "^3.5.0",
+    "detect-collisions": "^6.7.3",
     "ecsy": "^0.4.2",
     "postcss": "^8.4.12",
     "ramda": "^0.28.0",

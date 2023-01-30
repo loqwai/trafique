@@ -5024,15 +5024,16 @@ __metadata:
   languageName: node
   linkType: hard
 
-"detect-collisions@npm:^3.5.0":
-  version: 3.5.0
-  resolution: "detect-collisions@npm:3.5.0"
+"detect-collisions@npm:^6.7.3":
+  version: 6.7.3
+  resolution: "detect-collisions@npm:6.7.3"
   dependencies:
     "@types/rbush": ^3.0.0
     "@types/sat": ^0.0.31
+    poly-decomp: ^0.3.0
     rbush: ^3.0.1
     sat: ^0.9.0
-  checksum: d7844f8efce49b912270bde28e2cb29734141842fd19dd4e210c9a10b7626136c9489656adfb2a2bb6d751f542017d464f93377e96213a0b47845b412cd72d45
+  checksum: a7e8e066d95a2b785913ba548258be21e5c278d996e37e3dd18f4aeb05c2ebc676d63269338a7c1d05f4e1160e2a2232987c3897e6e13257b615b0609c260054
   languageName: node
   linkType: hard
 
@@ -9313,6 +9314,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"poly-decomp@npm:^0.3.0":
+  version: 0.3.0
+  resolution: "poly-decomp@npm:0.3.0"
+  checksum: 4e7f93861434a5789d46962944ee7a2015929a1f5baaaf9fbf5e10e8a8628c31d6c27ee9a799e98c31d4b09a8dfa66c92e0e73ef9e2a4346ec017cc107971ff5
+  languageName: node
+  linkType: hard
+
 "postcss-attribute-case-insensitive@npm:^5.0.2":
   version: 5.0.2
   resolution: "postcss-attribute-case-insensitive@npm:5.0.2"
@@ -12093,7 +12101,7 @@ __metadata:
     "@typescript-eslint/parser": ^5.20.0
     autoprefixer: ^10.4.4
     babel-eslint: ^10.1.0
-    detect-collisions: ^3.5.0
+    detect-collisions: ^6.7.3
     ecsy: ^0.4.2
     eslint: ^8.13.0
     eslint-config-react-app: ^7.0.1
